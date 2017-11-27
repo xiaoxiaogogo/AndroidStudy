@@ -1,0 +1,82 @@
+
+task hello <<{
+    // 内部的behavior 不能应用在 快速task(<<)上, 它在外部定义的后面执行
+//    doFirst {
+//        println 'task 内部的 doFirst'
+//    }
+    println 'hello world' // 如果没 << ， 内部代码会在task执行之前就执行了
+}
+
+// task 的依赖关系
+//task sayHi(dependsOn: hello){
+//    println 'hi, 你好'
+//}
+
+// 不知道为什么： 执行当前task， 会执行上面的task，并且不会执行上面task 依赖的task;;;; 下面的task也是如此
+// 原因： 没有加 <<; 如果没有<<  那么在加载此脚本的时候就会执行
+task intIterator <<{
+    // 2~10遍历
+    2.upto(10, {
+        println "upto 遍历: ${it}"
+    })
+
+    // 0~3 遍历
+    4.times { count ->
+        println "times 遍历: ${count}"
+    }
+
+    // 2~ 9 , 每次以 2递增
+    2.step 10, 2, {
+        println "step 遍历： ${it}"
+    }
+}
+
+// 定义动态任务
+4.times {
+    task "task${it}" << {
+        println "I'm dyamic task : task${it}"
+    }
+}
+// 可以调用 gradle task1 调用上面定义的任务
+
+// task之间的通信操作:
+// 增加依赖
+task0.dependsOn task2,task3
+
+// add task behavior
+hello.doFirst{
+    println 'task之前执行的behavior'
+}
+hello.doLast {
+    println 'task之后执行的behavior'
+}
+hello << {
+    println '<< 是 doLast的缩写形式'
+}
+
+// 为task自定属性
+task demo <<{
+    ext.myProperty = 'hahha'
+}
+
+// task 上有属性供我们来访问， 官方在 :compile task的时候会非常有用，目前还不知道
+task printTaskProperty <<{
+    println 'hello task name : ' + hello{}.name
+    println demo.myProperty
+}
+
+
+// 方法的抽取封装
+
+task printFiles << {
+    fileList("./test").each {file ->
+        println "file list : ${file.absolutePath}"
+    }
+}
+
+File[] fileList(String dir){
+    file(dir).listFiles({file -> file.isFile()} as FileFilter).sort()
+}
+
+// 定义默认执行的task， 也就是执行 gradle  ; 不知道为什么下面没有起作用
+defaultTasks 'hello', 'printFiles', 'task1' // 相当于 gradle hello printFiles task1
