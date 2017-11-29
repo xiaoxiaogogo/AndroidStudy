@@ -40,3 +40,113 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'org.codehaus.groovy:groovy:2.4.0:grooid'
 }
+
+def demo(){
+    def emptyList = []
+    def list = ['hello', 100, 'word']
+    list[2] = 200
+    list << 'fuck'
+    println list[2]
+    println list.size()
+
+//    for (def i=0; i< list.size(); i++){
+//        println list[i]
+//    }
+
+    // for in 遍历
+    for (v in list){
+        println v
+    }
+
+    def emptyMap = [:]
+    def map = ['key1': 100, 'key2':'hello']
+    // each 遍历map集合
+    map.each {key, val ->
+        println 'map each : key : '+key+"; value : ${val}"
+    }
+
+    map.each {
+        println "map each(no params) : key: ${it.key}, value : ${it.value}" // 注意： ${}只能在 双引号中才能使用
+    }
+}
+
+/**
+ * 文件操作， 不用处理流的关闭操作
+ */
+def fileDemo(){
+    def file = new File('app/a.txt') // 当前目录是 当前项目的根目录
+    // 逐行读取
+    file.eachLine {line, lineNo ->
+        println "${lineNo} ${line}"
+    }
+
+    // 一次性获取
+    byte[] bytes = file.getBytes()
+
+    // 以流的方式读取 (一次性获取);;  好处： 无需处理流的关闭操作
+    file.withInputStream {is ->
+        println is.getText()
+    }
+
+    def writeFile = new File('app/b.txt')
+    // write() 覆盖内容；；   append() 向尾部追加内容
+    writeFile.withOutputStream { os ->
+        file.withInputStream { is ->
+            os << is  // 重载了<< 符号，将输入流的数据传递给输出流
+        }
+    }
+}
+
+
+def printItem (item){
+    println item
+}
+
+// 特殊符号
+def syntxDemo(){
+    def list = ['h', 'hello', 'jjj']
+
+    println list?.size()  // ?. 相当于 判断list不为null，才执行size()方法， 否则直接返回null
+
+    println list*.size()  // *. 相当于 用在集合对象里面，对里面每一个元素执行 size()方法，然后将返回值组成新的 list 返回
+
+    // .& 相当于 将一个对象的 方法 转变成 closure 然后传递
+    list.each(this.&printItem)
+
+    // .@ 相当于 直接获取一个 对象中的 变量；； 注意 .变量名 调用的是此变量的 gettter方法
+
+    def person = new Person(name : '小明')
+    println person.name // 调用name的 getter方法
+    println person.@name
+
+
+    // ?: 相当于 java中三目运算符， 但是判断条件是前面的内容
+    println person.@age ?: 'age is null'
+}
+
+
+def rangeDemo(){
+    def rang = 1..<100 // 1~100， 不包括100
+    println rang.from
+    println rang[0]
+    println rang.to
+}
+
+
+task myTest {
+//    demo()
+    fileDemo()
+
+//    rangeDemo()
+
+}
+
+
+class Person{
+    String name
+    String age
+    def getName(){ // name变量的 getter方法
+        println 'name getter will be triggered'
+        name
+    }
+}
