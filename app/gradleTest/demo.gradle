@@ -1,0 +1,3 @@
+task hello << {
+    println 'I am in gradleTest demo.gradle hello world'
+}

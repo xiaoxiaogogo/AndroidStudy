@@ -1,1 +1,14 @@
-include ':app'
+include ':app', ':JavaPluginTest'
+//println rootProject.name
+//println rootDir.absolutePath
+//println project(':app').name
+
+// 可以修改默认的配置选项
+
+/*project(':app').projectDir = new File(settingsDir, './app')
+project(':app').buildFileName = 'demo1.gradle'
+// 下面是修改执行的配置文件
+println project(':app').projectDir.absolutePath
+println project(':app').buildFileName*/
+
+

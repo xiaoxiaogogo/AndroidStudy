@@ -1,0 +1,35 @@
+//apply plugin: 'groovy'
+
+// 定义一个自定义Task
+//class HelloTask extends DefaultTask {
+//    // 定义属性， 可以供外面配置
+//    String defaultProperty = 'default value for hello'
+//    // 定义task执行的行为 action
+//    @TaskAction
+//    def helloAction() {
+//        println defaultProperty
+//    }
+//}
+//task hello1 (type: HelloTask) << {
+//}
+//
+//task hello2 (type: HelloTask) << {
+//    defaultProperty = 'value from hello2, haha'
+//}
+
+
+
+task printPlugins << {
+    project.getPlugins().all { plugin ->
+        println plugin.getClass().toString()
+    }
+
+    println '---------------------'
+
+    project.getPlugins().apply(JavaBasePlugin.class)
+}
+
+
+
+
+

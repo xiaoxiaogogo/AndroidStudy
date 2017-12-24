@@ -1,0 +1,12 @@
+package com.gavin.study
+
+import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.TaskAction
+
+class HelloSecondTask extends DefaultTask {
+
+    @TaskAction
+    def executeHello(){
+        println "I am from hello second."
+    }
+}

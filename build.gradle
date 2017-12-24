@@ -6,21 +6,49 @@ buildscript {
         maven {
             url 'https://maven.google.com'
         }
+        maven {
+            url uri('release/libs')
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'org.codehaus.groovy:gradle-groovy-android-plugin:0.3.6'
+        classpath 'com.gavin.study:demoPlugin:0.0.2'
+
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 
+
+// 包括rootProject
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
+
+project.ext.preDexLibs = !project.hasProperty('disablePreDex') // 如果编译时候的gradle命令 没有disablePreDex，那么是在本地，
+// 我们可以开启编译的dexOptions（这样每个library都会打包成一个dex，最后在合并起来，会提升增量编译的速度；但是会将第一次编译的速度变慢，因为会打出多个dex包）；
+// 如果在服务端，加上此属性，禁止preDexLibrary；这样会加速打包的速度
+
+// 服务端执行的打包命令： ./gradlew clean assemble -PdisablePreDex
+
+// 不包括 root project
+subprojects{
+    //当前闭包的作用域，里面project对应其对应的project作用域
+    project.plugins.whenPluginAdded { plugin ->
+        if ('com.android.build.gradle.AppPlugin'.equals(plugin.class.name)){
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        }else if ('com.android.build.gradle.LibraryPlugin'.equals(plugin.class.name)){
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        }
+    }
+}
+
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
