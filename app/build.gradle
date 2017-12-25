@@ -70,24 +70,40 @@ dependencies {
 }
 
 def demo(){
-    def emptyList = []
-    def list = ['hello', 100, 'word']
-    list[2] = 200
-    list << 'fuck'
+    // 1. groovy中没有基本数据类型，它任务任何事物都是对象；它会将基本数据类型包装成其对应的包装类型
+
+    // 2. groovy中的容器类
+    // List , 其底层对应java的List接口，一般用ArrayList作为实现类
+    def emptyList = [] // 创建一个空的list
+    def list = ['hello', 100, 'word'] // List中可以存储多种数据类型
+    list[2] = 200 // 修改
+    list << 'fuck' // 新增
     println list[2]
     println list.size()
 
-//    for (def i=0; i< list.size(); i++){
-//        println list[i]
-//    }
+    for (def i=0; i< list.size(); i++){
+        println list[i]
+    }
+
+    // each 遍历 list
+    list.each {
+        println it
+    }
 
     // for in 遍历
     for (v in list){
         println v
     }
 
-    def emptyMap = [:]
+    // Map : 底层对应java的LinkedHashMap
+    // 注意： key必须用字符串
+    def emptyMap = [:] // 创建空的map
     def map = ['key1': 100, 'key2':'hello']
+    // 通过key获取value
+    def val1 = map.key1
+    def val2 = map['key2']
+    // 添加新元素
+    map['key'] = true
     // each 遍历map集合
     map.each {key, val ->
         println 'map each : key : '+key+"; value : ${val}"
@@ -96,6 +112,23 @@ def demo(){
     map.each {
         println "map each(no params) : key: ${it.key}, value : ${it.value}" // 注意： ${}只能在 双引号中才能使用
     }
+
+
+    // Range : Groovy对List的一种拓展
+    def range1 = 1..5 // 包含了 1，2，3，4，5
+    def range2 = 1..<5 // 包含 1，2，3，4(不包括5)
+    println range1.from
+    println range1.to
+    range1.each {
+        println "Range iterator : ${it}"
+    }
+
+
+    // Groovy 特性：
+    // 1.会为对象的成员变量，自动增加getter和setter；所以我们查看api的时候，往往都会查到其成员变量对应get和set方法，我们 对象.成员变量，就是调用它的getter方法
+    // 2. 默认访问权限是public
+
+
 }
 
 /**
@@ -162,8 +195,8 @@ def rangeDemo(){
 
 
 task myTest <<{
-//    demo()
-    fileDemo()
+    demo()
+//    fileDemo()
 
 //    rangeDemo()
 

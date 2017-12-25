@@ -31,6 +31,15 @@ task intIterator <<{
     }
 }
 
+
+// as 操作符： groovy中的类型强转； 其实，直接赋值就可以，不适用as就可以。
+// 并且，数组和List可以直接转换， 或者使用as
+String[] strs = ['a', 'b']
+List list = strs as List
+List list2 = strs
+
+
+
 // 定义动态任务
 4.times {
     task "task${it}" << {

@@ -99,9 +99,9 @@ def person(Closure<Person> closure) {
     Person p = new Person()
     // 定义闭包中 执行对象
     println closure.getResolveStrategy() // 默认 OWNER_FIRST
-    closure.delegate = p
-    closure.setResolveStrategy(Closure.DELEGATE_FIRST)
-    closure()
+    closure.delegate = p // 设置委托对象
+    closure.setResolveStrategy(Closure.DELEGATE_FIRST) // 修改委托策略
+    closure() // 执行委托
 }
 
 def printPerson() {
@@ -111,9 +111,10 @@ def printPerson() {
 task configClosure << {
     println 'execute config closure'
     person {
+        // 因为上面的方法中，将委托策略改成了 DELEGATE_FIRST，也就是将作用域设置成了委托对象，也就是Person的对象
         name = 'xiaoming'
         age = 20
-        printPerson()
+        printPerson() // 这里执行的是Person对象的方法
     }
 }
 
@@ -124,60 +125,68 @@ def y =15
 // 闭包文档  ：  http://docs.groovy-lang.org/2.4.10/html/api/groovy/lang/Closure.html
 
 class Test {
-
     def x = 30
     def y = 40
 
     def run() {
         // 默认 OWNER_FIRST
-       /* def data = [x: 10, y: 20]
+        /*def data = [x: 10, y: 20]
         // 默认 owner_first : 也就是closure 被谁拥有，也就是当前对象实例
         def cl = {
             y = x + y
         }
         cl.delegate = data
         cl()
-        println x == 30
-        println y == 70
-        println data == [x: 10, y: 20]*/
+        println x == 30 // true
+        println y == 70 // true
+        println data == [x: 10, y: 20] // true*/
 
         // OWNER_ONLY : 这种模式就是，即使你设置了delegate也没有用， 如果当前OWNER没有那么就会报错；并不会去delegate里面去寻找
         // 下面案例： 如果Test没有 z, 就会报错
-        /*def data = [ x: 10, y: 20, z: 30 ]
+        def data = [ x: 10, y: 20, z: 30 ]
         def cl = { y = x + y + z }
         cl.delegate = data
         cl.resolveStrategy = Closure.OWNER_ONLY
         cl()
         println x
         println y
-        println data*/
+        println data
+        // 如果上面的case，采用OWNER_FIRST，就是不会报异常， 但是只有OWNER范围内没有找到的z，才会从委托对象中获取
 
 
         // DELEGATE_FIRST : 首先从 赋值的 委托里面去寻找
-       /* def data = [ x: 10, y: 20 ]
+/*        def data = [ x: 10, y: 20 ]
         def cl = { y = x + y }
         cl.delegate = data
         cl.resolveStrategy = Closure.DELEGATE_FIRST
         cl()
-        assert x == 30
-        assert y == 40
-        assert data == [x:10, y:30]*/
+        assert x == 30 // true
+        assert y == 40 // true
+        assert data == [x:10, y:30] // true*/
 
         //TO_SELF : 从闭包里面去寻找，没找到就会报错； 因为closure最终编译成class也是一个class，
         // 下面报错：No such property: x for class: Test$_run_closure1
-        def data = [ x: 10, y: 20, z: 30 ]
+        /*def data = [ x: 10, y: 20, z: 30 ]
         def cl = { y = x + y }
         cl.delegate = data
         cl.resolveStrategy = Closure.TO_SELF
+        cl()
         println x
         println y
-        println data
+        println data*/
     }
 }
 
 
 
 task testClosure << {
+    println 'testClosure execute'
+    new Test().run()
+    println y
+}
+
+task testClosurezz << {
+    println 'testClosure execute'
     new Test().run()
     println y
 }
