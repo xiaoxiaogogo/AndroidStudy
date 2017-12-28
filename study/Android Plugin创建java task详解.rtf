@@ -1,0 +1,1798 @@
+{\rtf1\ansi\ansicpg936\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fnil\fcharset134 PingFangSC-Regular;\f1\fnil\fcharset0 Menlo-Italic;\f2\fnil\fcharset0 Menlo-Bold;
+\f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 Menlo-BoldItalic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green0\blue0;\red109\green109\blue109;
+\red82\green0\blue103;\red251\green0\blue255;\red0\green0\blue109;\red183\green177\blue0;\red0\green255\blue0;
+\red133\green0\blue255;\red109\green111\blue5;\red0\green0\blue254;\red15\green112\blue3;\red31\green136\blue139;
+\red221\green220\blue255;\red255\green128\blue0;\red128\green0\blue128;\red255\green0\blue255;\red0\green0\blue109;
+\red109\green109\blue109;\red82\green0\blue103;\red133\green0\blue255;\red109\green111\blue5;\red251\green0\blue255;
+\red47\green47\blue47;\red15\green112\blue3;\red0\green0\blue254;\red31\green136\blue139;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c100000\c0\c0;\csgenericrgb\c42745\c42745\c42745;
+\csgenericrgb\c32157\c0\c40392;\csgenericrgb\c98431\c0\c100000;\csgenericrgb\c0\c0\c42745;\csgenericrgb\c71765\c69412\c0;\csgenericrgb\c0\c100000\c0;
+\csgenericrgb\c52157\c0\c100000;\csgenericrgb\c42745\c43529\c1961;\csgenericrgb\c0\c0\c99608;\csgenericrgb\c5882\c43922\c1176;\csgenericrgb\c12157\c53333\c54510;
+\csgenericrgb\c86667\c86275\c100000;\csgenericrgb\c100000\c50000\c0;\csgenericrgb\c50000\c0\c50000;\csgenericrgb\c100000\c0\c100000;\csgenericrgb\c0\c0\c42745;
+\csgenericrgb\c42745\c42745\c42745;\csgenericrgb\c32157\c0\c40392;\csgenericrgb\c52157\c0\c100000;\csgenericrgb\c42745\c43529\c1961;\csgenericrgb\c98431\c0\c100000;
+\csgenericrgb\c18431\c18431\c18431;\csgenericrgb\c5882\c43922\c1176;\csgenericrgb\c0\c0\c99608;\csgenericrgb\c12157\c53333\c54510;}
+\margl1440\margr1440\vieww16680\viewh13460\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs36 \cf2 1\'a1\'a2\'ca\'d7\'cf\'c8\'a3\'ac\'ce\'d2\'c3\'c7\'d6\'aa\'b5\'c0Android Plugin\'d4\'da\'b4\'b4\'bd\'a8task\'b5\'c4\'b9\'fd\'b3\'cc\'d6\'d0\'a3\'ac\'d7\'ee\'ba\'f3\'c3\'e6\'bb\'e1\'b8\'f9\'be\'dd\'b5\'b1\'c7\'b0\'b5\'c4variant\'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4\'b1\'e0\'d2\'eb\'ba\'cd\'b4\'f2\'b0\'fc\'b4\'fa\'c2\'eb\'cf\'e0\'b9\'d8\'b5\'c4\'d2\'bb\'cf\'b5\'c1\'d0\'b5\'c4task\'a3\'ac\'b6\'d4\'d3\'a6\'b5\'c4api\'ca\'c7 
+\b \cf3 ApplicationTaskManager
+\b0 \cf2 \'b5\'c4
+\b \cf3 createTasksForVariantData()
+\b0\fs28 \cf2 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs24 \cf4 // Add a compile task (
+\f0\i0 \'d6\'b4\'d0\'d0\'b1\'e0\'d2\'eb\'b4\'fa\'c2\'eb\'b5\'c4
+\f1\i  task)\
+
+\f2\i0\b \cf5 recorder
+\f3\b0 \cf0 .record(\
+        ExecutionType.
+\f4\i\b \cf5 APP_TASK_MANAGER_CREATE_COMPILE_TASK
+\f3\i0\b0 \cf0 ,\
+        
+\f2\b \cf5 project
+\f3\b0 \cf0 .getPath(),\
+        variantScope.getFullVariantName(),\
+        () -> \{\
+            CoreJackOptions jackOptions =\
+                    \cf5 variantData\cf0 .\cf6 getVariantConfiguration\cf0 ().\cf6 getJackOptions\cf0 (); // 
+\f0 \'bb\'f1\'c8\'a1\'b9\'d8\'d3\'dajack\'b1\'e0\'d2\'eb\'c6\'f7\'b5\'c4\'c5\'e4\'d6\'c3\'cf\'ee
+\f3 \
+            
+\f1\i \cf4 // create data binding merge task before the javac task so that it can\
+            // parse jars before any consumer\
+            
+\f3\i0 \cf0 createDataBindingMergeArtifactsTaskIfNecessary(\cf5 tasks\cf0 , \cf5 variantScope\cf0 );\
+\
+            AndroidTask<? 
+\f2\b \cf7 extends 
+\f3\b0 \cf0 JavaCompile> javacTask =\
+                    createJavacTask(\cf5 tasks\cf0 , \cf5 variantScope\cf0 ); // 
+\f0 \cf3 \'b4\'b4\'bd\'a8
+\f3 javac task\cf0 \
+			
+\f0 // \'c8\'e7\'b9\'fb\'d6\'a7\'b3\'d6jack\'b1\'e0\'d2\'eb\'c6\'f7\'a3\'ac\'d0\'e8\'d2\'aa\'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4task\'a3\'a8\cf8 \'b9\'d8\'d3\'dajack\'b1\'e0\'d2\'eb\'c6\'f7\'a3\'ac\'ca\'c7\'bf\'aa\'ca\'bc\'b6\'d4java8\'b5\'c4\'d6\'a7\'b3\'d6\'a3\'ac\'d4\'f6\'bc\'d3\'b5\'c4\'b1\'e0\'d2\'eb\'a3\'ac\'d4\'da\'cf\'d6\'d4\'da\'b5\'c4\'b8\'df\'b0\'e6\'b1\'be\'b5\'c4Android plugin\'d2\'d1\'be\'ad\'b1\'bbgoogle\'b7\'cf\'c6\'fa\'c1\'cb\'a3\'acgoogle\'b2\'bb\'cd\'c6\'bc\'f6\'ca\'b9\'d3\'c3\'c1\'cb\'a3\'ac\'d2\'f2\'ce\'aa\'b8\'df\'b0\'e6\'b1\'be\'b5\'c4javac\'d2\'d1\'be\'ad\'d6\'a7\'b3\'d6\'b6\'d4java8\'b5\'c4\'b1\'e0\'d2\'eb\'b4\'a6\'c0\'ed\cf0 \'a3\'a9
+\f3 \
+            
+\f2\b \cf7 if 
+\f3\b0 \cf0 (jackOptions.isEnabled()) \{\
+                AndroidTask<TransformTask> jackTask =\
+                        createJackTask(\cf5 tasks\cf0 , \cf5 variantScope\cf0 , 
+\f2\b \cf7 true 
+\f1\i\b0 \cf4 /*compileJavaSource*/
+\f3\i0 \cf0 );\
+                
+\f1\i setJavaCompilerTask
+\f3\i0 (jackTask, \cf5 tasks\cf0 , \cf5 variantScope\cf0 );\
+            \} 
+\f2\b \cf7 else 
+\f3\b0 \cf0 \{\
+                
+\f1\i addJavacClassesStream
+\f3\i0 (\cf5 variantScope\cf0 ); // 
+\f0 \cf9 \'cc\'ed\'bc\'d3\'b5\'b1\'c7\'b0
+\f3 javac task
+\f0 \'b1\'e0\'d2\'eb\'ba\'f3\'b5\'c4class\'b5\'c4\'c2\'b7\'be\'b6 \'b5\'bd TransformManager\'d6\'d0\'a3\'ac\'d3\'c3\'d3\'da\'ba\'f3\'c3\'e6\'b5\'c4tranform\'ca\'b9\'d3\'c3
+\f3 \cf0 \
+                
+\f1\i setJavaCompilerTask
+\f3\i0 (javacTask, \cf5 tasks\cf0 , \cf5 variantScope\cf0 ); // 
+\f0 \cf3 \'bd\'ab
+\f3 javac
+\f0 \'c9\'e8\'d6\'c3 \'b1\'e0\'d2\'ebtask\'a3\'ac\'bd\'f6\'bd\'f6\'ca\'c7\'c9\'e8\'d6\'c3\'b5\'bdvariantScope\'ba\'cdvariantData\'d6\'d0\'b5\'c4\'b3\'c9\'d4\'b1\'b1\'e4\'c1\'bf
+\f3 \cf0 \
+                getAndroidTasks()\
+                        .\cf6 create\cf0 (\
+                                \cf5 tasks\cf0 ,\
+                                
+\f2\b \cf7 new 
+\f3\b0 \cf0 AndroidJarTask.JarClassesConfigAction(\cf5 variantScope\cf0 )); // 
+\f0 \cf3 \'b4\'b4\'bd\'a8
+\f3  jar task
+\f0 \'a3\'ac\'b2\'a2\'c7\'d2\'d2\'c0\'c0\'b5\'d3\'da
+\f3  javac task\cf0 \
+                createPostCompilationTasks(\cf5 tasks\cf0 , \cf5 variantScope\cf0 ); // 
+\f0 \cf9 \'d5\'e2\'ca\'c7\'d2\'bb\'b8\'f6\'ba\'cb\'d0\'c4\'b5\'c4\'b2\'bd\'d6\'e8\'a3\'ac
+\f3  transform
+\f0 \'b5\'c4\'b4\'a6\'c0\'ed
+\f3 \cf0 \
+            \}\
+        \});\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs24 \cf4 /**\
+ * Add stream of classes compiled by javac to transform manager.\
+ *\
+ * This should not be called for classes that will also be compiled from source by jack.\
+ */\
+
+\f2\i0\b \cf7 public static void 
+\f3\b0 \cf10 addJavacClassesStream\cf0 (VariantScope scope) \{\
+    
+\f1\i checkNotNull
+\f3\i0 (scope.getJavacTask());\
+    
+\f1\i \cf4 // create the output stream from this task\
+    
+\f3\i0 \cf0 scope.getTransformManager().\cf6 addStream\cf0 (OriginalStream.
+\f1\i builder
+\f3\i0 ()\
+            .\cf6 addContentType\cf0 (DefaultContentType.
+\f4\i\b \cf5 CLASSES
+\f3\i0\b0 \cf0 ) // 
+\f0 \cf3 \'b6\'d4\'d3\'a6\'b5\'c4\'ca\'fd\'be\'dd\'c0\'e0\'d0\'cd\'ca\'c7
+\f3 class
+\f0 \'ca\'fd\'be\'dd\'c0\'e0\'d0\'cd
+\f3 \cf0 \
+            .\cf6 addScope\cf0 (Scope.
+\f4\i\b \cf5 PROJECT
+\f3\i0\b0 \cf0 ) // 
+\f0 \cf3 \'b6\'d4\'d3\'a6
+\f3 Scope
+\f0 \'a3\'ba
+\f3  
+\f0 \'d5\'fb\'b8\'f6
+\f3 project
+\f0 \'b5\'c4\'b7\'b6\'ce\'a7\'c4\'da\'d7\'f7\'d3\'c3\'b7\'b6\'ce\'a7
+\f3 \cf0 \
+            .\cf6 setFolder\cf0 (scope.getJavaOutputDir()) // 
+\f0 \cf3 \'ca\'e4\'c8\'eb\'ce\'c4\'bc\'fe\'b5\'c4\'c2\'b7\'be\'b6
+\f3 \cf0 \
+            .\cf6 setDependency\cf0 (scope.getJavacTask().\cf6 getName\cf0 ())\
+            .\cf6 build\cf0 ());\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\i\fs24 \cf4 /**\
+ * Creates the post-compilation tasks for the given Variant.\
+ *\
+ * These tasks create the dex file from the .class files, plus optional intermediary steps like\
+ * proguard and jacoco\
+ *\
+ */\
+
+\f2\i0\b \cf7 public void 
+\f3\b0 \cf10 createPostCompilationTasks\cf0 (\
+        \cf11 @NonNull \cf0 TaskFactory tasks,\
+        \cf11 @NonNull 
+\f2\b \cf7 final 
+\f3\b0 \cf0 VariantScope variantScope) \{\
+\
+    
+\f1\i checkNotNull
+\f3\i0 (variantScope.getJavacTask());\
+\
+    variantScope.getInstantRunBuildContext().\cf6 setInstantRunMode\cf0 (\
+            \cf6 getIncrementalMode\cf0 (variantScope.getVariantConfiguration()) != IncrementalMode.
+\f4\i\b \cf5 NONE
+\f3\i0\b0 \cf0 );\
+\
+    
+\f2\b \cf7 final 
+\f3\b0 \cf0 BaseVariantData<? 
+\f2\b \cf7 extends 
+\f3\b0 \cf0 BaseVariantOutputData> variantData = variantScope.getVariantData();\
+    
+\f2\b \cf7 final 
+\f3\b0 \cf0 GradleVariantConfiguration config = variantData.\cf6 getVariantConfiguration\cf0 ();\
+\
+    TransformManager transformManager = variantScope.getTransformManager();\
+\
+    
+\f1\i \cf4 // ---- Code Coverage first -----\
+    
+\f2\i0\b \cf7 boolean 
+\f3\b0 \cf0 isTestCoverageEnabled = config.\cf6 getBuildType\cf0 ().isTestCoverageEnabled() &&\
+            !config.\cf6 getType\cf0 ().\cf6 isForTesting\cf0 () &&\
+            \cf6 getIncrementalMode\cf0 (variantScope.getVariantConfiguration()) == IncrementalMode.
+\f4\i\b \cf5 NONE
+\f3\i0\b0 \cf0 ;\
+    
+\f2\b \cf7 if 
+\f3\b0 \cf0 (isTestCoverageEnabled) \{\
+        \cf6 createJacocoTransform\cf0 (tasks, variantScope);\
+    \}\
+\
+    
+\f2\b \cf7 boolean 
+\f3\b0 \cf0 isMinifyEnabled = \cf6 isMinifyEnabled\cf0 (variantScope);\
+    
+\f2\b \cf7 boolean 
+\f3\b0 \cf0 isMultiDexEnabled = config.\cf6 isMultiDexEnabled\cf0 ();\
+    
+\f1\i \cf4 // Switch to native multidex if possible when using instant run.\
+    
+\f2\i0\b \cf7 boolean 
+\f3\b0 \cf0 isLegacyMultiDexMode = \cf6 isLegacyMultidexMode\cf0 (variantScope);\
+\
+    AndroidConfig extension = variantScope.getGlobalScope().\cf6 getExtension\cf0 ();\
+\
+    
+\f1\i \cf4 // ----- External Transforms -----\
+    // apply all the external transforms. \cf3 (
+\f0\i0 \'d3\'a6\'d3\'c3
+\f1\i extension
+\f0\i0 \'c0\'ef\'c3\'e6\'b5\'c4
+\f1\i  transform)\
+	
+\f0\i0 // \'ba\'cb\'d0\'c4\'a3\'ba \'d5\'e2\'b8\'f6\'ca\'c7\'ce\'d2\'c3\'c7\'b1\'e0\'d0\'b4\'d7\'d4\'b6\'a8\'d2\'e5\'b2\'e5\'bc\'fe\'a3\'ac\'bf\'c9\'d2\'d4\'d3\'c3\'b5\'bd\'b5\'c4\'a3\'bb\'ce\'d2\'c3\'c7\'b5\'f7\'d3\'c3BaseExtension.registerTransform()\'bd\'ab\'ce\'d2\'c3\'c7\'d7\'d4\'b6\'a8\'d2\'e5\'b5\'c4Transform\'b4\'e6\'b4\'a2\'a3\'bb\'d4\'da\'d5\'e2\'c0\'ef\'bd\'f8\'d0\'d0\'b4\'a6\'c0\'ed\'a3\'ac\'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4TransformTask
+\f1\i \cf4 \
+    
+\f3\i0 \cf0 List<Transform> customTransforms = extension.getTransforms();\
+    List<List<Object>> customTransformsDependencies = extension.getTransformsDependencies();\
+\
+    
+\f2\b \cf7 for 
+\f3\b0 \cf0 (
+\f2\b \cf7 int 
+\f3\b0 \cf0 i = \cf12 0\cf0 , count = customTransforms.size() ; i < count ; i++) \{\
+        Transform transform = customTransforms.get(i);\
+\
+        List<Object> deps = customTransformsDependencies.get(i);\
+        transformManager\
+                .\cf6 addTransform\cf0 (tasks, variantScope, transform)\
+                .\cf6 ifPresent\cf0 (t -> \{\
+                    
+\f2\b \cf7 if 
+\f3\b0 \cf0 (!\cf5 deps\cf0 .isEmpty()) \{\
+                        t.\cf6 dependsOn\cf0 (\cf5 tasks\cf0 , \cf5 deps\cf0 );\
+                    \}\
+\
+                    
+\f1\i \cf4 // if the task is a no-op then we make assemble task depend on it.\
+					
+\f0\i0 // \'c8\'e7\'b9\'fb\'b5\'b1\'c7\'b0TransformTask\'b2\'a2\'b2\'bb\'ca\'c7\'ca\'b2\'c3\'b4\'d2\'b2\'c3\'bb\'d7\'f6(\'c3\'bb\'d3\'d0\'d7\'f7\'d3\'c3\'b7\'b6\'ce\'a7)
+\f1\i \
+                    
+\f2\i0\b \cf7 if 
+\f3\b0 \cf0 (\cf5 transform\cf0 .getScopes().isEmpty()) \{\
+                        \cf5 variantScope\cf0 .getAssembleTask().\cf6 dependsOn\cf0 (\cf5 tasks\cf0 , t);\
+                    \}\
+                \});\
+    \}\
+\
+    
+\f1\i \cf4 // ----- Minify next -----\
+\
+    
+\f2\i0\b \cf7 if 
+\f3\b0 \cf0 (isMinifyEnabled) \{\
+        
+\f2\b \cf7 boolean 
+\f3\b0 \cf0 outputToJarFile = isMultiDexEnabled && isLegacyMultiDexMode;\
+        \cf6 createMinifyTransform\cf0 (tasks, variantScope, outputToJarFile); 
+\f0 \cf3 // \'b4\'b4\'bd\'a8ProguardTransfrom \'ba\'cd shrinkTransform\'a3\'ac\'b2\'a2\'b5\'f7\'d3\'c3TransformManager.addTransform()\'bd\'f8\'d0\'d0\'b4\'a6\'c0\'ed\'b5\'b1\'c7\'b0tranform\'a3\'ac\'d2\'d4\'bc\'b0\'ca\'fd\'be\'dd\'c1\'f7\'b5\'c4\'b4\'a6\'c0\'ed
+\f3 \cf0 \
+    \}\
+\
+    
+\f1\i \cf4 // ----- 10x support\
+\
+    
+\f3\i0 \cf0 AndroidTask<PreColdSwapTask> preColdSwapTask = 
+\f2\b \cf7 null
+\f3\b0 \cf0 ;\
+    
+\f2\b \cf7 if 
+\f3\b0 \cf0 (variantScope.getInstantRunBuildContext().\cf6 isInInstantRunMode\cf0 ()) \{\
+\
+        AndroidTask<DefaultTask> allActionsAnchorTask =\
+                \cf6 createInstantRunAllActionsTasks\cf0 (tasks, variantScope);\
+        
+\f2\b \cf7 assert 
+\f3\b0 \cf0 variantScope.getInstantRunTaskManager() != 
+\f2\b \cf7 null
+\f3\b0 \cf0 ;\
+        preColdSwapTask = variantScope.getInstantRunTaskManager()\
+                .\cf6 createPreColdswapTask\cf0 (
+\f2\b \cf5 project
+\f3\b0 \cf0 );\
+        preColdSwapTask.\cf6 dependsOn\cf0 (tasks, allActionsAnchorTask);\
+\
+        
+\f1\i \cf4 // when dealing with platforms that can handle multi dexes natively, automatically\
+        // turn on multi dexing so shards are packaged as individual dex files.\
+        
+\f2\i0\b \cf7 if 
+\f3\b0 \cf0 (InstantRunPatchingPolicy.
+\f4\i\b \cf5 PRE_LOLLIPOP 
+\f3\i0\b0 \cf0 !=\
+                variantScope.getInstantRunBuildContext().\cf6 getPatchingPolicy\cf0 ()) \{\
+            isMultiDexEnabled = 
+\f2\b \cf7 true
+\f3\b0 \cf0 ;\
+            
+\f1\i \cf4 // force pre-dexing to be true as we rely on individual slices to be packaged\
+            // separately.\
+            
+\f3\i0 \cf0 extension.getDexOptions().\cf6 setPreDexLibraries\cf0 (
+\f2\b \cf7 true
+\f3\b0 \cf0 );\
+            variantScope.getInstantRunTaskManager().\cf6 createSlicerTask\cf0 ();\
+        \}\
+\
+        extension.getDexOptions().\cf6 setJumboMode\cf0 (
+\f2\b \cf7 true
+\f3\b0 \cf0 );\
+    \}\
+    
+\f1\i \cf4 // ----- Multi-Dex support\
+\
+    
+\f3\i0 \cf0 Optional<AndroidTask<TransformTask>> multiDexClassListTask;\
+    
+\f1\i \cf4 // non Library test are running as native multi-dex\
+    
+\f2\i0\b \cf7 if 
+\f3\b0 \cf0 (isMultiDexEnabled && isLegacyMultiDexMode) \{\
+        
+\f2\b \cf7 if 
+\f3\b0 \cf0 (!variantData.\cf6 getVariantConfiguration\cf0 ().\cf6 getBuildType\cf0 ().isUseProguard()) \{\
+            
+\f2\b \cf7 throw new 
+\f3\b0 \cf0 IllegalStateException(\
+                    
+\f2\b \cf13 "Build-in class shrinker and multidex are not supported yet."
+\f3\b0 \cf0 );\
+        \}\
+\
+        
+\f1\i \cf4 // ----------\
+        // create a transform to jar the inputs into a single jar.\
+        
+\f2\i0\b \cf7 if 
+\f3\b0 \cf0 (!isMinifyEnabled) \{\
+            
+\f1\i \cf4 // merge the classes only, no need to package the resources since they are\
+            // not used during the computation.\
+            
+\f3\i0 \cf0 JarMergingTransform jarMergingTransform = 
+\f2\b \cf7 new 
+\f3\b0 \cf0 JarMergingTransform(\
+                    TransformManager.
+\f4\i\b \cf5 SCOPE_FULL_PROJECT
+\f3\i0\b0 \cf0 );\
+            transformManager\
+                    .\cf6 addTransform\cf0 (tasks, variantScope, jarMergingTransform)\
+                    .\cf6 ifPresent\cf0 (variantScope::addColdSwapBuildTask);\
+        \}\
+\
+        
+\f1\i \cf4 // ---------\
+        // create the transform that's going to take the code and the proguard keep list\
+        // from above and compute the main class list.\
+        
+\f3\i0 \cf0 MultiDexTransform multiDexTransform = 
+\f2\b \cf7 new 
+\f3\b0 \cf0 MultiDexTransform(\
+                variantScope,\
+                extension.getDexOptions(),\
+                
+\f2\b \cf7 null
+\f3\b0 \cf0 );\
+        multiDexClassListTask =\
+                transformManager.\cf6 addTransform\cf0 (tasks, variantScope, multiDexTransform);\
+        multiDexClassListTask.\cf6 ifPresent\cf0 (variantScope::addColdSwapBuildTask);\
+    \} 
+\f2\b \cf7 else 
+\f3\b0 \cf0 \{\
+        multiDexClassListTask = Optional.
+\f1\i empty
+\f3\i0 ();\
+    \}\
+    
+\f1\i \cf4 // create dex transform\
+    
+\f3\i0 \cf0 DefaultDexOptions dexOptions = DefaultDexOptions.
+\f1\i copyOf
+\f3\i0 (extension.getDexOptions());\
+\
+    
+\f2\b \cf7 if 
+\f3\b0 \cf0 (variantData.\cf6 getType\cf0 ().\cf6 isForTesting\cf0 ()) \{\
+        
+\f1\i \cf4 // Don't use custom dx flags when compiling the test APK. They can break the test APK,\
+        // like --minimal-main-dex.\
+        
+\f3\i0 \cf0 dexOptions.\cf6 setAdditionalParameters\cf0 (ImmutableList.
+\f1\i of
+\f3\i0 ());\
+    \}\
+\
+    DexTransform dexTransform = 
+\f2\b \cf7 new 
+\f3\b0 \cf0 DexTransform(\
+            dexOptions,\
+            config.\cf6 getBuildType\cf0 ().isDebuggable(),\
+            isMultiDexEnabled,\
+            isMultiDexEnabled && isLegacyMultiDexMode ? variantScope.getMainDexListFile() : 
+\f2\b \cf7 null
+\f3\b0 \cf0 ,\
+            variantScope.getPreDexOutputDir(),\
+            variantScope.getGlobalScope().\cf6 getAndroidBuilder\cf0 (),\
+            \cf6 getLogger\cf0 (),\
+            variantScope.getInstantRunBuildContext(),\
+            AndroidGradleOptions.
+\f1\i getBuildCache
+\f3\i0 (variantScope.getGlobalScope().\cf6 getProject\cf0 ()));\
+    Optional<AndroidTask<TransformTask>> dexTask =\
+            transformManager.\cf6 addTransform\cf0 (tasks, variantScope, dexTransform);\
+    
+\f1\i \cf4 // need to manually make dex task depend on MultiDexTransform since there's no stream\
+    // consumption making this automatic\
+    
+\f3\i0 \cf0 dexTask.\cf6 ifPresent\cf0 (t -> \{\
+        t.\cf6 optionalDependsOn\cf0 (\cf5 tasks\cf0 , \cf5 multiDexClassListTask\cf0 .\cf6 orElse\cf0 (
+\f2\b \cf7 null
+\f3\b0 \cf0 ));\
+        \cf5 variantScope\cf0 .addColdSwapBuildTask(t);\
+    \});\
+\
+    
+\f2\b \cf7 if 
+\f3\b0 \cf0 (preColdSwapTask != 
+\f2\b \cf7 null
+\f3\b0 \cf0 ) \{\
+        
+\f2\b \cf7 for 
+\f3\b0 \cf0 (AndroidTask<? 
+\f2\b \cf7 extends 
+\f3\b0 \cf0 DefaultTask> task : variantScope.getColdSwapBuildTasks()) \{\
+            task.\cf6 dependsOn\cf0 (tasks, preColdSwapTask);\
+        \}\
+    \}\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs36 \cf3 TransformManager.addTransform()\'ca\'b5\'cf\'d6\'c2\'df\'bc\'ad\'a3\'ba\
+
+\fs28 \cf8 \'b3\'c9\'d4\'b1\'b1\'e4\'c1\'bfstreams\'a3\'ac\'d3\'c3\'d3\'da\'b4\'e6\'b4\'a2\'cf\'c2\'d2\'bb\'b8\'f6Transform\'d0\'e8\'d2\'aa\'ca\'b9\'d3\'c3\'b5\'c4\'ca\'fd\'be\'dd\'c1\'f7\cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs24 \cf7 public 
+\f3\b0 \cf0 <\cf14 T 
+\f2\b \cf7 extends 
+\f3\b0 \cf0 Transform> Optional<AndroidTask<TransformTask>> \cf10 addTransform\cf0 (\
+        \cf11 @NonNull \cf0 TaskFactory taskFactory,\
+        \cf11 @NonNull \cf0 TransformVariantScope scope,\
+        \cf11 @NonNull \cf14 T \cf0 transform,\
+        \cf11 @Nullable \cf0 TransformTask.ConfigActionCallback<\cf14 T\cf0 > callback) \{\
+\
+    
+\f2\b \cf7 if 
+\f3\b0 \cf0 (!\cf6 validateTransform\cf0 (transform)) \{\
+        
+\f1\i \cf4 // validate either throws an exception, or records the problem during sync\
+        // so it's safe to just return null here.\
+        
+\f2\i0\b \cf7 return 
+\f3\b0 \cf0 Optional.
+\f1\i empty
+\f3\i0 ();\
+    \}\
+\
+    List<TransformStream> inputStreams = Lists.
+\f1\i newArrayList
+\f3\i0 ();\
+    String taskName = scope.getTaskName(
+\f1\i getTaskNamePrefix
+\f3\i0 (transform));\
+\
+	
+\f0 // \'cf\'c2\'c3\'e6\'c1\'bd\'b2\'bd\'b2\'d9\'d7\'f7\'a3\'ac\'d6\'f7\'d2\'aa\'ca\'c7\'bb\'f1\'c8\'a1\'b5\'b1\'c7\'b0transform\'d0\'e8\'d2\'aa\'ca\'b9\'d3\'c3\'b5\'c4\'ca\'e4\'c8\'eb\'c1\'f7\'a3\'a8\'ca\'e4\'c8\'eb\'d4\'b4\'a3\'a9\'a3\'ac\'b8\'f9\'be\'dd\'b5\'b1\'c7\'b0transform\'b5\'c4scopes\'ba\'cdcontentTypes\'c9\'b8\'d1\'a1
+\f3 \
+    
+\f1\i \cf4 // get referenced-only streams\
+	/\cb3 / 
+\f0\i0 \'d7\'a2\'d2\'e2\'a3\'ba
+\f3 \cf3 \cb15 getReferencedScopes\cb1 () 
+\f0 \'ca\'c7\'b5\'b1\'c7\'b0tranform\'b2\'bb\'c4\'dc\'ca\'b9\'d3\'c3\'b5\'c4\'a3\'ac\'b6\'f8\'ca\'c7\'b9\'a9\'c6\'e4\'cb\'fbtranform\'ca\'b9\'d3\'c3\'b5\'c4
+\f1\i \cf4 \
+    
+\f3\i0 \cf0 List<TransformStream> referencedStreams = \cf6 grabReferencedStreams\cf0 (transform); \cf9 // 
+\f0 \'bb\'f1\'c8\'a1\'b5\'b1\'c7\'b0transform
+\f3 \cf3 \cb15 getReferencedScopes\cb1 ()
+\f0 \cf9 \'ba\'cd\'c6\'e4
+\f3 contentTypes
+\f0 \'a3\'bb\'ba\'cd\'b5\'b1\'c7\'b0\'b4\'e6\'d4\'da\'b5\'c4\cf3 streams\cf9 \'d6\'d0\'b5\'c4scopes\'ba\'cdcontentTypes\'b4\'e6\'d4\'da\'bd\'bb\'bc\'af\'b5\'c4stream
+\f3 \cf0 \
+\
+    
+\f1\i \cf4 // find input streams, and compute output streams for the transform.\
+	\cf3 // 
+\f0\i0 \'bb\'f1\'c8\'a1\'b5\'b1\'c7\'b0transform\'b5\'c4\cf16 scopes(\'b4\'b4\'bd\'a8Transform\'b1\'d8\'d0\'eb\'d6\'d8\'d0\'b4\'b5\'c4)\'ba\'cdcontentTypes \cf3 \'ba\'cd\'b5\'b1\'c7\'b0streams\'d3\'d0\'bd\'bb\'bc\'af\'b5\'c4stream\'a3\'ac\'bd\'ab\'c6\'e4\'cc\'ed\'bc\'d3\'b5\'bdinputStreams\'d6\'d0\'a3\'ac\cf16 \'b2\'a2\'bd\'ab\'c6\'e4\'b4\'d3streams\'d6\'d0\'d2\'c6\'b3\'fd\'b5\'f4\cf3 \'a3\'bb\'b2\'a2\'c7\'d2\'b8\'f9\'be\'dd\'b5\'b1\'c7\'b0transform\'b9\'b9\'bd\'a8\'b3\'f6\'b6\'d4\'d3\'a6\'b5\'c4outputStream(\'b8\'f9\'be\'dd\'ca\'e4\'b3\'f6\'c2\'b7\'be\'b6\'a3\'acscopes\'a3\'accontentTypes)\'a3\'ac\cf16 \'b9\'a9\'ba\'f3\'c3\'e6\'b5\'c4transform\'ca\'b9\'d3\'c3
+\f1\i \cf4 \
+    
+\f3\i0 \cf0 IntermediateStream outputStream = \cf6 findTransformStreams\cf0 (\
+            transform,\
+            scope,\
+            inputStreams,\
+            taskName,\
+            scope.getGlobalScope().getBuildDir());\
+\
+    
+\f2\b \cf7 if 
+\f3\b0 \cf0 (inputStreams.isEmpty() && referencedStreams.isEmpty()) \{\
+        
+\f1\i \cf4 // didn't find any match. Means there is a broken order somewhere in the streams.\
+        
+\f2\i0\b \cf5 errorReporter
+\f3\b0 \cf0 .\cf6 handleSyncError\cf0 (\
+                
+\f2\b \cf7 null
+\f3\b0 \cf0 ,\
+                SyncIssue.
+\f4\i\b \cf5 TYPE_GENERIC
+\f3\i0\b0 \cf0 ,\
+                String.
+\f1\i format
+\f3\i0 (\
+                        
+\f2\b \cf13 "Unable to add Transform '%s' on variant '%s': requested streams not available: %s+%s / %s"
+\f3\b0 \cf0 ,\
+                        transform.getName(), scope.getFullVariantName(),\
+                        transform.getScopes(), transform.\cf6 getReferencedScopes\cf0 (),\
+                        transform.getInputTypes()));\
+        
+\f2\b \cf7 return 
+\f3\b0 \cf0 Optional.
+\f1\i empty
+\f3\i0 ();\
+    \}\
+\
+    
+\f2\b \cf5 transforms
+\f3\b0 \cf0 .add(transform);\
+\
+    
+\f1\i \cf3 // 
+\f0\i0 \'ce\'aa\'b5\'b1\'c7\'b0
+\f1\i transform 
+\f0\i0 \'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4TransformTask(
+\f3 \cf0 TransformTask.ConfigAction 
+\f0 \'c6\'e4\'b6\'d4\'d3\'a6\'b5\'c4
+\f3 type
+\f0 \'ca\'c7
+\f3 Transform.class
+\f0 \cf3 )
+\f1\i \cf4 \
+    
+\f3\i0 \cf0 AndroidTask<TransformTask> task =\
+            
+\f2\b \cf5 taskRegistry
+\f3\b0 \cf0 .\cf6 create\cf0 (\
+                    taskFactory,\
+                    
+\f2\b \cf7 new 
+\f3\b0 \cf0 TransformTask.ConfigAction<>(\
+                            scope.getFullVariantName(),\
+                            taskName,\
+                            transform,\
+                            inputStreams,\
+                            referencedStreams,\
+                            outputStream,\
+                            
+\f2\b \cf5 recorder
+\f3\b0 \cf0 ,\
+                            callback));\
+	// 
+\f0 \cf9 \'b5\'b1\'c7\'b0\'ca\'fd\'be\'dd\'c1\'f7\'ba\'ac\'d3\'d0\'b6\'d4\'d3\'a6\'b5\'c4\'d2\'c0\'c0\'b5\'b5\'c4
+\f3 task
+\f0 \'a3\'bb\'d2\'f2\'ce\'aa\'d5\'e2\'d0\'a9
+\f3 task
+\f0 \'bb\'e1\'b2\'fa\'c9\'fa\'c6\'e4\'b6\'d4\'d3\'a6\'b5\'c4\'ca\'fd\'be\'dd\'c1\'f7
+\f3 \cf0 \
+    
+\f2\b \cf7 for 
+\f3\b0 \cf0 (TransformStream s : inputStreams) \{\
+        task.\cf6 dependsOn\cf0 (taskFactory, s.\cf6 getDependencies\cf0 ());\
+    \}\
+    
+\f2\b \cf7 for 
+\f3\b0 \cf0 (TransformStream s : referencedStreams) \{\
+        task.\cf6 dependsOn\cf0 (taskFactory, s.\cf6 getDependencies\cf0 ());\
+    \}\
+\
+    
+\f2\b \cf7 return 
+\f3\b0 \cf0 Optional.
+\f1\i ofNullable
+\f3\i0 (task);\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs48 \cf3 Transform\'cf\'ea\'bd\'e2\'a3\'ba
+\fs28 \cf2 \
+
+\fs36 \cf17 Transform\'d6\'b4\'d0\'d0\'c1\'f7\'b3\'cc\'a3\'ba
+\fs28 \cf2 \
+\'b1\'e9\'c0\'fa\'cb\'f9\'d3\'d0\'b5\'c4transform\'a3\'ac\'c8\'bb\'ba\'f3\'b5\'f7\'d3\'c3TransfromManager\'b5\'c4addTransform()\'bd\'f8\'d0\'d0\'b4\'a6\'c0\'edtranform\'a3\'bb\'d6\'f7\'d2\'aa\'ca\'c7\'ce\'aa\'b4\'cbtransform\'c9\'fa\'b3\'c9\'c6\'e4\'b6\'d4\'d3\'a6\'b5\'c4\'ca\'e4\'c8\'eb\'c1\'f7(\'b8\'f9\'be\'dd\'cb\'fb\'b5\'c4inputTypes\'ba\'cdscopes\'a3\'ac\'b4\'d3\'b5\'b1\'c7\'b0streams\'d6\'d0\'d5\'d2\'b5\'bd\'c6\'e4\'b6\'d4\'d3\'a6\'b5\'c4(\'b2\'bb\'d3\'c3\'cd\'ea\'c8\'ab\'c6\'a5\'c5\'e4\'a3\'ac\'d6\'bb\'d2\'aa\'c6\'a5\'c5\'e4\'bc\'af\'ba\'cf\'c0\'ef\'c3\'e6\'b5\'c4\'d2\'bb\'b8\'f6\'bc\'b4\'bf\'c9))\'a3\'ac\'b2\'a2\'c7\'d2\'b4\'b4\'bd\'a8\'b5\'b1\'c7\'b0transform\'b5\'c4\'ca\'e4\'b3\'f6\'c1\'f7\'a3\'ac\'c8\'bb\'ba\'f3\'bd\'ab\'ca\'e4\'b3\'f6\'c1\'f7\'cc\'ed\'bc\'d3\'b5\'bdstreams\'c0\'ef\'c3\'e6\'a1\'a3\'a3\'a8\'d5\'e2\'b8\'f6streams\'b4\'e6\'b7\'c5\'bf\'c9\'d2\'d4\'b4\'ab\'b5\'dd\'b8\'f8\'cf\'c2\'d2\'bb\'b8\'f6transform\'b5\'c4\'ca\'e4\'c8\'eb\'c1\'f7\'a3\'ac\'d5\'e2\'b8\'f6\'c1\'f7\'b5\'c4\'d7\'ee\'b3\'f5\'ca\'bc\'bb\'af\'b5\'c4\'ca\'e4\'c8\'eb\'d4\'b4\'ca\'c7 javac task\'b1\'e0\'d2\'eb\'ba\'f3classes\'ca\'e4\'b3\'f6\'c2\'b7\'be\'b6\'a3\'a9\'a3\'bb\'a3\'bb\'c8\'bb\'ba\'f3\'d5\'eb\'b6\'d4\'c3\'bf\'b8\'f6transform\'b4\'b4\'bd\'a8\'d2\'bb\'b8\'f6tranformTask\'a3\'ac\'b2\'a2\'c7\'d2\'d5\'e2\'d0\'a9task\'cc\'ed\'bc\'d3\'cb\'fb\'c3\'c7\'d0\'e8\'d2\'aa\'b5\'c4\'ca\'e4\'c8\'eb\'c1\'f7\'b5\'c4task\'b5\'c4\'d2\'c0\'c0\'b5\'a1\'a3\
+\'d2\'f2\'b4\'cb\'b5\'c3\'b3\'f6\'a3\'actransform\'ca\'c7\'d2\'bb\'b8\'f6\'d2\'bb\'b8\'f6\'b4\'ae\'d0\'d0\'d6\'b4\'d0\'d0\'b5\'c4\'a3\'ac\'b5\'ab\'ca\'c7\'b2\'a2\'b2\'bb\'cd\'ea\'c8\'ab\'ca\'c7\'c7\'b0\'d2\'bb\'b8\'f6transform\'b5\'c4\'ca\'e4\'b3\'f6\'c1\'f7\'be\'cd\'ca\'c7\'ba\'f3\'d2\'bb\'b8\'f6tranform\'b5\'c4\'ca\'e4\'c8\'eb\'c1\'f7\'d5\'e2\'d1\'f9\'b5\'c4\'cb\'b5\'bb\'b0\'a1\'a3\
+\cf18 \'b2\'a2\'c7\'d2\'c3\'bf\'d2\'bb\'b2\'e3\'b5\'c4transform\'b5\'c4\'b4\'a6\'c0\'ed\'a3\'ac\'d2\'b2\'ca\'c7\'d5\'eb\'b6\'d4\'ca\'e4\'b3\'f6\'c1\'f7\'b5\'c4\'b4\'a6\'c0\'ed(\'d2\'b2\'be\'cd\'ca\'c7class\'b5\'c4\'b4\'a6\'c0\'ed)\cf2 \
+\
+
+\fs36 \cf17 \'d4\'b4\'c2\'eb\'bd\'e2\'ce\'f6\'c8\'e7\'c9\'cf
+\fs28 \cf2 \
+\
+\
+\
+\
+
+\fs48 \cf3 Tranform api\'cf\'ea\'bd\'e2
+\fs28 \cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs24 \cf19 public abstract class 
+\f3\b0 \cf0 Transform \{\
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Transform() \{\
+    \}\
+	\
+	
+\f0 \cf18 // \'b5\'b1\'c7\'b0Transform\'b5\'c4name\'a3\'ac\'d2\'b2\'be\'cd\'ca\'c7\'b5\'b1\'c7\'b0tranform task\'b5\'c4 name
+\f3 \cf0 \
+    
+\f2\b \cf19 public abstract 
+\f3\b0 \cf0 String getName();\
+\
+	\cf18 // 
+\f0 \'b5\'b1\'c7\'b0
+\f3 transform
+\f0 \'cb\'f9\'d6\'a7\'b3\'d6\'b5\'c4\'ca\'e4\'b3\'f6\'b5\'c4\'ce\'c4\'bc\'fe\'c0\'e0\'d0\'cd
+\f3 (
+\f0 \'d2\'b2\'be\'cd\'ca\'c7\'cb\'fc\'bf\'c9\'d2\'d4\'b4\'a6\'c0\'ed\'b5\'c4\'ce\'c4\'bc\'fe\'c0\'e0\'d0\'cd
+\f3 )\cf0 \
+    
+\f2\b \cf19 public abstract 
+\f3\b0 \cf0 Set<ContentType> getInputTypes();\
+\
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Set<ContentType> getOutputTypes() \{\
+        
+\f2\b \cf19 return this
+\f3\b0 \cf0 .getInputTypes();\
+    \}\
+\
+	\cf18 // 
+\f0 \'b5\'b1\'c7\'b0
+\f3 Transform
+\f0 \'cb\'f9\'d6\'a7\'b3\'d6\'b4\'a6\'c0\'ed\'b5\'c4\'d7\'f7\'d3\'c3\'d3\'f2\'b7\'b6\'ce\'a7\'a3\'a8\'d6\'b8\'b5\'c4\'ca\'c7\'ce\'c4\'bc\'fe\'ca\'e4\'c8\'eb\'b5\'c4\'b7\'b6\'ce\'a7\'a3\'a9
+\f3 \cf0 \
+    
+\f2\b \cf19 public abstract 
+\f3\b0 \cf0 Set<? 
+\f2\b \cf19 super 
+\f3\b0 \cf0 Scope> getScopes();\
+\
+	
+\f0 \cf18 // \'b5\'b1\'c7\'b0Transform\'cb\'f9\'b2\'bb\'d6\'a7\'b3\'d6\'b4\'a6\'c0\'ed\'b5\'c4\'d7\'f7\'d3\'c3\'d3\'f2\'b7\'b6\'ce\'a7
+\f3 \cf0 \
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Set<? 
+\f2\b \cf19 super 
+\f3\b0 \cf0 Scope> getReferencedScopes() \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 ImmutableSet.of();\
+    \}\
+\
+    
+\f1\i \cf20 /** 
+\f4\b @deprecated 
+\f1\b0 */\
+    
+\f3\i0 \cf0 @Deprecated\
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Collection<File> getSecondaryFileInputs() \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 ImmutableList.of();\
+    \}\
+	\
+	
+\f0 \cf18 // \'b4\'cb\'bc\'af\'ba\'cf\'d6\'d0\'b5\'c4\'ce\'c4\'bc\'fe\'b7\'a2\'c9\'fa\'b8\'c4\'b1\'e4\'a3\'ac\'bd\'ab\'b2\'bb\'c4\'dc\'ca\'b9\'d3\'c3\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'a3\'bb\'b1\'d8\'d0\'eb\'c8\'ab\'c1\'bf\'d6\'b4\'d0\'d0\'a3\'a8\'b4\'a6\'c0\'ed\'d4\'ad\'c0\'ed\'a3\'ba\'bb\'f1\'c8\'a1\'b5\'bd\'d4\'f6\'c1\'bf\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'c8\'e7\'b9\'fb\'b0\'fc\'ba\'ac\'b4\'cb\'bc\'af\'ba\'cf\'d6\'d0\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'c4\'c7\'c3\'b4\'d0\'e8\'d2\'aa\'d6\'b4\'d0\'d0\'c8\'ab\'c1\'bf\'a3\'a9\
+	// \'c4\'ac\'c8\'cf\'b7\'b5\'bb\'d8\'bf\'d5\'c1\'d0\'b1\'ed
+\f3 \cf0 \
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Collection<SecondaryFile> getSecondaryFiles() \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 ImmutableList.of();\
+    \}\
+\
+	\cf18 // 
+\f0 \'b4\'cb\'bc\'af\'ba\'cf\'d6\'d0\'d6\'b8\'b6\'a8\'b5\'c4\'ca\'e4\'b3\'f6\'ce\'c4\'bc\'fe\'b7\'a2\'c9\'fa\'b1\'e4\'bb\'af\'a3\'ac\'b6\'bc\'bb\'e1\'b4\'a5\'b7\'a2\'d2\'bb\'b8\'f6\'c8\'ab\'c1\'bf\'a3\'ac\'d2\'b2\'be\'cd\'ca\'c7\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'bd\'ab\'b2\'bb\'c4\'dc\'d6\'b4\'d0\'d0
+\f3 \cf0 \
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Collection<File> getSecondaryFileOutputs() \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 ImmutableList.of();\
+    \}\
+\
+
+\f0 	\cf18 //\'cd\'ac\'c9\'cf\'c3\'e6\'a3\'ac\'b5\'ab\'ca\'c7\'d5\'e2\'c0\'ef\'d6\'b8\'b5\'c4\'ce\'c4\'bc\'fe\'bc\'d0\'b5\'c4\'c2\'b7\'be\'b6
+\f3 \cf0 \
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Collection<File> getSecondaryDirectoryOutputs() \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 ImmutableList.of();\
+    \}\
+\
+	\cf18 // 
+\f0 \'b4\'cb
+\f3 map
+\f0 \'d6\'d0\'b5\'c4values\'bc\'af\'ba\'cf\'d6\'d0\'b5\'c4\'ca\'fd\'be\'dd\'b7\'a2\'c9\'fa\'b8\'c4\'b1\'e4\'a3\'ac\'d2\'b2\'ca\'c7\'b4\'a5\'b7\'a2\'c8\'ab\'c1\'bf
+\f3 \cf0 \
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Map<String, Object> getParameterInputs() \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 ImmutableMap.of();\
+    \}\
+\
+    
+\f2\b \cf19 public abstract boolean 
+\f3\b0 \cf0 isIncremental();\
+\
+    
+\f1\i \cf20 /** 
+\f4\b @deprecated 
+\f1\b0 */\
+    
+\f3\i0 \cf0 @Deprecated\
+    
+\f2\b \cf19 public void 
+\f3\b0 \cf0 transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, 
+\f2\b \cf19 boolean 
+\f3\b0 \cf0 isIncremental) 
+\f2\b \cf19 throws 
+\f3\b0 \cf0 IOException, TransformException, InterruptedException \{\
+    \}\
+\
+    
+\f2\b \cf19 public void 
+\f3\b0 \cf0 transform(TransformInvocation transformInvocation) 
+\f2\b \cf19 throws 
+\f3\b0 \cf0 TransformException, InterruptedException, IOException \{\
+        
+\f2\b \cf19 this
+\f3\b0 \cf0 .transform(transformInvocation.getContext(), transformInvocation.getInputs(), transformInvocation.getReferencedInputs(), transformInvocation.getOutputProvider(), transformInvocation.isIncremental());\
+    \}\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs48 \cf3 TransformTask\'d4\'b4\'c2\'eb\'bd\'e2\'ce\'f6
+\fs28 \cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs24 \cf19 public class 
+\f3\b0 \cf0 TransformTask 
+\f2\b \cf19 extends 
+\f3\b0 \cf0 StreamBasedTask 
+\f2\b \cf19 implements 
+\f3\b0 \cf0 Context \{\
+\
+    
+\f2\b \cf19 private 
+\f3\b0 \cf0 Transform 
+\f2\b \cf21 transform
+\f3\b0 \cf0 ;\
+    
+\f2\b \cf19 private 
+\f3\b0 \cf0 Recorder 
+\f2\b \cf21 recorder
+\f3\b0 \cf0 ;\
+    Collection<SecondaryFile> 
+\f2\b \cf21 secondaryFiles 
+\f3\b0 \cf0 = 
+\f2\b \cf19 null
+\f3\b0 \cf0 ;\
+\
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Transform \cf22 getTransform\cf0 () \{\
+        
+\f2\b \cf19 return \cf21 transform
+\f3\b0 \cf0 ;\
+    \}\
+\
+    \cf23 @InputFiles\
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Collection<File> \cf22 getOtherFileInputs\cf0 () \{\
+        
+\f1\i \cf20 //noinspection deprecation: Needed for backward compatibility.\
+        
+\f2\i0\b \cf19 return 
+\f3\b0 \cf0 Stream.
+\f1\i concat
+\f3\i0 (\
+                        
+\f2\b \cf21 transform
+\f3\b0 \cf0 .\cf24 getSecondaryFiles\cf0 ().\cf24 stream\cf0 ().map(SecondaryFile::\cf24 getFile\cf0 ),\
+                        
+\f2\b \cf21 transform
+\f3\b0 \cf0 .\cf24 getSecondaryFileInputs\cf0 ().\cf24 stream\cf0 ())\
+                .collect(Collectors.
+\f1\i toList
+\f3\i0 ());\
+    \}\
+\
+    \cf23 @OutputFiles\
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Collection<File> \cf22 getOtherFileOutputs\cf0 () \{\
+        
+\f2\b \cf19 return \cf21 transform
+\f3\b0 \cf0 .\cf24 getSecondaryFileOutputs\cf0 ();\
+    \}\
+\
+    \cf23 @OutputDirectories\
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Collection<File> \cf22 getOtherFolderOutputs\cf0 () \{\
+        
+\f2\b \cf19 return \cf21 transform
+\f3\b0 \cf0 .\cf24 getSecondaryDirectoryOutputs\cf0 ();\
+    \}\
+\
+    \cf23 @Input\
+    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Map<String, Object> \cf22 getOtherInputs\cf0 () \{\
+        
+\f2\b \cf19 return \cf21 transform
+\f3\b0 \cf0 .\cf24 getParameterInputs\cf0 ();\
+    \}\
+\
+    \cf23 @TaskAction\
+    
+\f2\b \cf19 void 
+\f3\b0 \cf22 transform\cf0 (
+\f2\b \cf19 final 
+\f3\b0 \cf0 IncrementalTaskInputs incrementalTaskInputs)\
+            
+\f2\b \cf19 throws 
+\f3\b0 \cf0 IOException, TransformException, InterruptedException \{\
+\
+		
+\f0 // \'d5\'e2\'cb\'c4\'b8\'f6\'be\'d6\'b2\'bf\'b1\'e4\'c1\'bf\'ca\'c7\'d7\'ee\'d6\'d5Transfrom\'b4\'a6\'c0\'ed\'a3\'ac\'b4\'ab\'c8\'eb\'b5\'c4\'c4\'da\'c8\'dd
+\f3 \
+        
+\f2\b \cf19 final 
+\f3\b0 \cf0 ReferenceHolder<List<TransformInput>> consumedInputs = ReferenceHolder.
+\f1\i empty
+\f3\i0 ();\
+        
+\f2\b \cf19 final 
+\f3\b0 \cf0 ReferenceHolder<List<TransformInput>> referencedInputs = ReferenceHolder.
+\f1\i empty
+\f3\i0 ();\
+        
+\f2\b \cf19 final 
+\f3\b0 \cf0 ReferenceHolder<Boolean> isIncremental = ReferenceHolder.
+\f1\i empty
+\f3\i0 ();\
+        
+\f2\b \cf19 final 
+\f3\b0 \cf0 ReferenceHolder<Collection<SecondaryInput>> changedSecondaryInputs =\
+                ReferenceHolder.
+\f1\i empty
+\f3\i0 ();\
+		\
+		\cf3 // 
+\f0 \'b8\'f9\'be\'dd
+\f3  
+\f0 \'b5\'b1\'c7\'b0
+\f3 Transform
+\f0 \'ca\'c7\'b7\'f1\'d6\'a7\'b3\'d6\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'ba\'cd\'b5\'b1\'c7\'b0
+\f3 task
+\f0 \'b5\'c4\'c4\'da\'c8\'dd\'ca\'c7\'b7\'f1\'ca\'c7\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2
+\f3 \cf0 \
+        isIncremental.\cf24 setValue\cf0 (
+\f2\b \cf21 transform
+\f3\b0 \cf0 .isIncremental() && incrementalTaskInputs.isIncremental());\
+\
+        GradleTransformExecution preExecutionInfo =\
+                GradleTransformExecution.
+\f1\i newBuilder
+\f3\i0 ()\
+                        .\cf24 setType\cf0 (AnalyticsUtil.
+\f1\i getTransformType
+\f3\i0 (
+\f2\b \cf21 transform
+\f3\b0 \cf0 .\cf24 getClass\cf0 ()))\
+                        .\cf24 setIsIncremental\cf0 (isIncremental.\cf24 getValue\cf0 ())\
+                        .\cf24 build\cf0 ();\
+\
+		
+\f0 \cf3 // \'b4\'a6\'c0\'ed\'ca\'e4\'c8\'eb\'b5\'c4\'ce\'c4\'bc\'fe\'c1\'f7\'a3\'ac1\'a1\'a2\'ca\'c7\'b7\'f1\'bd\'f8\'d0\'d0\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'a3\'ac 2\'a1\'a2\'c4\'c4\'d0\'a9\'ce\'c4\'bc\'fe\'c1\'f7\'ca\'c7\'d0\'e8\'d2\'aa\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'b5\'c4(\'b2\'a2\'b2\'bb\'ca\'c7task\'b7\'b5\'bb\'d8\'b5\'c4\'b6\'bc\'ca\'c7\'d0\'e8\'d2\'aa\'b8\'fc\'d0\'c2\'b5\'c4)  \
+		// \'d2\'f2\'ce\'aa\'c3\'bf\'b8\'f6Transform \'d3\'d0\'cb\'fc\'b9\'e6\'b6\'a8\'b5\'c4\'d4\'f6\'c1\'bf\'b5\'c4\'b9\'e6\'d4\'f2\'a3\'ac\cf0  
+\f3 \
+        
+\f2\b \cf21 recorder
+\f3\b0 \cf0 .record(\
+                ExecutionType.
+\f4\i\b \cf21 TASK_TRANSFORM_PREPARATION
+\f3\i0\b0 \cf0 ,\
+                preExecutionInfo,\
+                getProject().getPath(),\
+                getVariantName(),\
+                
+\f2\b \cf19 new 
+\f3\b0 \cf0 Recorder.Block<Void>() \{\
+                    \cf23 @Override\
+                    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Void \cf22 call\cf0 () 
+\f2\b \cf19 throws 
+\f3\b0 \cf0 Exception \{\
+\
+                        Map<File, Status> changedMap = Maps.
+\f1\i newHashMap
+\f3\i0 ();\
+                        Set<File> removedFiles = Sets.
+\f1\i newHashSet
+\f3\i0 ();\
+                        
+\f2\b \cf19 if 
+\f3\b0 \cf0 (\cf21 isIncremental\cf0 .\cf24 getValue\cf0 ()) \{\
+                            
+\f1\i \cf20 // gather the changed files first.\
+							\cf3 // 
+\f0\i0 \'b8\'f9\'be\'dd\'b5\'b1\'c7\'b0\'b5\'c4\'d4\'f6\'c1\'bf\'c8\'ce\'ce\'f1\'a3\'ac\'bb\'f1\'c8\'a1\'b5\'b1\'b8\'fc\'d0\'c2\'b5\'c4\'ce\'c4\'bc\'fe(\'d0\'c2\'d4\'f6\'ba\'cd\'d0\'de\'b8\'c4) \'d2\'d4\'bc\'b0 \'c9\'be\'b3\'fd\'b5\'c4\'ce\'c4\'bc\'fe
+\f1\i \cf20 \
+                            \cf0 gatherChangedFiles
+\f3\i0 (\
+                                    getLogger(), \cf21 incrementalTaskInputs\cf0 , changedMap, removedFiles);\
+\
+                            
+\f1\i \cf20 // and check against secondary files, which disables\
+                            // incremental mode.\
+							\cf3 // 
+\f0\i0 \'b8\'f9\'be\'dd\'b5\'b1\'c7\'b0\'b9\'e6\'b6\'a8\'b5\'c4
+\f1\i SecondaryInputs(
+\f0\i0 \'b4\'cb\'bc\'af\'ba\'cf\'d6\'d0\'ce\'c4\'bc\'fe\'b7\'a2\'c9\'fa\'b8\'c4\'b1\'e4\'a3\'ac\'d0\'e8\'d2\'aa\'b4\'a5\'b7\'a2\'c8\'ab\'c1\'bf\'d6\'b4\'d0\'d0task
+\f1\i )
+\f0\i0 \'a3\'ac\'be\'f6\'b6\'a8\'d6\'b4\'d0\'d0\'d4\'f6\'c1\'bf\'bb\'b9\'ca\'c7\'c8\'ab\'c1\'bf
+\f1\i \cf20 \
+                            
+\f3\i0 \cf21 isIncremental\cf0 .\cf24 setValue\cf0 (\cf24 checkSecondaryFiles\cf0 (changedMap, removedFiles));\
+                        \}\
+\
+                        
+\f2\b \cf19 if 
+\f3\b0 \cf0 (\cf21 isIncremental\cf0 .\cf24 getValue\cf0 ()) \{\
+                            
+\f1\i \cf20 // ok create temporary incremental data\
+                            
+\f3\i0 \cf0 List<IncrementalTransformInput> incInputs =\
+                                    
+\f1\i createIncrementalInputs
+\f3\i0 (
+\f2\b \cf21 consumedInputStreams
+\f3\b0 \cf0 );\
+                            List<IncrementalTransformInput> incReferencedInputs =\
+                                    
+\f1\i createIncrementalInputs
+\f3\i0 (
+\f2\b \cf21 referencedInputStreams
+\f3\b0 \cf0 );\
+\
+                            
+\f1\i \cf20 // then compare to changed list and create final Inputs\
+							
+\f0\i0 \cf3 // \'b8\'f9\'be\'dd\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'d2\'d4\'bc\'b0\'b5\'b1\'c7\'b0transform\'ca\'e4\'c8\'eb\'d4\'b4\'ce\'c4\'bc\'fe\'a3\'ac\'c8\'b7\'b6\'a8\'ca\'c7\'b7\'f1\'d6\'a7\'b3\'d6\'d4\'f6\'c1\'bf\'a3\'ac\'d2\'d4\'bc\'b0\'c8\'b7\'b6\'a8\'b5\'b1\'c7\'b0\'ca\'e4\'c8\'eb\'d4\'b4\'c4\'da\'c8\'dd\'b5\'c4\'d4\'f6\'c1\'bf\'d7\'b4\'cc\'ac(\'c4\'c4\'d0\'a9\'d4\'f6\'c1\'bf\'d0\'de\'b8\'c4\'a3\'ac\'c4\'c4\'d0\'a9\'ca\'c7\'c3\'bb\'d3\'d0\'b1\'e4\'bb\'af\'b5\'c4)
+\f1\i \cf20 \
+                            
+\f2\i0\b \cf19 if 
+\f3\b0 \cf0 (\cf21 isIncremental\cf0 .\cf24 setValue\cf0 (\
+                                    \cf24 updateIncrementalInputsWithChangedFiles\cf0 (\
+                                            incInputs,\
+                                            incReferencedInputs,\
+                                            changedMap,\
+                                            removedFiles))) \{\
+								
+\f0 \cf3 // \'c8\'e7\'b9\'fb\'d6\'a7\'b3\'d6\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'a3\'ac\'bd\'ab\'b4\'a6\'c0\'ed\'ba\'c3\'b5\'c4\'ca\'e4\'c8\'eb\'d4\'b4\'a3\'ac\'c9\'e8\'d6\'c3\'cf\'c2\'c3\'e6transfrom\'d6\'b4\'d0\'d0\'ca\'b9\'d3\'c3\'b5\'c4\'b1\'e4\'c1\'bf\'d6\'d0
+\f3 \cf0 \
+                                \cf21 consumedInputs\cf0 .\cf24 setValue\cf0 (
+\f1\i convertToImmutable
+\f3\i0 (incInputs));\
+                                \cf21 referencedInputs\cf0 .\cf24 setValue\cf0 (
+\f1\i convertToImmutable
+\f3\i0 (incReferencedInputs));\
+                            \}\
+                        \}\
+\
+                        
+\f1\i \cf20 // at this point if we do not have incremental mode, got with\
+                        // default TransformInput with no inc data.\
+                        
+\f2\i0\b \cf19 if 
+\f3\b0 \cf0 (!\cf21 isIncremental\cf0 .\cf24 getValue\cf0 ()) \{\
+							
+\f0 \cf3 // \'c8\'e7\'b9\'fb\'b2\'bb\'d6\'a7\'b3\'d6\'d4\'f6\'c1\'bf\'a3\'ac \'c4\'c7\'c3\'b4\'be\'cd\'bd\'ab\'d4\'ad\'c9\'fa\'b5\'c4\'ca\'e4\'c8\'eb\'d4\'b4\'c9\'e8\'d6\'c3\'b5\'bdtransform\'d0\'e8\'d2\'aa\'b4\'a6\'c0\'ed\'b5\'c4\'b3\'c9\'d4\'b1\'b1\'e4\'c1\'bf\'d6\'d0
+\f3 \cf0 \
+                            \cf21 consumedInputs\cf0 .\cf24 setValue\cf0 (\
+                                    
+\f1\i computeNonIncTransformInput
+\f3\i0 (
+\f2\b \cf21 consumedInputStreams
+\f3\b0 \cf0 ));\
+                            \cf21 referencedInputs\cf0 .\cf24 setValue\cf0 (\
+                                    
+\f1\i computeNonIncTransformInput
+\f3\i0 (
+\f2\b \cf21 referencedInputStreams
+\f3\b0 \cf0 ));\
+                            \cf21 changedSecondaryInputs\cf0 .\cf24 setValue\cf0 (ImmutableList.<SecondaryInput>
+\f1\i of
+\f3\i0 ()); \cf3 // 
+\f0 \'d7\'a2\'d2\'e2\'a3\'ba\'d5\'e2\'c0\'ef\'b4\'ab\'b5\'dd\'b5\'c4\'ca\'c7\'bf\'d5\'bc\'af\'ba\'cf
+\f3 \cf0 \
+                        \} 
+\f2\b \cf19 else 
+\f3\b0 \cf0 \{ \
+                            
+\f1\i \cf20 // gather all secondary input changes.\
+                            
+\f3\i0 \cf21 changedSecondaryInputs\cf0 .\cf24 setValue\cf0 (\
+                                    \cf24 gatherSecondaryInputChanges\cf0 (changedMap, removedFiles));\cf3 // 
+\f0 \'b4\'a6\'c0\'ed\'b5\'b1\'c7\'b0
+\f3 Transform
+\f0 \'b6\'a8\'d2\'e5\'b5\'c4
+\f3 SecondaryInputs
+\f0 \'a3\'ac\'b8\'f9\'be\'dd\'b5\'b1\'c7\'b0\'d4\'f6\'c1\'bf\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'c8\'b7\'b6\'a8\'c6\'e4\'ce\'c4\'bc\'fe\'b5\'c4\'d7\'b4\'cc\'ac(\'c9\'be\'b3\'fd\'a3\'ac\'d0\'c2\'d4\'f6\'a3\'ac\'d0\'de\'b8\'c4\'a3\'ac\'c3\'bb\'d3\'d0\'b8\'c4\'b1\'e4)
+\f3 \cf0 \
+                        \}\
+\
+                        
+\f2\b \cf19 return null
+\f3\b0 \cf0 ;\
+                    \}\
+                \});\
+\
+        GradleTransformExecution executionInfo =\
+                preExecutionInfo.\cf24 toBuilder\cf0 ().\cf24 setIsIncremental\cf0 (isIncremental.\cf24 getValue\cf0 ()).\cf24 build\cf0 ();\
+\
+        
+\f2\b \cf21 recorder
+\f3\b0 \cf0 .record(\
+                ExecutionType.
+\f4\i\b \cf21 TASK_TRANSFORM
+\f3\i0\b0 \cf0 ,\
+                executionInfo,\
+                getProject().getPath(),\
+                getVariantName(),\
+                
+\f2\b \cf19 new 
+\f3\b0 \cf0 Recorder.Block<Void>() \{\
+                    \cf23 @Override\
+                    
+\f2\b \cf19 public 
+\f3\b0 \cf0 Void \cf22 call\cf0 () 
+\f2\b \cf19 throws 
+\f3\b0 \cf0 Exception \{\
+\
+                        
+\f2\b \cf21 transform
+\f3\b0 \cf0 .\cf24 transform\cf0 (\
+                                
+\f2\b \cf19 new 
+\f3\b0 \cf0 TransformInvocationBuilder(TransformTask.
+\f2\b \cf19 this
+\f3\b0 \cf0 )\
+                                        .\cf24 addInputs\cf0 (\cf21 consumedInputs\cf0 .\cf24 getValue\cf0 ())\
+                                        .\cf24 addReferencedInputs\cf0 (\cf21 referencedInputs\cf0 .\cf24 getValue\cf0 ())\
+                                        .\cf24 addSecondaryInputs\cf0 (\cf21 changedSecondaryInputs\cf0 .\cf24 getValue\cf0 ())\
+                                        .\cf24 addOutputProvider\cf0 (\
+                                                
+\f2\b \cf21 outputStream 
+\f3\b0 \cf0 != 
+\f2\b \cf19 null\
+                                                        
+\f3\b0 \cf0 ? 
+\f2\b \cf21 outputStream
+\f3\b0 \cf0 .\cf24 asOutput\cf0 ()\
+                                                        : 
+\f2\b \cf19 null
+\f3\b0 \cf0 )\
+                                        .\cf24 setIncrementalMode\cf0 (\cf21 isIncremental\cf0 .\cf24 getValue\cf0 ())\
+                                        .\cf24 build\cf0 ());\
+                        
+\f2\b \cf19 return null
+\f3\b0 \cf0 ;\
+                    \}\
+                \});\
+    \}\
+\
+	\cf16 // 
+\f0 \'b4\'a6\'c0\'ed\'b5\'b1\'c7\'b0
+\f3 Transform
+\f0 \'b6\'a8\'d2\'e5\'b5\'c4
+\f3 SecondaryInputs
+\f0 \'a3\'ac\'b8\'f9\'be\'dd\'b5\'b1\'c7\'b0\'d4\'f6\'c1\'bf\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'c8\'b7\'b6\'a8\'c6\'e4\'ce\'c4\'bc\'fe\'b5\'c4\'d7\'b4\'cc\'ac(\'c9\'be\'b3\'fd\'a3\'ac\'d0\'c2\'d4\'f6\'a3\'ac\'d0\'de\'b8\'c4\'a3\'ac\'c3\'bb\'d3\'d0\'b8\'c4\'b1\'e4)
+\f3 \cf0 \
+    
+\f2\b \cf19 private 
+\f3\b0 \cf0 Collection<SecondaryInput> \cf22 gatherSecondaryInputChanges\cf0 (\
+            Map<File, Status> changedMap, Set<File> removedFiles) \{\
+\
+        ImmutableList.Builder<SecondaryInput> builder = ImmutableList.
+\f1\i builder
+\f3\i0 ();\
+        
+\f2\b \cf19 for 
+\f3\b0 \cf0 (
+\f2\b \cf19 final 
+\f3\b0 \cf0 SecondaryFile secondaryFile : \cf24 getAllSecondaryInputs\cf0 ()) \{\
+            
+\f2\b \cf19 final 
+\f3\b0 \cf0 File file = secondaryFile.\cf24 getFile\cf0 ();\
+            
+\f2\b \cf19 final 
+\f3\b0 \cf0 Status status = changedMap.containsKey(file)\
+                    ? changedMap.get(file)\
+                    : removedFiles.contains(file)\
+                            ? Status.
+\f4\i\b \cf21 REMOVED\
+                            
+\f3\i0\b0 \cf0 : Status.
+\f4\i\b \cf21 NOTCHANGED
+\f3\i0\b0 \cf0 ;\
+\
+            builder.\cf24 add\cf0 (
+\f2\b \cf19 new 
+\f3\b0 \cf0 SecondaryInput() \{\
+                \cf23 @Override\
+                
+\f2\b \cf19 public 
+\f3\b0 \cf0 SecondaryFile \cf22 getSecondaryInput\cf0 () \{\
+                    
+\f2\b \cf19 return 
+\f3\b0 \cf21 secondaryFile\cf0 ;\
+                \}\
+\
+                \cf23 @Override\
+                
+\f2\b \cf19 public 
+\f3\b0 \cf0 Status \cf22 getStatus\cf0 () \{\
+                    
+\f2\b \cf19 return 
+\f3\b0 \cf21 status\cf0 ;\
+                \}\
+            \});\
+        \}\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 builder.\cf24 build\cf0 ();\
+    \}\
+\
+    
+\f1\i \cf20 /**\
+     * Returns a list of non incremental TransformInput.\
+     * 
+\f4\b @param \cf25 streams 
+\f1\b0 \cf20 the streams.\
+     * 
+\f4\b @return 
+\f1\b0 a list of non-incremental TransformInput matching the content of the streams.\
+     */\
+    
+\f3\i0 \cf23 @NonNull\
+    
+\f2\b \cf19 private static 
+\f3\b0 \cf0 List<TransformInput> \cf22 computeNonIncTransformInput\cf0 (\
+            \cf23 @NonNull \cf0 Collection<TransformStream> streams) \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 streams.\cf24 stream\cf0 ()\
+                .map(TransformStream::asNonIncrementalInput)\
+                .collect(Collectors.
+\f1\i toList
+\f3\i0 ());\
+    \}\
+\
+    
+\f1\i \cf20 /**\
+     * Returns a list of IncrementalTransformInput for all the inputs.\
+     */\
+    
+\f3\i0 \cf23 @NonNull\
+    
+\f2\b \cf19 private static 
+\f3\b0 \cf0 List<IncrementalTransformInput> \cf22 createIncrementalInputs\cf0 (\
+            \cf23 @NonNull \cf0 Collection<TransformStream> streams) \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 streams.\cf24 stream\cf0 ()\
+                .map(TransformStream::asIncrementalInput)\
+                .collect(Collectors.
+\f1\i toList
+\f3\i0 ());\
+    \}\
+\
+    
+\f2\b \cf19 private synchronized 
+\f3\b0 \cf0 Collection<SecondaryFile> \cf22 getAllSecondaryInputs\cf0 () \{\
+        
+\f2\b \cf19 if 
+\f3\b0 \cf0 (
+\f2\b \cf21 secondaryFiles 
+\f3\b0 \cf0 == 
+\f2\b \cf19 null
+\f3\b0 \cf0 ) \{\
+            ImmutableList.Builder<SecondaryFile> builder = ImmutableList.
+\f1\i builder
+\f3\i0 ();\
+            builder.\cf24 addAll\cf0 (
+\f2\b \cf21 transform
+\f3\b0 \cf0 .\cf24 getSecondaryFiles\cf0 ());\
+            builder.\cf24 addAll\cf0 (\
+                    Iterables.
+\f1\i transform
+\f3\i0 (\
+                            
+\f2\b \cf21 transform
+\f3\b0 \cf0 .\cf24 getSecondaryFileInputs\cf0 (), SecondaryFile::
+\f1\i nonIncremental
+\f3\i0 ));\
+            
+\f2\b \cf21 secondaryFiles 
+\f3\b0 \cf0 = builder.\cf24 build\cf0 ();\
+        \}\
+        
+\f2\b \cf19 return \cf21 secondaryFiles
+\f3\b0 \cf0 ;\
+    \}\
+\
+    
+\f2\b \cf19 private static void 
+\f3\b0 \cf22 gatherChangedFiles\cf0 (\
+            \cf23 @NonNull \cf0 Logger logger,\
+            \cf23 @NonNull \cf0 IncrementalTaskInputs incrementalTaskInputs,\
+            \cf23 @NonNull 
+\f2\b \cf19 final 
+\f3\b0 \cf0 Map<File, Status> changedFileMap,\
+            \cf23 @NonNull 
+\f2\b \cf19 final 
+\f3\b0 \cf0 Set<File> removedFiles) \{\
+        logger.info(
+\f2\b \cf26 "Transform inputs calculations based on following changes"
+\f3\b0 \cf0 );\
+        incrementalTaskInputs.outOfDate(inputFileDetails -> \{\
+            \cf21 logger\cf0 .info(inputFileDetails.getFile().\cf24 getAbsolutePath\cf0 () + 
+\f2\b \cf26 ":"\
+                    
+\f3\b0 \cf0 + IntermediateFolderUtils.
+\f1\i inputFileDetailsToStatus
+\f3\i0 (inputFileDetails));\
+            
+\f2\b \cf19 if 
+\f3\b0 \cf0 (inputFileDetails.isAdded()) \{\
+                \cf21 changedFileMap\cf0 .put(inputFileDetails.getFile(), Status.
+\f4\i\b \cf21 ADDED
+\f3\i0\b0 \cf0 );\
+            \} 
+\f2\b \cf19 else if 
+\f3\b0 \cf0 (inputFileDetails.isModified()) \{\
+                \cf21 changedFileMap\cf0 .put(inputFileDetails.getFile(), Status.
+\f4\i\b \cf21 CHANGED
+\f3\i0\b0 \cf0 );\
+            \}\
+        \});\
+\
+        incrementalTaskInputs.removed(\
+                inputFileDetails -> \{\
+                        \cf21 logger\cf0 .info(inputFileDetails.getFile().\cf24 getAbsolutePath\cf0 () + 
+\f2\b \cf26 ":REMOVED"
+\f3\b0 \cf0 );\
+                        \cf21 removedFiles\cf0 .add(inputFileDetails.getFile());\
+                \});\
+    \}\
+\
+	
+\f0 \cf16 // \'c5\'d0\'b6\'cf\'b5\'b1\'c7\'b0\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'ca\'c7\'b7\'f1\'ca\'c7SecondaryFiles(\'d0\'e8\'d2\'aa\'c8\'ab\'c1\'bf\'d6\'b4\'d0\'d0task\'b5\'c4\'ce\'c4\'bc\'fe)
+\f3 \cf0 \
+    
+\f2\b \cf19 private boolean 
+\f3\b0 \cf22 checkSecondaryFiles\cf0 (\
+            \cf23 @NonNull \cf0 Map<File, Status> changedMap,\
+            \cf23 @NonNull \cf0 Set<File> removedFiles) \{\
+\
+        
+\f2\b \cf19 for 
+\f3\b0 \cf0 (SecondaryFile secondaryFile : \cf24 getAllSecondaryInputs\cf0 ()) \{\
+            File file = secondaryFile.\cf24 getFile\cf0 ();\
+            
+\f2\b \cf19 if 
+\f3\b0 \cf0 ((changedMap.containsKey(file) || removedFiles.contains(file))\
+                    && !secondaryFile.\cf24 supportsIncrementalBuild\cf0 ()) \{\
+                
+\f2\b \cf19 return false
+\f3\b0 \cf0 ;\
+            \}\
+        \}\
+        
+\f2\b \cf19 return true
+\f3\b0 \cf0 ;\
+    \}\
+\
+    
+\f2\b \cf19 private boolean 
+\f3\b0 \cf22 isSecondaryFile\cf0 (File file) \{\
+        
+\f2\b \cf19 for 
+\f3\b0 \cf0 (SecondaryFile secondaryFile : \cf24 getAllSecondaryInputs\cf0 ()) \{\
+            
+\f2\b \cf19 if 
+\f3\b0 \cf0 (secondaryFile.\cf24 getFile\cf0 ().\cf24 equals\cf0 (file)) \{\
+                
+\f2\b \cf19 return true
+\f3\b0 \cf0 ;\
+            \}\
+        \}\
+        
+\f2\b \cf19 return false
+\f3\b0 \cf0 ;\
+    \}\
+\
+	
+\f0 \cf16 // \'b8\'f9\'be\'dd\'d4\'f6\'c1\'bf\'b8\'fc\'d0\'c2\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'d2\'d4\'bc\'b0\'b5\'b1\'c7\'b0transform\'ca\'e4\'c8\'eb\'d4\'b4\'ce\'c4\'bc\'fe\'a3\'ac\'c8\'b7\'b6\'a8\'ca\'c7\'b7\'f1\'d6\'a7\'b3\'d6\'d4\'f6\'c1\'bf\'a3\'ac\'d2\'d4\'bc\'b0\'c8\'b7\'b6\'a8\'b5\'b1\'c7\'b0\'ca\'e4\'c8\'eb\'d4\'b4\'c4\'da\'c8\'dd\'b5\'c4\'d4\'f6\'c1\'bf\'d7\'b4\'cc\'ac(\'c4\'c4\'d0\'a9\'d4\'f6\'c1\'bf\'d0\'de\'b8\'c4\'a3\'ac\'c4\'c4\'d0\'a9\'ca\'c7\'c3\'bb\'d3\'d0\'b1\'e4\'bb\'af\'b5\'c4)
+\f3 \cf0 \
+    
+\f2\b \cf19 private boolean 
+\f3\b0 \cf22 updateIncrementalInputsWithChangedFiles\cf0 (\
+            \cf23 @NonNull \cf0 List<IncrementalTransformInput> consumedInputs,\
+            \cf23 @NonNull \cf0 List<IncrementalTransformInput> referencedInputs,\
+            \cf23 @NonNull \cf0 Map<File, Status> changedFilesMap,\
+            \cf23 @NonNull \cf0 Set<File> removedFiles) \{\
+\
+        
+\f1\i \cf20 // we're going to concat both list multiple times, and the Iterators API ultimately put\
+        // all the iterators to concat in a list. So let's reuse a list.\
+        
+\f3\i0 \cf0 List<Iterator<IncrementalTransformInput>> iterators = Lists.
+\f1\i newArrayListWithCapacity
+\f3\i0 (\cf27 2\cf0 );\
+\
+        Splitter splitter = Splitter.
+\f1\i on
+\f3\i0 (File.
+\f4\i\b \cf21 separatorChar
+\f3\i0\b0 \cf0 );\
+\
+        
+\f1\i \cf20 // start with the removed files as they carry the risk of removing incremental mode.\
+        // If we detect such a case, we stop immediately.\
+		
+\f0\i0 \cf3 // \'c5\'d0\'b6\'cf\'c9\'be\'b3\'fd\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'ca\'c7\'b7\'f1\'d4\'da\'b5\'b1\'c7\'b0\'b5\'c4transfrom\'bf\'c9\'d2\'d4\'b4\'a6\'c0\'ed\'b5\'c4\'ce\'c4\'bc\'fe\'c1\'f7\'d6\'d0(contentTypes\'d2\'d4\'bc\'b0scopes)\'a3\'ac\'c8\'e7\'b9\'fb\'b2\'bb\'d4\'da\'b2\'a2\'c7\'d2\'d2\'b2\'b2\'bb\'d4\'dasecondaryFiles(\'b4\'a5\'b7\'a2\'c8\'ab\'c1\'bf\'d6\'b4\'d0\'d0)\'c0\'ef\'c3\'e6\'a3\'ac\'bd\'ab\'b2\'bb\'c4\'dc\'d6\'b4\'d0\'d0\'d4\'f6\'c1\'bf\'a3\'ac\'d6\'b1\'bd\'d3\'b7\'b5\'bb\'d8\'a3\'ac\'c8\'bb\'ba\'f3\'d6\'b4\'d0\'d0\'c8\'ab\'c1\'bftask
+\f1\i \cf20 \
+        
+\f2\i0\b \cf19 for 
+\f3\b0 \cf0 (File removedFile : removedFiles) \{\
+            List<String> removedFileSegments = Lists.
+\f1\i newArrayList
+\f3\i0 (\
+                    splitter.\cf24 split\cf0 (removedFile.\cf24 getAbsolutePath\cf0 ()));\
+\
+            Iterator<IncrementalTransformInput> iterator = 
+\f1\i getConcatIterator
+\f3\i0 (consumedInputs,\
+                    referencedInputs, iterators);\
+\
+            
+\f2\b \cf19 boolean 
+\f3\b0 \cf0 found = 
+\f2\b \cf19 false
+\f3\b0 \cf0 ;\
+            
+\f2\b \cf19 while 
+\f3\b0 \cf0 (iterator.hasNext()) \{\
+                IncrementalTransformInput next = iterator.next();\
+                
+\f2\b \cf19 if 
+\f3\b0 \cf0 (next.checkRemovedJarFile(\
+                        Sets.
+\f1\i union
+\f3\i0 (
+\f2\b \cf21 transform
+\f3\b0 \cf0 .getScopes(), 
+\f2\b \cf21 transform
+\f3\b0 \cf0 .\cf24 getReferencedScopes\cf0 ()),\
+                        
+\f2\b \cf21 transform
+\f3\b0 \cf0 .getInputTypes(),\
+                        removedFile,\
+                        removedFileSegments)\
+                        || next.\cf24 checkRemovedFolderFile\cf0 (\
+                                Sets.
+\f1\i union
+\f3\i0 (
+\f2\b \cf21 transform
+\f3\b0 \cf0 .getScopes(), 
+\f2\b \cf21 transform
+\f3\b0 \cf0 .\cf24 getReferencedScopes\cf0 ()),\
+                                
+\f2\b \cf21 transform
+\f3\b0 \cf0 .getInputTypes(),\
+                                removedFile,\
+                                removedFileSegments)) \{\
+                    found = 
+\f2\b \cf19 true
+\f3\b0 \cf0 ;\
+                    
+\f2\b \cf19 break
+\f3\b0 \cf0 ;\
+                \}\
+            \}\
+\
+            
+\f2\b \cf19 if 
+\f3\b0 \cf0 (!found && !\cf24 isSecondaryFile\cf0 (removedFile)) \{\
+                
+\f1\i \cf20 // this deleted file breaks incremental because we cannot figure out where it's\
+                // coming from and what types/scopes is associated with it.\
+                
+\f2\i0\b \cf19 return false
+\f3\b0 \cf0 ;\
+            \}\
+        \}\
+\
+        
+\f1\i \cf20 // now handle the added/changed files.\
+\
+        
+\f2\i0\b \cf19 for 
+\f3\b0 \cf0 (Map.Entry<File, Status> entry : changedFilesMap.entrySet()) \{\
+            File changedFile = entry.getKey();\
+            Status changedStatus = entry.getValue();\
+\
+            
+\f1\i \cf20 // first go through the jars first as it's a faster check.\
+            
+\f3\i0 \cf0 Iterator<IncrementalTransformInput> iterator = 
+\f1\i getConcatIterator
+\f3\i0 (consumedInputs,\
+                    referencedInputs, iterators);\
+            
+\f2\b \cf19 boolean 
+\f3\b0 \cf0 found = 
+\f2\b \cf19 false
+\f3\b0 \cf0 ;\
+            
+\f2\b \cf19 while 
+\f3\b0 \cf0 (iterator.hasNext()) \{\
+				
+\f0 \cf3 // \'c8\'e7\'b9\'fb\'b5\'b1\'c7\'b0\'b8\'fc\'d0\'c2\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'d4\'da\'b5\'b1\'c7\'b0transform\'b4\'a6\'c0\'ed\'b5\'c4\'ca\'e4\'c8\'eb\'c1\'f7\'c0\'ef\'c3\'e6\'a3\'ac\'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'ca\'b5\'bc\'ca\'d5\'e6\'d5\'fd\'b8\'fc\'d0\'c2\'b5\'c4\'ca\'e4\'c8\'eb\'d4\'b4(\'b7\'f1\'d4\'f2\'b4\'ab\'c8\'eb\'b5\'c4\'ca\'e4\'c8\'eb\'c1\'f7\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'ac\'b6\'bc\'ca\'c7\'c3\'bb\'d3\'d0\'b8\'c4\'b1\'e4\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'bb\'b4\'ab\'c8\'eb\'b5\'c4\'ca\'e4\'c8\'eb\'d4\'b4\'a3\'ac\'b2\'a2\'d6\'aa\'b5\'c0\'c4\'da\'b2\'bf\'c4\'c4\'d0\'a9\'ce\'c4\'bc\'fe\'ca\'c7\'b8\'c4\'b1\'e4\'b5\'c4)
+\f3 \cf0 \
+                
+\f2\b \cf19 if 
+\f3\b0 \cf0 (iterator.next().\cf24 checkForJar\cf0 (changedFile, changedStatus)) \{\
+                    
+\f1\i \cf20 // we can skip to the next changed file.\
+                    
+\f3\i0 \cf0 found = 
+\f2\b \cf19 true
+\f3\b0 \cf0 ;\
+                    
+\f2\b \cf19 break
+\f3\b0 \cf0 ;\
+                \}\
+            \}\
+\
+            
+\f2\b \cf19 if 
+\f3\b0 \cf0 (found) \{\
+                
+\f2\b \cf19 continue
+\f3\b0 \cf0 ;\
+            \}\
+\
+			
+\f0 \cf3 // \'c8\'e7\'b9\'fb\'c9\'cf\'c3\'e6\'b5\'c4\'ca\'e4\'c8\'eb\'d4\'b4\'b5\'c4\'ce\'c4\'bc\'fe\'d6\'d0\'a3\'ac\'c3\'bb\'d3\'d0\'c6\'a5\'c5\'e4\'b5\'bd\'b6\'d4\'d3\'a6\'b5\'c4\'d4\'f6\'c1\'bf\'b5\'c4\'ce\'c4\'bc\'fe\'a3\'bb\'cf\'c2\'c3\'e6\'b8\'f9\'be\'dd\'d4\'f6\'c1\'bf\'b5\'c4\'ce\'c4\'bc\'fe\'b5\'c4\'c2\'b7\'be\'b6\'a3\'ac\'d1\'b0\'d5\'d2\'b6\'d4\'d3\'a6\'b5\'c4\'ca\'e4\'c8\'eb\'d4\'b4\'b5\'c4\'ce\'c4\'bc\'fe\'bc\'d0\'c6\'a5\'c5\'e4\'b5\'c4\'c2\'b7\'be\'b6\'a3\'ac\'c8\'e7\'b9\'fb\'c6\'a5\'c5\'e4\'b5\'bd\'a3\'ac\'bd\'ab\'ce\'c4\'bc\'fe\'bc\'d0\'d6\'d0\'b5\'c4\'ce\'c4\'bc\'fe\'b6\'bc\'b1\'e4\'b3\'c9\'ca\'e4\'c8\'eb\'d4\'b4\'ce\'c4\'bc\'fe(\'d2\'b2\'be\'cd\'ca\'c7\'c9\'cf\'c3\'e6\'b4\'a6\'c0\'ed\'b5\'c4\'ce\'c4\'bc\'fe\'bc\'af\'ba\'cf\'c0\'ef\'c3\'e6)
+\f3 \cf0 \
+            
+\f1\i \cf20 // now go through the folders. First get a segment list for the path.\
+            
+\f3\i0 \cf0 iterator = 
+\f1\i getConcatIterator
+\f3\i0 (consumedInputs,\
+                    referencedInputs, iterators);\
+            List<String> changedSegments = Lists.
+\f1\i newArrayList
+\f3\i0 (\
+                    splitter.\cf24 split\cf0 (changedFile.\cf24 getAbsolutePath\cf0 ()));\
+\
+            
+\f2\b \cf19 while 
+\f3\b0 \cf0 (iterator.hasNext()) \{\
+                
+\f2\b \cf19 if 
+\f3\b0 \cf0 (iterator.next().\cf24 checkForFolder\cf0 (changedFile, changedSegments, changedStatus)) \{\
+                    
+\f1\i \cf20 // we can skip to the next changed file.\
+                    
+\f2\i0\b \cf19 break
+\f3\b0 \cf0 ;\
+                \}\
+            \}\
+        \}\
+\
+        
+\f2\b \cf19 return true
+\f3\b0 \cf0 ;\
+    \}\
+\
+    \cf23 @NonNull\
+    
+\f2\b \cf19 private static 
+\f3\b0 \cf0 Iterator<IncrementalTransformInput> \cf22 getConcatIterator\cf0 (\
+            \cf23 @NonNull \cf0 List<IncrementalTransformInput> consumedInputs,\
+            \cf23 @NonNull \cf0 List<IncrementalTransformInput> referencedInputs,\
+            List<Iterator<IncrementalTransformInput>> iterators) \{\
+        iterators.clear();\
+        iterators.add(consumedInputs.iterator());\
+        iterators.add(referencedInputs.iterator());\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 Iterators.
+\f1\i concat
+\f3\i0 (iterators.iterator());\
+    \}\
+\
+    \cf23 @NonNull\
+    
+\f2\b \cf19 private static 
+\f3\b0 \cf0 List<TransformInput> \cf22 convertToImmutable\cf0 (\
+            \cf23 @NonNull \cf0 List<IncrementalTransformInput> inputs) \{\
+        
+\f2\b \cf19 return 
+\f3\b0 \cf0 inputs.\cf24 stream\cf0 ()\
+                .map(IncrementalTransformInput::\cf24 asImmutable\cf0 )\
+                .collect(Collectors.
+\f1\i toList
+\f3\i0 ());\
+    \}\
+\
+    
+\f2\b \cf19 public  interface  
+\f3\b0 \cf0 ConfigActionCallback<\cf28 T 
+\f2\b \cf19 extends 
+\f3\b0 \cf0 Transform> \{\
+        
+\f2\b \cf19 void 
+\f3\b0 \cf22 callback\cf0 (\cf23 @NonNull \cf28 T \cf0 transform, \cf23 @NonNull \cf0 TransformTask task);\
+    \}\
+\
+    
+\f2\b \cf19 public static class 
+\f3\b0 \cf0 ConfigAction<\cf28 T 
+\f2\b \cf19 extends 
+\f3\b0 \cf0 Transform> 
+\f2\b \cf19 implements 
+\f3\b0 \cf0 TaskConfigAction<TransformTask> \{\
+\
+        \cf23 @NonNull\
+        
+\f2\b \cf19 private final 
+\f3\b0 \cf0 String 
+\f2\b \cf21 variantName
+\f3\b0 \cf0 ;\
+        \cf23 @NonNull\
+        
+\f2\b \cf19 private final 
+\f3\b0 \cf0 String 
+\f2\b \cf21 taskName
+\f3\b0 \cf0 ;\
+        \cf23 @NonNull\
+        
+\f2\b \cf19 private final 
+\f3\b0 \cf28 T 
+\f2\b \cf21 transform
+\f3\b0 \cf0 ;\
+        \cf23 @NonNull\
+        
+\f2\b \cf19 private 
+\f3\b0 \cf0 Collection<TransformStream> 
+\f2\b \cf21 consumedInputStreams
+\f3\b0 \cf0 ;\
+        \cf23 @NonNull\
+        
+\f2\b \cf19 private 
+\f3\b0 \cf0 Collection<TransformStream> 
+\f2\b \cf21 referencedInputStreams
+\f3\b0 \cf0 ;\
+        \cf23 @Nullable\
+        
+\f2\b \cf19 private 
+\f3\b0 \cf0 IntermediateStream 
+\f2\b \cf21 outputStream
+\f3\b0 \cf0 ;\
+        \cf23 @NonNull 
+\f2\b \cf19 private final 
+\f3\b0 \cf0 Recorder 
+\f2\b \cf21 recorder
+\f3\b0 \cf0 ;\
+        \cf23 @Nullable\
+        
+\f2\b \cf19 private final 
+\f3\b0 \cf0 ConfigActionCallback<\cf28 T\cf0 > 
+\f2\b \cf21 configActionCallback
+\f3\b0 \cf0 ;\
+\
+        ConfigAction(\
+                \cf23 @NonNull \cf0 String variantName,\
+                \cf23 @NonNull \cf0 String taskName,\
+                \cf23 @NonNull \cf28 T \cf0 transform,\
+                \cf23 @NonNull \cf0 Collection<TransformStream> consumedInputStreams,\
+                \cf23 @NonNull \cf0 Collection<TransformStream> referencedInputStreams,\
+                \cf23 @Nullable \cf0 IntermediateStream outputStream,\
+                \cf23 @NonNull \cf0 Recorder recorder,\
+                \cf23 @Nullable \cf0 ConfigActionCallback<\cf28 T\cf0 > configActionCallback) \{\
+            
+\f2\b \cf19 this
+\f3\b0 \cf0 .
+\f2\b \cf21 variantName 
+\f3\b0 \cf0 = variantName;\
+            
+\f2\b \cf19 this
+\f3\b0 \cf0 .
+\f2\b \cf21 taskName 
+\f3\b0 \cf0 = taskName;\
+            
+\f2\b \cf19 this
+\f3\b0 \cf0 .
+\f2\b \cf21 transform 
+\f3\b0 \cf0 = transform;\
+            
+\f2\b \cf19 this
+\f3\b0 \cf0 .
+\f2\b \cf21 consumedInputStreams 
+\f3\b0 \cf0 = consumedInputStreams;\
+            
+\f2\b \cf19 this
+\f3\b0 \cf0 .
+\f2\b \cf21 referencedInputStreams 
+\f3\b0 \cf0 = referencedInputStreams;\
+            
+\f2\b \cf19 this
+\f3\b0 \cf0 .
+\f2\b \cf21 outputStream 
+\f3\b0 \cf0 = outputStream;\
+            
+\f2\b \cf19 this
+\f3\b0 \cf0 .
+\f2\b \cf21 recorder 
+\f3\b0 \cf0 = recorder;\
+            
+\f2\b \cf19 this
+\f3\b0 \cf0 .
+\f2\b \cf21 configActionCallback 
+\f3\b0 \cf0 = configActionCallback;\
+        \}\
+\
+        \cf23 @NonNull\
+        @Override\
+        
+\f2\b \cf19 public 
+\f3\b0 \cf0 String \cf22 getName\cf0 () \{\
+            
+\f2\b \cf19 return \cf21 taskName
+\f3\b0 \cf0 ;\
+        \}\
+\
+        \cf23 @NonNull\
+        @Override\
+        
+\f2\b \cf19 public 
+\f3\b0 \cf0 Class<TransformTask> \cf22 getType\cf0 () \{\
+            
+\f2\b \cf19 return 
+\f3\b0 \cf0 TransformTask.
+\f2\b \cf19 class
+\f3\b0 \cf0 ;\
+        \}\
+\
+        \cf23 @Override\
+        
+\f2\b \cf19 public void 
+\f3\b0 \cf22 execute\cf0 (\cf23 @NonNull \cf0 TransformTask task) \{\
+            task.
+\f2\b \cf21 transform 
+\f3\b0 \cf0 = 
+\f2\b \cf21 transform
+\f3\b0 \cf0 ;\
+            task.
+\f2\b \cf21 consumedInputStreams 
+\f3\b0 \cf0 = 
+\f2\b \cf21 consumedInputStreams
+\f3\b0 \cf0 ;\
+            task.
+\f2\b \cf21 referencedInputStreams 
+\f3\b0 \cf0 = 
+\f2\b \cf21 referencedInputStreams
+\f3\b0 \cf0 ;\
+            task.
+\f2\b \cf21 outputStream 
+\f3\b0 \cf0 = 
+\f2\b \cf21 outputStream
+\f3\b0 \cf0 ;\
+            task.\cf24 setVariantName\cf0 (
+\f2\b \cf21 variantName
+\f3\b0 \cf0 );\
+            task.
+\f2\b \cf21 recorder 
+\f3\b0 \cf0 = 
+\f2\b \cf21 recorder
+\f3\b0 \cf0 ;\
+            
+\f2\b \cf19 if 
+\f3\b0 \cf0 (
+\f2\b \cf21 configActionCallback 
+\f3\b0 \cf0 != 
+\f2\b \cf19 null
+\f3\b0 \cf0 ) \{\
+                
+\f2\b \cf21 configActionCallback
+\f3\b0 \cf0 .callback(
+\f2\b \cf21 transform
+\f3\b0 \cf0 , task);\
+            \}\
+        \}\
+    \}\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}

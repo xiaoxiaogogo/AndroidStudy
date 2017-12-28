@@ -1,0 +1,575 @@
+{\rtf1\ansi\ansicpg936\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fnil\fcharset134 PingFangSC-Regular;\f1\fnil\fcharset0 Menlo-Bold;\f2\fnil\fcharset0 Menlo-Regular;
+\f3\fnil\fcharset0 Menlo-Italic;\f4\fnil\fcharset0 Menlo-BoldItalic;\f5\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue109;\red109\green111\blue5;
+\red82\green0\blue103;\red31\green136\blue139;\red133\green0\blue255;\red255\green0\blue0;\red0\green255\blue0;
+\red251\green0\blue255;\red109\green109\blue109;\red47\green47\blue47;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c0\c0\c42745;\csgenericrgb\c42745\c43529\c1961;
+\csgenericrgb\c32157\c0\c40392;\csgenericrgb\c12157\c53333\c54510;\csgenericrgb\c52157\c0\c100000;\csgenericrgb\c100000\c0\c0;\csgenericrgb\c0\c100000\c0;
+\csgenericrgb\c98431\c0\c100000;\csgenericrgb\c42745\c42745\c42745;\csgenericrgb\c18431\c18431\c18431;}
+\margl1440\margr1440\vieww16680\viewh13460\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs36 \cf2 Android\'cf\'e0\'b9\'d8\'b5\'c4task\'b5\'c4\'b4\'b4\'bd\'a8\'a3\'ba\'b6\'bc\'ca\'c7\'cd\'a8\'b9\'fdAndroidTaskRegistry\'c0\'b4\'b4\'b4\'bd\'a8\'b5\'c4\'a3\'ac \'b2\'a2\'c7\'d2\'cb\'fc\'c0\'ef\'c3\'e6\'ba\'ac\'d3\'d0\'d2\'bb\'b8\'f6map\'c0\'b4\'b4\'e6\'b4\'a2\'cb\'f9\'d3\'d0\'b4\'b4\'bd\'a8\'b5\'c4task
+\f1\fs24 \cf3 \
+public class 
+\f2\b0 \cf0 AndroidTaskRegistry \{\
+\
+    \cf4 @NonNull\
+    
+\f1\b \cf3 private final 
+\f2\b0 \cf0 Map<String, AndroidTask<?>> 
+\f1\b \cf5 tasks 
+\f2\b0 \cf0 = 
+\f1\b \cf3 new 
+\f2\b0 \cf0 HashMap<>();\
+\
+    
+\f1\b \cf3 public synchronized 
+\f2\b0 \cf0 < \cf6 T 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task> AndroidTask<\cf6 T\cf0 > \cf7 create\cf0 (\
+            \cf4 @NonNull \cf0 TaskFactory taskFactory,\
+            \cf4 @NonNull \cf0 String taskName,\
+            \cf4 @NonNull \cf0 Class<\cf6 T\cf0 > taskClass,\
+            Action<? 
+\f1\b \cf3 super 
+\f2\b0 \cf6 T\cf0 > configAction) \{\
+\
+        taskFactory.create(taskName, taskClass, configAction); // 
+\f0 \cf8 \'c4\'da\'b2\'bf\'ca\'c7\'b5\'f7\'d3\'c3\'cf\'b5\'cd\'b3\'b4\'b4\'bd\'a8task\'b5\'c4\'b7\'bd\'ca\'bd\'c0\'b4\'b4\'b4\'bd\'a8task
+\f2 \cf0 \
+        
+\f1\b \cf3 final 
+\f2\b0 \cf0 AndroidTask<\cf6 T\cf0 > newTask = 
+\f1\b \cf3 new 
+\f2\b0 \cf0 AndroidTask<>(taskName, taskClass); // 
+\f0 \cf9 \'cd\'ac\'ca\'b1\'b7\'e2\'d7\'b0\'d2\'bb\'b8\'f6
+\f2 AndroidTask
+\f0 \'c0\'b4\'b4\'e6\'b4\'a2\'b5\'b1\'c7\'b0
+\f2 Task
+\f0 \'b5\'c4\'d0\'c5\'cf\'a2
+\f2 (
+\f0 \'d6\'f7\'d2\'aa\'ca\'c7\'cb\'fc\'b5\'c4\'d2\'c0\'c0\'b5\'b9\'d8\'cf\'b5
+\f2 )
+\f0 \'a3\'ac
+\f2  
+\f0 \'b7\'bd\'b1\'e3\'ba\'f3\'c3\'e6\'d6\'b1\'bd\'d3\'bb\'f1\'c8\'a1\'ca\'b9\'d3\'c3
+\f2 \cf0 \
+        
+\f1\b \cf5 tasks
+\f2\b0 \cf0 .put(taskName, newTask);\
+\
+        
+\f1\b \cf3 return 
+\f2\b0 \cf0 newTask;\
+    \}\
+\
+    
+\f1\b \cf3 public synchronized 
+\f2\b0 \cf0 AndroidTask<Task> \cf7 create\cf0 (\
+            TaskFactory taskFactory,\
+            String taskName,\
+            Closure configAction) \{\
+\
+        taskFactory.create(taskName, DefaultTask.
+\f1\b \cf3 class
+\f2\b0 \cf0 , 
+\f1\b \cf3 new 
+\f2\b0 \cf0 ClosureBackedAction<Task>(configAction));\
+        
+\f1\b \cf3 final 
+\f2\b0 \cf0 AndroidTask<Task> newTask = 
+\f1\b \cf3 new 
+\f2\b0 \cf0 AndroidTask<>(taskName, Task.
+\f1\b \cf3 class
+\f2\b0 \cf0 );\
+        
+\f1\b \cf5 tasks
+\f2\b0 \cf0 .put(taskName, newTask);\
+\
+        
+\f1\b \cf3 return 
+\f2\b0 \cf0 newTask;\
+    \}\
+\
+    
+\f1\b \cf3 public synchronized 
+\f2\b0 \cf0 AndroidTask<DefaultTask> \cf7 create\cf0 (\
+            TaskFactory taskFactory,\
+            String taskName,\
+            Action<Task> configAction) \{\
+        
+\f1\b \cf3 return 
+\f2\b0 \cf10 create\cf0 (taskFactory, taskName, DefaultTask.
+\f1\b \cf3 class
+\f2\b0 \cf0 , configAction);\
+    \}\
+\
+    
+\f1\b \cf3 public synchronized 
+\f2\b0 \cf0 <\cf6 T 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task> AndroidTask<\cf6 T\cf0 > \cf7 create\cf0 (\
+            TaskFactory taskFactory,\
+            String taskName,\
+            Class<\cf6 T\cf0 > taskClass,\
+            Closure configAction) \{\
+\
+        taskFactory.create(taskName, taskClass, 
+\f1\b \cf3 new 
+\f2\b0 \cf0 ClosureBackedAction<\cf6 T\cf0 >(configAction));\
+        
+\f1\b \cf3 final 
+\f2\b0 \cf0 AndroidTask<\cf6 T\cf0 > newTask = 
+\f1\b \cf3 new 
+\f2\b0 \cf0 AndroidTask<>(taskName, taskClass);\
+        
+\f1\b \cf5 tasks
+\f2\b0 \cf0 .put(taskName, newTask);\
+\
+        
+\f1\b \cf3 return 
+\f2\b0 \cf0 newTask;\
+    \}\
+\
+    
+\f1\b \cf3 public 
+\f2\b0 \cf0 <\cf6 T 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task> AndroidTask<\cf6 T\cf0 > \cf7 create\cf0 (\
+            TaskFactory taskFactory,\
+            TaskConfigAction<\cf6 T\cf0 > configAction) \{ // \cf8 configAction.getName(): task
+\f0 \'b5\'c4\'c3\'fb\'d7\'d6\'a3\'bb\'a3\'bb\'a3\'bb
+\f2 configAction.getType()
+\f0 \'a3\'ba\'b5\'b1\'c7\'b0
+\f2 task
+\f0 \'b5\'c4\'ca\'b5\'cf\'d6\'c0\'e0
+\f2 (
+\f0 \'bc\'cc\'b3\'d0\'d7\'d4
+\f2 DefaultTask)
+\f0 \'a3\'bb\'a3\'bb
+\f2  
+\f0 \'b4\'cb
+\f2 TaskConfigAction
+\f0 \'cd\'ac
+\f2 Action
+\f0 \'a3\'ac\'d2\'b2\'ca\'c7\'bb\'d8\'b5\'f7\'ba\'af\'ca\'fd
+\f2 \cf0 \
+        
+\f1\b \cf3 return 
+\f2\b0 \cf10 create\cf0 (taskFactory, configAction.getName(), configAction.getType(), configAction);\
+    \}\
+\
+    \cf4 @Nullable\
+    
+\f1\b \cf3 public 
+\f2\b0 \cf0 AndroidTask<?> \cf7 get\cf0 (String name) \{\
+        
+\f1\b \cf3 return \cf5 tasks
+\f2\b0 \cf0 .get(name);\
+    \}\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\b \cf3 \
+\
+\
+\
+\
+public class 
+\f2\b0 \cf0 AndroidTask<\cf6 T 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task> \{\
+    \cf4 @NonNull\
+    
+\f1\b \cf3 private 
+\f2\b0 \cf0 String 
+\f1\b \cf5 name
+\f2\b0 \cf0 ;\
+    \cf4 @NonNull\
+    
+\f1\b \cf3 private final 
+\f2\b0 \cf0 Class<\cf6 T\cf0 > 
+\f1\b \cf5 taskType
+\f2\b0 \cf0 ;\
+    \cf4 @NonNull\
+    
+\f1\b \cf3 private final 
+\f2\b0 \cf0 List<AndroidTask<? 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task>> 
+\f1\b \cf5 upstreamTasks
+\f2\b0 \cf0 ;\
+    \cf4 @NonNull\
+    
+\f1\b \cf3 private final 
+\f2\b0 \cf0 List<AndroidTask<? 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task>> 
+\f1\b \cf5 downstreamTasks
+\f2\b0 \cf0 ;\
+\
+    
+\f1\b \cf3 public 
+\f2\b0 \cf0 AndroidTask(\cf4 @NonNull \cf0 String name, \cf4 @NonNull \cf0 Class<\cf6 T\cf0 > taskType) \{\
+        
+\f1\b \cf3 this
+\f2\b0 \cf0 .
+\f1\b \cf5 name 
+\f2\b0 \cf0 = name;\
+        
+\f1\b \cf3 this
+\f2\b0 \cf0 .
+\f1\b \cf5 taskType 
+\f2\b0 \cf0 = taskType;\
+        
+\f1\b \cf5 upstreamTasks 
+\f2\b0 \cf0 = 
+\f1\b \cf3 new 
+\f2\b0 \cf0 ArrayList<>();\
+        
+\f1\b \cf5 downstreamTasks 
+\f2\b0 \cf0 = 
+\f1\b \cf3 new 
+\f2\b0 \cf0 ArrayList<>();\
+    \}\
+\
+    
+\f3\i \cf11 /**\
+     * The name of Task this represents. \cf8 (
+\f0\i0 \cf8 \'d5\'e2\'b8\'f6
+\f3\i \cf8 task
+\f0\i0 \cf8 \'b5\'c4\'c3\'fb\'d7\'d6
+\f3\i \cf11 )\
+     */\
+    
+\f2\i0 \cf4 @NonNull\
+    
+\f1\b \cf3 public 
+\f2\b0 \cf0 String \cf7 getName\cf0 () \{\
+        
+\f1\b \cf3 return \cf5 name
+\f2\b0 \cf0 ;\
+    \}\
+\
+    
+\f3\i \cf11 /**\
+     * The type of Task this represents. (
+\f0\i0 \cf8 \'d5\'e2\'b8\'f6
+\f3\i \cf8 task
+\f0\i0 \cf8 \'b6\'d4\'d3\'a6\'b5\'c4\'ca\'b5\'cf\'d6\'b5\'c4\'c0\'e0\'a3\'ac
+\f3\i \cf8  
+\f0\i0 \cf8 \'bc\'cc\'b3\'d0\'d7\'d4DefaultTask
+\f3\i \cf11 )\
+     */\
+    
+\f2\i0 \cf4 @NonNull\
+    
+\f1\b \cf3 public 
+\f2\b0 \cf0 Class<\cf6 T\cf0 > \cf7 getTaskType\cf0 () \{\
+        
+\f1\b \cf3 return \cf5 taskType
+\f2\b0 \cf0 ;\
+    \}\
+\
+    
+\f3\i \cf11 /**\
+     * Return all the AndroidTask this depends on. 
+\f0\i0 \cf11 (\cf8 \'c9\'cf\'d3\'cetask\'a3\'ba\'d2\'b2\'be\'cd\'ca\'c7\'b5\'b1\'c7\'b0task\'d2\'c0\'c0\'b5\'b5\'c4task\'a3\'ac\'d2\'b2\'be\'cd\'ca\'c7\'d4\'da\'b5\'b1\'c7\'b0task\'d6\'ae\'c7\'b0\'d6\'b4\'d0\'d0\'b5\'c4task\cf11 )
+\f3\i \cf11 \
+     */\
+    
+\f2\i0 \cf4 @NonNull\
+    
+\f1\b \cf3 public 
+\f2\b0 \cf0 List<AndroidTask<? 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task>> \cf7 getUpstreamTasks\cf0 () \{\
+        
+\f1\b \cf3 return \cf5 upstreamTasks
+\f2\b0 \cf0 ;\
+    \}\
+\
+    
+\f3\i \cf11 /**\
+     * Return all the AndroidTask that depends on this. (
+\f0\i0 \cf8 \'cf\'c2\'d3\'ce\'b5\'c4
+\f3\i \cf8 task
+\f0\i0 \cf8 \'a3\'ba\'d2\'b2\'be\'cd\'ca\'c7\'d2\'c0\'c0\'b5\'b5\'b1\'c7\'b0task\'b5\'c4task\'a3\'ac \'d2\'b2\'be\'cd\'ca\'c7\'d4\'da\'b5\'b1\'c7\'b0task\'d6\'b4\'d0\'d0\'d6\'ae\'ba\'f3\'d6\'b4\'d0\'d0\'b5\'c4task
+\f3\i \cf11 )\
+     */\
+    
+\f2\i0 \cf4 @NonNull\
+    
+\f1\b \cf3 public 
+\f2\b0 \cf0 List<AndroidTask<? 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task>> \cf7 getDownstreamTasks\cf0 () \{\
+        
+\f1\b \cf3 return \cf5 downstreamTasks
+\f2\b0 \cf0 ;\
+    \}\
+\
+    
+\f3\i \cf11 /**\
+     * Add dependency on another AndroidTask.\
+     * 
+\f4\b \cf11 @param \cf12 taskFactory 
+\f3\b0 \cf11 TaskFactory used to configure the task for dependencies.\
+     * 
+\f4\b \cf11 @param \cf12 other 
+\f3\b0 \cf11 The task that this depends on.\
+     */\
+    
+\f1\i0\b \cf3 public void 
+\f2\b0 \cf7 dependsOn\cf0 (
+\f1\b \cf3 final 
+\f2\b0 \cf0 TaskFactory taskFactory, 
+\f1\b \cf3 final 
+\f2\b0 \cf0 AndroidTask<?> other) \{\
+        taskFactory.named(
+\f1\b \cf5 name
+\f2\b0 \cf0 , 
+\f1\b \cf3 new 
+\f2\b0 \cf0 Action<Task>() \{\
+            \cf4 @Override\
+            
+\f1\b \cf3 public void 
+\f2\b0 \cf7 execute\cf0 (Task task) \{\
+                task.dependsOn(\cf5 other\cf0 .
+\f1\b \cf5 name
+\f2\b0 \cf0 );\
+            \}\
+        \});\
+        
+\f1\b \cf5 upstreamTasks
+\f2\b0 \cf0 .add(other);\
+        other.\cf10 addDependent\cf0 (
+\f1\b \cf3 this
+\f2\b0 \cf0 );\
+    \}\
+\
+    
+\f3\i \cf11 /**\
+     * Add dependency on objects.\
+     * This method adds dependencies on any objects accepted by \{
+\f4\b \cf11 @link 
+\f3\b0 \cf11 Task#dependsOn\} and is\
+     * needed for compatibility until all tasks are trasitioned to AndroidTask.\
+     * 
+\f4\b \cf11 @param \cf12 taskFactory 
+\f3\b0 \cf11 TaskFactory used to configure the task for dependencies.\
+     * 
+\f4\b \cf11 @param \cf12 dependency 
+\f3\b0 \cf11 Object accepted by \{
+\f4\b \cf11 @link 
+\f3\b0 \cf11 Task#dependsOn\}.\
+     */\
+    
+\f1\i0\b \cf3 public void 
+\f2\b0 \cf7 dependsOn\cf0 (
+\f1\b \cf3 final 
+\f2\b0 \cf0 TaskFactory taskFactory, 
+\f1\b \cf3 final 
+\f2\b0 \cf0 Object dependency) \{\
+        Preconditions.
+\f3\i checkNotNull
+\f2\i0 (dependency);\
+        taskFactory.named(
+\f1\b \cf5 name
+\f2\b0 \cf0 , 
+\f1\b \cf3 new 
+\f2\b0 \cf0 Action<Task>() \{\
+            \cf4 @Override\
+            
+\f1\b \cf3 public void 
+\f2\b0 \cf7 execute\cf0 (Task task) \{\
+                
+\f1\b \cf3 if 
+\f2\b0 \cf0 (\cf5 dependency 
+\f1\b \cf3 instanceof 
+\f2\b0 \cf0 AndroidTask) \{\
+                    task.dependsOn(((AndroidTask) \cf5 dependency\cf0 ).\cf10 getName\cf0 ());\
+                \} 
+\f1\b \cf3 else 
+\f2\b0 \cf0 \{\
+                    task.dependsOn(\cf5 dependency\cf0 );\
+                \}\
+            \}\
+        \});\
+    \}\
+\
+    
+\f3\i \cf11 /**\
+     * Add dependency on objects.\
+     * This method adds dependencies on any objects accepted by \{
+\f4\b \cf11 @link 
+\f3\b0 \cf11 Task#dependsOn\} and is\
+     * needed for compatibility until all tasks are trasitioned to AndroidTask.\
+     * 
+\f4\b \cf11 @param \cf12 taskFactory 
+\f3\b0 \cf11 TaskFactory used to configure the task for dependencies.\
+     * 
+\f4\b \cf11 @param \cf12 dependency1 
+\f3\b0 \cf11 Object accepted by \{
+\f4\b \cf11 @link 
+\f3\b0 \cf11 Task#dependsOn\}.\
+     * 
+\f4\b \cf11 @param \cf12 dependency2 
+\f3\b0 \cf11 Object accepted by \{
+\f4\b \cf11 @link 
+\f3\b0 \cf11 Task#dependsOn\}.\
+     */\
+    
+\f1\i0\b \cf3 public void 
+\f2\b0 \cf7 dependsOn\cf0 (\
+            
+\f1\b \cf3 final 
+\f2\b0 \cf0 TaskFactory taskFactory,\
+            
+\f1\b \cf3 final 
+\f2\b0 \cf0 Object dependency1,\
+            
+\f1\b \cf3 final 
+\f2\b0 \cf0 Object dependency2) \{\
+        Preconditions.
+\f3\i checkNotNull
+\f2\i0 (dependency1);\
+        Preconditions.
+\f3\i checkNotNull
+\f2\i0 (dependency2);\
+\
+        taskFactory.named(
+\f1\b \cf5 name
+\f2\b0 \cf0 , 
+\f1\b \cf3 new 
+\f2\b0 \cf0 Action<Task>() \{\
+            \cf4 @Override\
+            
+\f1\b \cf3 public void 
+\f2\b0 \cf7 execute\cf0 (Task task) \{\
+                
+\f1\b \cf3 if 
+\f2\b0 \cf0 (\cf5 dependency1 
+\f1\b \cf3 instanceof 
+\f2\b0 \cf0 AndroidTask) \{\
+                    task.dependsOn(((AndroidTask) \cf5 dependency1\cf0 ).\cf10 getName\cf0 ());\
+                \} 
+\f1\b \cf3 else 
+\f2\b0 \cf0 \{\
+                    task.dependsOn(\cf5 dependency1\cf0 );\
+                \}\
+\
+                
+\f1\b \cf3 if 
+\f2\b0 \cf0 (\cf5 dependency2 
+\f1\b \cf3 instanceof 
+\f2\b0 \cf0 AndroidTask) \{\
+                    task.dependsOn(((AndroidTask) \cf5 dependency2\cf0 ).\cf10 getName\cf0 ());\
+                \} 
+\f1\b \cf3 else 
+\f2\b0 \cf0 \{\
+                    task.dependsOn(\cf5 dependency2\cf0 );\
+                \}\
+\
+            \}\
+        \});\
+    \}\
+\
+    
+\f3\i \cf11 /**\
+     * Add dependency on objects.\
+     * This method adds dependencies on any objects accepted by \{
+\f4\b \cf11 @link 
+\f3\b0 \cf11 Task#dependsOn\} and is\
+     * needed for compatibility until all tasks are trasitioned to AndroidTask.\
+     * 
+\f4\b \cf11 @param \cf12 taskFactory 
+\f3\b0 \cf11 TaskFactory used to configure the task for dependencies.\
+     * 
+\f4\b \cf11 @param \cf12 dependencies 
+\f3\b0 \cf11 Objects accepted by \{
+\f4\b \cf11 @link 
+\f3\b0 \cf11 Task#dependsOn\}.\
+     */\
+    
+\f1\i0\b \cf3 public void 
+\f2\b0 \cf7 dependsOn\cf0 (
+\f1\b \cf3 final 
+\f2\b0 \cf0 TaskFactory taskFactory, 
+\f1\b \cf3 final 
+\f2\b0 \cf0 Object... dependencies) \{\
+        
+\f1\b \cf3 for 
+\f2\b0 \cf0 (Object dependency : dependencies) \{\
+            Preconditions.
+\f3\i checkNotNull
+\f2\i0 (dependency);\
+        \}\
+        taskFactory.named(
+\f1\b \cf5 name
+\f2\b0 \cf0 , 
+\f1\b \cf3 new 
+\f2\b0 \cf0 Action<Task>() \{\
+            \cf4 @Override\
+            
+\f1\b \cf3 public void 
+\f2\b0 \cf7 execute\cf0 (Task task) \{\
+                
+\f1\b \cf3 for 
+\f2\b0 \cf0 (Object dependency : \cf5 dependencies\cf0 ) \{\
+                    
+\f1\b \cf3 if 
+\f2\b0 \cf0 (dependency 
+\f1\b \cf3 instanceof 
+\f2\b0 \cf0 AndroidTask) \{\
+                        task.dependsOn(((AndroidTask) dependency).\cf10 getName\cf0 ());\
+                    \} 
+\f1\b \cf3 else 
+\f2\b0 \cf0 \{\
+                        task.dependsOn(dependency);\
+                    \}\
+                \}\
+            \}\
+        \});\
+    \}\
+\
+    
+\f1\b \cf3 private void 
+\f2\b0 \cf7 addDependent\cf0 (AndroidTask<? 
+\f1\b \cf3 extends 
+\f2\b0 \cf0 Task> tAndroidTask) \{\
+        
+\f1\b \cf5 downstreamTasks
+\f2\b0 \cf0 .add(tAndroidTask);\
+    \}\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f5\fs28 \cf0 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}

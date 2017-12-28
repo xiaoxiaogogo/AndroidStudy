@@ -1,0 +1,1252 @@
+{\rtf1\ansi\ansicpg936\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Bold;\f2\fnil\fcharset0 Menlo-Regular;
+\f3\fnil\fcharset134 PingFangSC-Regular;\f4\fnil\fcharset0 Menlo-Italic;\f5\fnil\fcharset0 Menlo-BoldItalic;
+\f6\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue109;\red255\green0\blue0;\red0\green0\blue254;
+\red15\green112\blue3;\red82\green0\blue103;\red109\green109\blue109;\red0\green0\blue0;\red109\green111\blue5;
+\red133\green0\blue255;\red251\green0\blue255;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c42745;\csgenericrgb\c100000\c0\c0;\csgenericrgb\c0\c0\c99608;
+\csgenericrgb\c5882\c43922\c1176;\csgenericrgb\c32157\c0\c40392;\csgenericrgb\c42745\c42745\c42745;\csgenericrgb\c0\c0\c0;\csgenericrgb\c42745\c43529\c1961;
+\csgenericrgb\c52157\c0\c100000;\csgenericrgb\c98431\c0\c100000;}
+\margl1440\margr1440\vieww18620\viewh13440\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\b\fs24 \cf2 protected void 
+\f2\b0 \cf0 apply(Project project) \{\
+    checkPluginVersion();\
+    
+\f1\b \cf2 this
+\f2\b0 \cf0 .project = project;\
+    ExecutionConfigurationUtil.setThreadPoolSize(project);\
+    
+\f1\b \cf2 this
+\f2\b0 \cf0 .checkPathForErrors();\
+    
+\f1\b \cf2 this
+\f2\b0 \cf0 .checkModulesForErrors();\
+    ProfilerInitializer.init(project);\
+    
+\f1\b \cf2 this
+\f2\b0 \cf0 .threadRecorder = ThreadRecorder.get();\
+	ProcessProfileWriter.getProject(project.getPath()).setAndroidPluginVersion(Version.ANDROID_GRADLE_PLUGIN_VERSION).setAndroidPlugin(
+\f1\b \cf2 this
+\f2\b0 \cf0 .getAnalyticsPluginType()).setPluginGeneration(PluginGeneration.FIRST);\
+    \
+	// 
+\f3 \cf3 \'c8\'fd\'b2\'bd\'ba\'cb\'d0\'c4\'b2\'d9\'d7\'f7\'a3\'ba
+\f2  configureProject ->  configureExtension  ->  createTasks\cf0 \
+
+\f1\b \cf2 	this
+\f2\b0 \cf0 .threadRecorder.record(ExecutionType.BASE_PLUGIN_PROJECT_CONFIGURE, project.getPath(), (String)
+\f1\b \cf2 null
+\f2\b0 \cf0 , 
+\f1\b \cf2 this
+\f2\b0 \cf0 ::configureProject);\
+    
+\f1\b \cf2 this
+\f2\b0 \cf0 .threadRecorder.record(ExecutionType.BASE_PLUGIN_PROJECT_BASE_EXTENSION_CREATION, project.getPath(), (String)
+\f1\b \cf2 null
+\f2\b0 \cf0 , 
+\f1\b \cf2 this
+\f2\b0 \cf0 ::configureExtension);\
+    
+\f1\b \cf2 this
+\f2\b0 \cf0 .threadRecorder.record(ExecutionType.BASE_PLUGIN_PROJECT_TASKS_CREATION, project.getPath(), (String)
+\f1\b \cf2 null
+\f2\b0 \cf0 , 
+\f1\b \cf2 this
+\f2\b0 \cf0 ::createTasks);\
+    String[] var2 = AndroidGradleOptions.getAdditionalPlugins(project);\
+    
+\f1\b \cf2 int 
+\f2\b0 \cf0 var3 = var2.length;\
+\
+    
+\f1\b \cf2 for
+\f2\b0 \cf0 (
+\f1\b \cf2 int 
+\f2\b0 \cf0 var4 = \cf4 0\cf0 ; var4 < var3; ++var4) \{\
+        String plugin = var2[var4];\
+        project.apply(ImmutableMap.of(
+\f1\b \cf5 "plugin"
+\f2\b0 \cf0 , plugin));\
+    \}\
+\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\b\fs24 \cf2 private void 
+\f2\b0 \cf0 configureProject() \{\
+    
+\f1\b \cf6 extraModelInfo 
+\f2\b0 \cf0 = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 ExtraModelInfo(
+\f1\b \cf6 project
+\f2\b0 \cf0 );\
+    checkGradleVersion();\
+    AndroidGradleOptions.
+\f4\i validate
+\f2\i0 (
+\f1\b \cf6 project
+\f2\b0 \cf0 );\
+    
+\f1\b \cf6 sdkHandler 
+\f2\b0 \cf0 = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 SdkHandler(
+\f1\b \cf6 project
+\f2\b0 \cf0 , getLogger());\
+\
+	// 
+\f3 \'d7\'a2\'b2\'e1
+\f2  
+\f3 \'cf\'ee\'c4\'bf\'c6\'c0\'b9\'c0\'cd\'ea\'b3\'c9\'b5\'c4\'bb\'d8\'b5\'f7\'ba\'af\'ca\'fd
+\f2  : 
+\f3 dependencies\'d2\'c0\'c0\'b5\'b5\'c4\'cf\'c2\'d4\'d8
+\f2 \
+    
+\f1\b \cf6 project
+\f2\b0 \cf0 .afterEvaluate(p -> \{\
+        
+\f4\i \cf7 // TODO: Read flag from extension.\
+        
+\f1\i0\b \cf2 if 
+\f2\b0 \cf0 (!p.getGradle().getStartParameter().isOffline()\
+                && AndroidGradleOptions.
+\f4\i getUseSdkDownload
+\f2\i0 (p)) \{\
+            SdkLibData sdkLibData =\
+                    SdkLibData.
+\f4\i download
+\f2\i0 (getDownloader(), getSettingsController());\
+            
+\f1\b \cf6 dependencyManager
+\f2\b0 \cf0 .setSdkLibData(sdkLibData);\
+            
+\f1\b \cf6 sdkHandler
+\f2\b0 \cf0 .setSdkLibData(sdkLibData);\
+        \}\
+    \});\
+\
+    
+\f1\b \cf6 androidBuilder 
+\f2\b0 \cf0 = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 AndroidBuilder(\
+            
+\f1\b \cf6 project 
+\f2\b0 \cf0 == 
+\f1\b \cf6 project
+\f2\b0 \cf0 .getRootProject() ? 
+\f1\b \cf6 project
+\f2\b0 \cf0 .getName() : 
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath(),\
+            
+\f1\b \cf6 creator
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf2 new 
+\f2\b0 \cf0 GradleProcessExecutor(
+\f1\b \cf6 project
+\f2\b0 \cf0 ),\
+            
+\f1\b \cf2 new 
+\f2\b0 \cf0 GradleJavaProcessExecutor(
+\f1\b \cf6 project
+\f2\b0 \cf0 ),\
+            
+\f1\b \cf6 extraModelInfo
+\f2\b0 \cf0 ,\
+            getLogger(),\
+            isVerbose());\
+    
+\f1\b \cf6 dataBindingBuilder 
+\f2\b0 \cf0 = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 DataBindingBuilder();\
+    
+\f1\b \cf6 dataBindingBuilder
+\f2\b0 \cf0 .setPrintMachineReadableOutput(\
+            
+\f1\b \cf6 extraModelInfo
+\f2\b0 \cf0 .getErrorFormatMode() ==\
+                    ExtraModelInfo.ErrorFormatMode.
+\f5\i\b \cf6 MACHINE_PARSABLE
+\f2\i0\b0 \cf0 );\
+\
+    
+\f4\i \cf7 // Apply the Java and Jacoco plugins.\
+    
+\f1\i0\b \cf6 project
+\f2\b0 \cf0 .getPlugins().apply(JavaBasePlugin.
+\f1\b \cf2 class
+\f2\b0 \cf0 ); 
+\f3 // \'bd\'ab JavaBasePlugin\'d3\'a6\'d3\'c3\'b5\'bd\'b5\'b1\'c7\'b0project\'c9\'cf\'c3\'e6 (
+\f0\fs29\fsmilli14667 \cf8 \cb3 \expnd0\expndtw0\kerning0
+A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/gradle/api/Plugin.html"}}{\fldrslt 
+\f6 Plugin}} which compiles and tests Java source, and assembles it into a JAR file.
+\f3\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 )
+\f2 \
+    
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPlugins().apply(JacocoPlugin.
+\f1\b \cf2 class
+\f2\b0 \cf0 ); // 
+\f3 \'d2\'fd\'d3\'c3jacoc
+\f2 o
+\f3 \'b2\'e5\'bc\'fe\'a3\'ac\'d3\'c3\'d3\'da\'bc\'ec\'b2\'e9\'b4\'fa\'c2\'eb\'b5\'c4\'b8\'b2\'b8\'c7\'c2\'ca
+\f2 \
+\
+    
+\f1\b \cf6 project
+\f2\b0 \cf0 .getTasks()\
+            .getByName(
+\f1\b \cf5 "assemble"
+\f2\b0 \cf0 )\
+            .setDescription(\
+                    
+\f1\b \cf5 "Assembles all variants of all applications and secondary packages."
+\f2\b0 \cf0 );\
+\
+    
+\f4\i \cf7 // call back on execution. This is called after the whole build is done (not\
+    // after the current project is done).\
+    // This is will be called for each (android) projects though, so this should support\
+    // being called 2+ times.\
+    
+\f1\i0\b \cf6 project
+\f2\b0 \cf0 .getGradle()\
+            .addBuildListener(\
+                    
+\f1\b \cf2 new 
+\f2\b0 \cf0 BuildListener() \{\
+                        
+\f1\b \cf2 private final 
+\f2\b0 \cf0 LibraryCache 
+\f1\b \cf6 libraryCache 
+\f2\b0 \cf0 = LibraryCache.
+\f4\i getCache
+\f2\i0 ();\
+\
+                        \cf9 @Override\
+                        
+\f1\b \cf2 public void 
+\f2\b0 \cf0 buildStarted(Gradle gradle) \{\}\
+\
+                        \cf9 @Override\
+                        
+\f1\b \cf2 public void 
+\f2\b0 \cf0 settingsEvaluated(Settings settings) \{\}\
+\
+                        \cf9 @Override\
+                        
+\f1\b \cf2 public void 
+\f2\b0 \cf0 projectsLoaded(Gradle gradle) \{\}\
+\
+                        \cf9 @Override\
+                        
+\f1\b \cf2 public void 
+\f2\b0 \cf0 projectsEvaluated(Gradle gradle) \{\}\
+\
+                        \cf9 @Override\
+                        
+\f1\b \cf2 public void 
+\f2\b0 \cf0 buildFinished(BuildResult buildResult) \{\
+                            ExecutorSingleton.
+\f4\i shutdown
+\f2\i0 ();\
+                            
+\f1\b \cf6 sdkHandler
+\f2\b0 \cf0 .unload();\
+                            
+\f1\b \cf6 threadRecorder
+\f2\b0 \cf0 .record(\
+                                    ExecutionType.
+\f5\i\b \cf6 BASE_PLUGIN_BUILD_FINISHED
+\f2\i0\b0 \cf0 ,\
+                                    
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath(),\
+                                    
+\f1\b \cf2 null
+\f2\b0 \cf0 ,\
+                                    () -> \{\
+										
+\f3 // \'c7\'e5\'bf\'d5dex\'bb\'ba\'b4\'e6\'ba\'cd  jack-cache(\'d3\'a6\'b8\'c3\'ca\'c7java) \'bb\'ba\'b4\'e6
+\f2 \
+                                        PreDexCache.
+\f4\i getCache
+\f2\i0 ()\
+                                                .clear(\
+                                                        FileUtils.
+\f4\i join
+\f2\i0 (\
+                                                                
+\f1\b \cf6 project
+\f2\b0 \cf0 .getRootProject()\
+                                                                        .getBuildDir(),\
+                                                                
+\f5\i\b \cf6 FD_INTERMEDIATES
+\f2\i0\b0 \cf0 ,\
+                                                                
+\f1\b \cf5 "dex-cache"
+\f2\b0 \cf0 ,\
+                                                                
+\f1\b \cf5 "cache.xml"
+\f2\b0 \cf0 ),\
+                                                        getLogger());\
+                                        JackConversionCache.
+\f4\i getCache
+\f2\i0 ()\
+                                                .clear(\
+                                                        FileUtils.
+\f4\i join
+\f2\i0 (\
+                                                                
+\f1\b \cf6 project
+\f2\b0 \cf0 .getRootProject()\
+                                                                        .getBuildDir(),\
+                                                                
+\f5\i\b \cf6 FD_INTERMEDIATES
+\f2\i0\b0 \cf0 ,\
+                                                                
+\f1\b \cf5 "jack-cache"
+\f2\b0 \cf0 ,\
+                                                                
+\f1\b \cf5 "cache.xml"
+\f2\b0 \cf0 ),\
+                                                        getLogger());\
+                                        
+\f1\b \cf6 libraryCache
+\f2\b0 \cf0 .unload();\
+                                        Main.
+\f4\i clearInternTables
+\f2\i0 ();\
+                                    \});\
+                        \}\
+                    \});\
+\
+    
+\f1\b \cf6 project
+\f2\b0 \cf0 .getGradle()\
+            .getTaskGraph()\
+            .addTaskExecutionGraphListener(  
+\f3 // task\'cd\'bc\'b9\'b9\'bd\'a8\'cd\'ea\'b3\'c9\'b5\'c4\'bb\'d8\'b5\'f7
+\f2 \
+                    taskGraph -> \{\
+                        
+\f1\b \cf2 for 
+\f2\b0 \cf0 (Task task : taskGraph.getAllTasks()) \{\
+                            
+\f1\b \cf2 if 
+\f2\b0 \cf0 (task 
+\f1\b \cf2 instanceof 
+\f2\b0 \cf0 TransformTask) \{\
+                                Transform transform = ((TransformTask) task).getTransform();\
+                                
+\f1\b \cf2 if 
+\f2\b0 \cf0 (transform 
+\f1\b \cf2 instanceof 
+\f2\b0 \cf0 DexTransform) \{  // 
+\f3 \'b6\'c1\'c8\'a1
+\f2 DexTransform
+\f3 \'b5\'c4\'bb\'ba\'b4\'e6
+\f2 \
+                                    PreDexCache.
+\f4\i getCache
+\f2\i0 ()\
+                                            .load(\
+                                                    FileUtils.
+\f4\i join
+\f2\i0 (\
+                                                            
+\f1\b \cf6 project
+\f2\b0 \cf0 .getRootProject()\
+                                                                    .getBuildDir(),\
+                                                            
+\f5\i\b \cf6 FD_INTERMEDIATES
+\f2\i0\b0 \cf0 ,\
+                                                            
+\f1\b \cf5 "dex-cache"
+\f2\b0 \cf0 ,\
+                                                            
+\f1\b \cf5 "cache.xml"
+\f2\b0 \cf0 ));\
+                                    
+\f1\b \cf2 break
+\f2\b0 \cf0 ;\
+                                \} 
+\f1\b \cf2 else if 
+\f2\b0 \cf0 (transform 
+\f1\b \cf2 instanceof 
+\f2\b0 \cf0 JackPreDexTransform) \{ // 
+\f3 \'bc\'d3\'d4\'d8 
+\f2 JackPreDexTransform 
+\f3 \'b5\'c4\'bb\'ba\'b4\'e6
+\f2 \
+                                    JackConversionCache.
+\f4\i getCache
+\f2\i0 ()\
+                                            .load(\
+                                                    FileUtils.
+\f4\i join
+\f2\i0 (\
+                                                            
+\f1\b \cf6 project
+\f2\b0 \cf0 .getRootProject()\
+                                                                    .getBuildDir(),\
+                                                            
+\f5\i\b \cf6 FD_INTERMEDIATES
+\f2\i0\b0 \cf0 ,\
+                                                            
+\f1\b \cf5 "jack-cache"
+\f2\b0 \cf0 ,\
+                                                            
+\f1\b \cf5 "cache.xml"
+\f2\b0 \cf0 ));\
+                                    
+\f1\b \cf2 break
+\f2\b0 \cf0 ;\
+                                \}\
+                            \}\
+                        \}\
+                    \});\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\b\fs24 \cf2 private void 
+\f2\b0 \cf10 configureExtension\cf0 () \{\
+	// 
+\f3 \'b4\'b4\'bd\'a8\'c4\'ac\'c8\'cf
+\f2 buildType
+\f3 \'a3\'ac productFlavor\'a3\'ac signingConfig
+\f2 \
+    
+\f1\b \cf2 final 
+\f2\b0 \cf0 NamedDomainObjectContainer<BuildType> buildTypeContainer =\
+            
+\f1\b \cf6 project
+\f2\b0 \cf0 .container(\
+                    BuildType.
+\f1\b \cf2 class
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf2 new 
+\f2\b0 \cf0 BuildTypeFactory(
+\f1\b \cf6 instantiator
+\f2\b0 \cf0 , 
+\f1\b \cf6 project
+\f2\b0 \cf0 , 
+\f1\b \cf6 project
+\f2\b0 \cf0 .getLogger()));\
+    
+\f1\b \cf2 final 
+\f2\b0 \cf0 NamedDomainObjectContainer<ProductFlavor> productFlavorContainer =\
+            
+\f1\b \cf6 project
+\f2\b0 \cf0 .container(\
+                    ProductFlavor.
+\f1\b \cf2 class
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf2 new 
+\f2\b0 \cf0 ProductFlavorFactory(\
+                            
+\f1\b \cf6 instantiator
+\f2\b0 \cf0 , 
+\f1\b \cf6 project
+\f2\b0 \cf0 , 
+\f1\b \cf6 project
+\f2\b0 \cf0 .getLogger(), 
+\f1\b \cf6 extraModelInfo
+\f2\b0 \cf0 ));\
+    
+\f1\b \cf2 final 
+\f2\b0 \cf0 NamedDomainObjectContainer<SigningConfig> signingConfigContainer =\
+            
+\f1\b \cf6 project
+\f2\b0 \cf0 .container(SigningConfig.
+\f1\b \cf2 class
+\f2\b0 \cf0 , 
+\f1\b \cf2 new 
+\f2\b0 \cf0 SigningConfigFactory(
+\f1\b \cf6 instantiator
+\f2\b0 \cf0 ));\
+\
+	
+\f3 // \'b4\'b4\'bd\'a8extension\'b6\'d4\'cf\'f3\'a3\'ac\'bb\'f1\'c8\'a1\'b5\'c4\'ca\'c7\'cd\'a8\'b9\'fdproject.extensions.create(\'a1\'aeandroid\'a1\'af, ) \'b7\'b5\'bb\'d8\'b5\'c4
+\f2 \
+    
+\f1\b \cf6 extension 
+\f2\b0 \cf0 =\
+            createExtension(\
+                    
+\f1\b \cf6 project
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 instantiator
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 androidBuilder
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 sdkHandler
+\f2\b0 \cf0 ,\
+                    buildTypeContainer,\
+                    productFlavorContainer,\
+                    signingConfigContainer,\
+                    
+\f1\b \cf6 extraModelInfo
+\f2\b0 \cf0 );\
+\
+    
+\f4\i \cf7 // create the default mapping configuration.\
+    
+\f1\i0\b \cf6 project
+\f2\b0 \cf0 .getConfigurations()\
+            .create(
+\f1\b \cf5 "default" 
+\f2\b0 \cf0 + VariantDependencies.
+\f5\i\b \cf6 CONFIGURATION_MAPPING
+\f2\i0\b0 \cf0 )\
+            .setDescription(
+\f1\b \cf5 "Configuration for default mapping artifacts."
+\f2\b0 \cf0 );\
+    
+\f1\b \cf6 project
+\f2\b0 \cf0 .getConfigurations().create(
+\f1\b \cf5 "default" 
+\f2\b0 \cf0 + VariantDependencies.
+\f5\i\b \cf6 CONFIGURATION_METADATA
+\f2\i0\b0 \cf0 )\
+            .setDescription(
+\f1\b \cf5 "Metadata for the produced APKs."
+\f2\b0 \cf0 );\
+\
+    
+\f1\b \cf6 dependencyManager 
+\f2\b0 \cf0 = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 DependencyManager(\
+            
+\f1\b \cf6 project
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf6 extraModelInfo
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf6 sdkHandler
+\f2\b0 \cf0 );\
+\
+    
+\f1\b \cf6 ndkHandler 
+\f2\b0 \cf0 = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 NdkHandler(\
+            
+\f1\b \cf6 project
+\f2\b0 \cf0 .getRootDir(),\
+            
+\f1\b \cf2 null
+\f2\b0 \cf0 , 
+\f4\i \cf7 /* compileSkdVersion, this will be set in afterEvaluate */\
+            
+\f1\i0\b \cf5 "gcc"
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf5 "" 
+\f4\i\b0 \cf7 /*toolchainVersion*/
+\f2\i0 \cf0 );\
+\
+	// application : ApplicationTaskManager\
+    
+\f1\b \cf6 taskManager 
+\f2\b0 \cf0 =\
+            createTaskManager(\
+                    
+\f1\b \cf6 project
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 androidBuilder
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 dataBindingBuilder
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 extension
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 sdkHandler
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 ndkHandler
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 dependencyManager
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 registry
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 threadRecorder
+\f2\b0 \cf0 );\
+\
+    
+\f1\b \cf6 variantFactory 
+\f2\b0 \cf0 = createVariantFactory(
+\f1\b \cf6 instantiator
+\f2\b0 \cf0 , 
+\f1\b \cf6 androidBuilder
+\f2\b0 \cf0 , 
+\f1\b \cf6 extension
+\f2\b0 \cf0 );\
+\
+	// \cf3 application : ApplicationVariantManager ; 
+\f3 \'d6\'f7\'d2\'aa\'ca\'c7\'d3\'c3\'c0\'b4\'b9\'dc\'c0\'ed
+\f2 sign
+\f3 \'a3\'ac
+\f2 buildType
+\f3 \'a3\'ac
+\f2  productFlavor(
+\f3 \'b0\'fc\'c0\'a8\'b4\'e6\'b4\'a2\'ba\'cd\'bb\'f1\'c8\'a1\'b5\'c8
+\f2 )\cf0 \
+    
+\f1\b \cf6 variantManager 
+\f2\b0 \cf0 =\
+            
+\f1\b \cf2 new 
+\f2\b0 \cf0 VariantManager(\
+                    
+\f1\b \cf6 project
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 androidBuilder
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 extension
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 variantFactory
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 taskManager
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 instantiator
+\f2\b0 \cf0 ,\
+                    
+\f1\b \cf6 threadRecorder
+\f2\b0 \cf0 );\
+\
+    
+\f4\i \cf7 // Register a builder for the custom tooling model\
+    
+\f2\i0 \cf0 ModelBuilder modelBuilder = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 ModelBuilder(\
+            
+\f1\b \cf6 androidBuilder
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf6 variantManager
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf6 taskManager
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf6 extension
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf6 extraModelInfo
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf6 ndkHandler
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf2 new 
+\f2\b0 \cf0 NativeLibraryFactoryImpl(
+\f1\b \cf6 ndkHandler
+\f2\b0 \cf0 ),\
+            getProjectType(),\
+            AndroidProject.
+\f5\i\b \cf6 GENERATION_ORIGINAL
+\f2\i0\b0 \cf0 );\
+    
+\f1\b \cf6 registry
+\f2\b0 \cf0 .register(modelBuilder);\
+\
+    
+\f4\i \cf7 // Register a builder for the native tooling model\
+    
+\f2\i0 \cf0 NativeModelBuilder nativeModelBuilder = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 NativeModelBuilder(
+\f1\b \cf6 variantManager
+\f2\b0 \cf0 );\
+    
+\f1\b \cf6 registry
+\f2\b0 \cf0 .register(nativeModelBuilder);\
+\
+    
+\f4\i \cf7 // map the whenObjectAdded callbacks on the containers.\
+    
+\f2\i0 \cf0 signingConfigContainer.whenObjectAdded(
+\f1\b \cf6 variantManager
+\f2\b0 \cf0 ::\cf11 addSigningConfig\cf0 );\
+\
+    buildTypeContainer.whenObjectAdded(\
+            buildType -> \{\
+                SigningConfig signingConfig =\
+                        \cf6 signingConfigContainer\cf0 .findByName(BuilderConstants.
+\f5\i\b \cf6 DEBUG
+\f2\i0\b0 \cf0 );\
+                buildType.\cf11 init\cf0 (signingConfig);\
+                
+\f1\b \cf6 variantManager
+\f2\b0 \cf0 .\cf11 addBuildType\cf0 (buildType);\
+            \});\
+\
+    productFlavorContainer.whenObjectAdded(
+\f1\b \cf6 variantManager
+\f2\b0 \cf0 ::\cf11 addProductFlavor\cf0 );\
+\
+    
+\f4\i \cf7 // map whenObjectRemoved on the containers to throw an exception.\
+    
+\f2\i0 \cf0 signingConfigContainer.whenObjectRemoved(\
+            
+\f1\b \cf2 new 
+\f2\b0 \cf0 UnsupportedAction(
+\f1\b \cf5 "Removing signingConfigs is not supported."
+\f2\b0 \cf0 ));\
+    buildTypeContainer.whenObjectRemoved(\
+            
+\f1\b \cf2 new 
+\f2\b0 \cf0 UnsupportedAction(
+\f1\b \cf5 "Removing build types is not supported."
+\f2\b0 \cf0 ));\
+    productFlavorContainer.whenObjectRemoved(\
+            
+\f1\b \cf2 new 
+\f2\b0 \cf0 UnsupportedAction(
+\f1\b \cf5 "Removing product flavors is not supported."
+\f2\b0 \cf0 ));\
+\
+    
+\f4\i \cf7 // create default Objects, signingConfig first as its used by the BuildTypes.\
+    
+\f1\i0\b \cf6 variantFactory
+\f2\b0 \cf0 .createDefaultComponents(\
+            buildTypeContainer, productFlavorContainer, signingConfigContainer);\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\b\fs24 \cf2 private void 
+\f2\b0 \cf10 createTasks\cf0 () \{\
+    
+\f1\b \cf6 threadRecorder
+\f2\b0 \cf0 .record(\
+            ExecutionType.
+\f5\i\b \cf6 TASK_MANAGER_CREATE_TASKS
+\f2\i0\b0 \cf0 ,\
+            
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath(),\
+            
+\f1\b \cf2 null
+\f2\b0 \cf0 ,\
+            () ->\
+					//
+\f3  \'b4\'b4\'bd\'a8\'d2\'bb\'d0\'a9task\'a3\'ac \'d4\'daapply plugin\'b5\'c4\'bd\'d7\'b6\'ce(\'d2\'b2\'be\'cd\'ca\'c7before evaluate)
+\f2 \
+                    
+\f1\b \cf6 taskManager
+\f2\b0 \cf0 .\cf11 createTasksBeforeEvaluate\cf0 (\
+                            
+\f1\b \cf2 new 
+\f2\b0 \cf0 TaskContainerAdaptor(
+\f1\b \cf6 project
+\f2\b0 \cf0 .getTasks())));\
+\
+	
+\f3 // \'d4\'da\'c6\'c0\'b9\'c0\'d6\'ae\'ba\'f3\'a3\'ac\'b4\'b4\'bd\'a8
+\f2 \
+    
+\f1\b \cf6 project
+\f2\b0 \cf0 .afterEvaluate(\
+            project ->\
+                    
+\f1\b \cf6 threadRecorder
+\f2\b0 \cf0 .record(\
+                            ExecutionType.
+\f5\i\b \cf6 BASE_PLUGIN_CREATE_ANDROID_TASKS
+\f2\i0\b0 \cf0 ,\
+                            project.getPath(),\
+                            
+\f1\b \cf2 null
+\f2\b0 \cf0 ,\
+                            () -> \cf11 createAndroidTasks\cf0 (
+\f1\b \cf2 false
+\f2\b0 \cf0 ))); // 
+\f3 \'b8\'f9\'be\'dd
+\f2 build.gradle
+\f3 \'d6\'d0
+\f2 android\{\}
+\f3 \'b5\'c4\'c5\'e4\'d6\'c3\'bb\'f1\'c8\'a1\'b5\'bd
+\f2 variantData
+\f3 \'d0\'c5\'cf\'a2\'a3\'ac\'bd\'f8\'c8\'eb\'b4\'b4\'bd\'a8\'b0\'d1\'b2\'bb\'cd\'acvariant \'b6\'d4\'d3\'a6\'b5\'c4task\'a3\'ac\'d2\'d4\'bc\'b0\'d2\'bb\'d0\'a9\'c6\'e4\'cb\'fb\'b5\'c4task(\'b1\'c8\'c8\'e7\'c9\'fa\'b3\'c9\'b1\'a8\'b8\'e6\'b5\'c4task)\'a3\'ac\'c8\'bb\'ba\'f3\'bd\'abvariantData\'d7\'aa\'bb\'af\'b3\'c9variantApi\'a3\'ac\'c9\'e8\'d6\'c3\'b5\'bdextensison\'c9\'cf
+\f2 \
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\b\fs24 \cf2 final void 
+\f2\b0 \cf10 createAndroidTasks\cf0 (
+\f1\b \cf2 boolean 
+\f2\b0 \cf0 force) \{\
+    
+\f4\i \cf7 // Make sure unit tests set the required fields.\
+    \cf0 checkState
+\f2\i0 (
+\f1\b \cf6 extension
+\f2\b0 \cf0 .\cf11 getBuildToolsRevision\cf0 () != 
+\f1\b \cf2 null
+\f2\b0 \cf0 ,\
+            
+\f1\b \cf5 "buildToolsVersion is not specified."
+\f2\b0 \cf0 );\
+    
+\f4\i checkState
+\f2\i0 (
+\f1\b \cf6 extension
+\f2\b0 \cf0 .\cf11 getCompileSdkVersion\cf0 () != 
+\f1\b \cf2 null
+\f2\b0 \cf0 , 
+\f1\b \cf5 "compileSdkVersion is not specified."
+\f2\b0 \cf0 );\
+\
+    
+\f1\b \cf6 ndkHandler
+\f2\b0 \cf0 .\cf11 setCompileSdkVersion\cf0 (
+\f1\b \cf6 extension
+\f2\b0 \cf0 .\cf11 getCompileSdkVersion\cf0 ());\
+\
+    
+\f4\i \cf7 // get current plugins and look for the default Java plugin.\
+    
+\f1\i0\b \cf2 if 
+\f2\b0 \cf0 (
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPlugins().hasPlugin(JavaPlugin.
+\f1\b \cf2 class
+\f2\b0 \cf0 )) \{\
+        
+\f1\b \cf2 throw new 
+\f2\b0 \cf0 BadPluginException(\
+                
+\f1\b \cf5 "The 'java' plugin has been applied, but it is not compatible with the Android plugins."
+\f2\b0 \cf0 );\
+    \}\
+\
+    \cf11 ensureTargetSetup\cf0 ();\
+\
+    
+\f4\i \cf7 // don't do anything if the project was not initialized.\
+    // Unless TEST_SDK_DIR is set in which case this is unit tests and we don't return.\
+    // This is because project don't get evaluated in the unit test setup.\
+    // See AppPluginDslTest\
+    
+\f1\i0\b \cf2 if 
+\f2\b0 \cf0 (!force\
+            && (!
+\f1\b \cf6 project
+\f2\b0 \cf0 .getState().getExecuted() || 
+\f1\b \cf6 project
+\f2\b0 \cf0 .getState().getFailure() != 
+\f1\b \cf2 null
+\f2\b0 \cf0 )\
+            && SdkHandler.
+\f4\i \cf6 sTestSdkFolder 
+\f2\i0 \cf0 == 
+\f1\b \cf2 null
+\f2\b0 \cf0 ) \{\
+        
+\f1\b \cf2 return
+\f2\b0 \cf0 ;\
+    \}\
+\
+    
+\f1\b \cf2 if 
+\f2\b0 \cf0 (
+\f1\b \cf6 hasCreatedTasks
+\f2\b0 \cf0 ) \{\
+        
+\f1\b \cf2 return
+\f2\b0 \cf0 ;\
+    \}\
+    
+\f1\b \cf6 hasCreatedTasks 
+\f2\b0 \cf0 = 
+\f1\b \cf2 true
+\f2\b0 \cf0 ;\
+\
+    
+\f1\b \cf6 extension
+\f2\b0 \cf0 .\cf11 disableWrite\cf0 ();\
+\
+    ProcessProfileWriter.
+\f4\i getProject
+\f2\i0 (
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath())\
+            .\cf11 setBuildToolsVersion\cf0 (
+\f1\b \cf6 extension
+\f2\b0 \cf0 .\cf11 getBuildToolsRevision\cf0 ().\cf11 toString\cf0 ());\
+\
+    
+\f4\i \cf7 // setup SDK repositories.\
+    
+\f1\i0\b \cf6 sdkHandler
+\f2\b0 \cf0 .\cf11 addLocalRepositories\cf0 (
+\f1\b \cf6 project
+\f2\b0 \cf0 );\
+\
+	// 
+\f3 \'c8\'e7\'b9\'fb\'d6\'a7\'b3\'d6
+\f2 databingding
+\f3 \'a3\'ac\'d0\'e8\'d2\'aa\'b6\'d4
+\f2 databing
+\f3 \'b5\'c4task\'cc\'ed\'bc\'d3\'d0\'e8\'d2\'aa\'b5\'c4\'d2\'c0\'c0\'b5\'c8\'ce\'ce\'f1
+\f2 \
+    
+\f1\b \cf6 taskManager
+\f2\b0 \cf0 .\cf11 addDataBindingDependenciesIfNecessary\cf0 (
+\f1\b \cf6 extension
+\f2\b0 \cf0 .\cf11 getDataBinding\cf0 ());\
+    
+\f1\b \cf6 threadRecorder
+\f2\b0 \cf0 .record(\
+            ExecutionType.
+\f5\i\b \cf6 VARIANT_MANAGER_CREATE_ANDROID_TASKS
+\f2\i0\b0 \cf0 ,\
+            
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath(),\
+            
+\f1\b \cf2 null
+\f2\b0 \cf0 ,\
+            () -> \{\
+				
+\f3 // \'b8\'f9\'be\'ddbulidType productFlavor\'b5\'c8\'ca\'fd\'be\'dd\'a3\'ac\'c9\'fa\'b3\'c9variantData\'a3\'ac\'c8\'bb\'ba\'f3\'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4\'c3\'bf\'b8\'f6variantData\'b5\'c4task\'a3\'a8variant\'b6\'d4\'d3\'a6buildType\'ba\'cdproductFlavor\'a3\'a9
+\f2 \
+                
+\f1\b \cf6 variantManager
+\f2\b0 \cf0 .\cf11 createAndroidTasks\cf0 ();\
+                ApiObjectFactory apiObjectFactory =\
+                        
+\f1\b \cf2 new 
+\f2\b0 \cf0 ApiObjectFactory(\
+                                
+\f1\b \cf6 androidBuilder
+\f2\b0 \cf0 , 
+\f1\b \cf6 extension
+\f2\b0 \cf0 , 
+\f1\b \cf6 variantFactory
+\f2\b0 \cf0 , 
+\f1\b \cf6 instantiator
+\f2\b0 \cf0 );\
+                
+\f1\b \cf2 for 
+\f2\b0 \cf0 (BaseVariantData variantData : 
+\f1\b \cf6 variantManager
+\f2\b0 \cf0 .\cf11 getVariantDataList\cf0 ()) \{\
+                    apiObjectFactory.\cf11 create\cf0 (variantData); // 
+\f3 \cf3 \'d5\'eb\'b6\'d4\'c3\'bf\'d6\'d6
+\f2 variantData 
+\f3 \'c9\'fa\'b3\'c9\'b6\'d4\'d3\'a6\'b5\'c4
+\f2 VariantApi, 
+\f3 \'bd\'ab\'c6\'e4\'c9\'e8\'d6\'c3\'b5\'bd
+\f2 extension
+\f3 \'c9\'cf\'c3\'e6
+\f2 (extension.addVariant())\cf0 \
+                \}\
+            \});\
+\
+    
+\f4\i \cf7 // Create and read external native build JSON files depending on what's happening right\
+    // now.\
+    //\
+    // CREATE PHASE:\
+    // Creates JSONs by shelling out to external build system when:\
+    //   - Any one of AndroidProject.PROPERTY_INVOKED_FROM_IDE,\
+    //      AndroidProject.PROPERTY_BUILD_MODEL_ONLY_ADVANCED,\
+    //      AndroidProject.PROPERTY_BUILD_MODEL_ONLY,\
+    //      AndroidProject.PROPERTY_REFRESH_EXTERNAL_NATIVE_MODEL are set.\
+    //   - *and* AndroidProject.PROPERTY_REFRESH_EXTERNAL_NATIVE_MODEL is set\
+    //      or JSON files don't exist or are out-of-date.\
+    // Create phase may cause ProcessException (from cmake.exe for example)\
+    //\
+    // READ PHASE:\
+    // Reads and deserializes JSONs when:\
+    //   - Any one of AndroidProject.PROPERTY_INVOKED_FROM_IDE,\
+    //      AndroidProject.PROPERTY_BUILD_MODEL_ONLY_ADVANCED,\
+    //      AndroidProject.PROPERTY_BUILD_MODEL_ONLY,\
+    //      AndroidProject.PROPERTY_REFRESH_EXTERNAL_NATIVE_MODEL are set.\
+    // Read phase may produce IOException if the file can't be read for standard IO reasons.\
+    // Read phase may produce JsonSyntaxException in the case that the content of the file is\
+    // corrupt.\
+    
+\f1\i0\b \cf2 boolean 
+\f2\b0 \cf0 forceRegeneration = AndroidGradleOptions.
+\f4\i refreshExternalNativeModel
+\f2\i0 (
+\f1\b \cf6 project
+\f2\b0 \cf0 );\
+\
+    
+\f1\b \cf2 if 
+\f2\b0 \cf0 (ExternalNativeBuildTaskUtils.
+\f4\i shouldRegenerateOutOfDateJsons
+\f2\i0 (
+\f1\b \cf6 project
+\f2\b0 \cf0 )) \{\
+        
+\f1\b \cf6 threadRecorder
+\f2\b0 \cf0 .record(\
+                ExecutionType.
+\f5\i\b \cf6 VARIANT_MANAGER_EXTERNAL_NATIVE_CONFIG_VALUES
+\f2\i0\b0 \cf0 ,\
+                
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath(),\
+                
+\f1\b \cf2 null
+\f2\b0 \cf0 ,\
+                () -> \{\
+                    
+\f1\b \cf2 for 
+\f2\b0 \cf0 (BaseVariantData variantData : 
+\f1\b \cf6 variantManager
+\f2\b0 \cf0 .\cf11 getVariantDataList\cf0 ()) \{\
+                        ExternalNativeJsonGenerator generator =\
+                                variantData.\cf11 getScope\cf0 ().getExternalNativeJsonGenerator();\
+                        
+\f1\b \cf2 if 
+\f2\b0 \cf0 (generator != 
+\f1\b \cf2 null
+\f2\b0 \cf0 ) \{\
+                            
+\f4\i \cf7 // This will generate any out-of-date or non-existent JSONs.\
+                            // When refreshExternalNativeModel() is true it will also\
+                            // force update all JSONs.\
+                            
+\f2\i0 \cf0 generator.\cf11 build\cf0 (\cf6 forceRegeneration\cf0 );\
+\
+                            variantData\
+                                    .\cf11 getScope\cf0 ()\
+                                    .addExternalNativeBuildConfigValues(\
+                                            generator.\cf11 readExistingNativeBuildConfigurations\cf0 ());\
+                        \}\
+                    \}\
+                \});\
+    \}\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+\
+\
+\
+VariantManager :: createAndoidTasks  (
+\f3 \'d6\'f7\'d2\'aa\'ca\'c7\'b4\'b4\'bd\'a8
+\f0  test
+\f3 \'cf\'e0\'b9\'d8\'b5\'c4\'c8\'ce\'ce\'f1\'a3\'ac\'d2\'d4\'bc\'b0\'c8\'ce\'ce\'f1\'d0\'e8\'d2\'aa\'d2\'c0\'c0\'b5\'b5\'c4productFlavor\'b5\'c4\'b4\'a6\'c0\'ed
+\f0 )\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\b\fs24 \cf2 public void 
+\f2\b0 \cf10 createAndroidTasks\cf0 () \{\
+    
+\f1\b \cf6 variantFactory
+\f2\b0 \cf0 .validateModel(
+\f1\b \cf2 this
+\f2\b0 \cf0 );\
+    
+\f1\b \cf6 variantFactory
+\f2\b0 \cf0 .preVariantWork(
+\f1\b \cf6 project
+\f2\b0 \cf0 );\
+\
+    
+\f1\b \cf2 final 
+\f2\b0 \cf0 TaskFactory tasks = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 TaskContainerAdaptor(
+\f1\b \cf6 project
+\f2\b0 \cf0 .getTasks());\
+    
+\f1\b \cf2 if 
+\f2\b0 \cf0 (
+\f1\b \cf6 variantDataList
+\f2\b0 \cf0 .isEmpty()) \{\
+        
+\f1\b \cf6 recorder
+\f2\b0 \cf0 .record(\
+                ExecutionType.
+\f5\i\b \cf6 VARIANT_MANAGER_CREATE_VARIANTS
+\f2\i0\b0 \cf0 ,\
+                
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath(),\
+                
+\f1\b \cf2 null 
+\f4\i\b0 \cf7 /*variantName*/
+\f2\i0 \cf0 ,\
+                
+\f1\b \cf2 this
+\f2\b0 \cf0 ::\cf11 populateVariantDataList\cf0 ); 
+\f3 // \'d5\'eb\'b6\'d4\'c3\'bf\'d6\'d6productFlavor\'ba\'cdbuildType \'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4VariantData
+\f2 \
+    \}\
+\
+    
+\f4\i \cf7 // Create top level test tasks.\
+    
+\f1\i0\b \cf6 recorder
+\f2\b0 \cf0 .record(\
+            ExecutionType.
+\f5\i\b \cf6 VARIANT_MANAGER_CREATE_TESTS_TASKS
+\f2\i0\b0 \cf0 ,\
+            
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath(),\
+            
+\f1\b \cf2 null 
+\f4\i\b0 \cf7 /*variantName*/
+\f2\i0 \cf0 ,\
+            () -> 
+\f1\b \cf6 taskManager
+\f2\b0 \cf0 .\cf11 createTopLevelTestTasks\cf0 (\cf6 tasks\cf0 , !
+\f1\b \cf6 productFlavors
+\f2\b0 \cf0 .isEmpty())); // 
+\f3 \'b4\'b4\'bd\'a8\'b5\'c4\'b6\'bc\'ca\'c7
+\f2 test
+\f3 \'b6\'d4\'d3\'a6\'b5\'c4
+\f2 task\
+\
+    
+\f1\b \cf2 for 
+\f2\b0 \cf0 (
+\f1\b \cf2 final 
+\f2\b0 \cf0 BaseVariantData<? 
+\f1\b \cf2 extends 
+\f2\b0 \cf0 BaseVariantOutputData> variantData : 
+\f1\b \cf6 variantDataList
+\f2\b0 \cf0 ) \{ 
+\f3 // \cf3 \'d5\'eb\'b6\'d4\'c3\'bf\'d6\'d6variant\'b4\'b4\'bd\'a8\'d0\'e8\'d2\'aa\'b5\'c4tasks
+\f2 \cf0 \
+        
+\f1\b \cf6 recorder
+\f2\b0 \cf0 .record(\
+                ExecutionType.
+\f5\i\b \cf6 VARIANT_MANAGER_CREATE_TASKS_FOR_VARIANT
+\f2\i0\b0 \cf0 ,\
+                
+\f1\b \cf6 project
+\f2\b0 \cf0 .getPath(),\
+                variantData.\cf11 getName\cf0 (),\
+                () -> \cf11 createTasksForVariantData\cf0 (\cf6 tasks\cf0 , \cf6 variantData\cf0 )); // 
+\f3 \'b4\'b4\'bd\'a8\'ba\'cb\'d0\'c4\'b5\'c4
+\f2 Android
+\f3 \'cf\'e0\'b9\'d8\'b5\'c4
+\f2 task
+\f3 \'a3\'ac\'b0\'fc\'c0\'a8assemble
+\f2  
+\f3 \'d2\'d4\'bc\'b0\'b6\'d4\'d3\'a6\'b5\'c4\'c6\'e4\'cb\'fb\'b1\'e0\'d2\'eb\'b9\'fd\'b3\'cc\'d6\'d0\'d0\'e8\'d2\'aa\'ca\'b9\'d3\'c3\'b5\'c4task 
+\f2 \
+    \}\
+\
+    
+\f1\b \cf6 taskManager
+\f2\b0 \cf0 .\cf11 createReportTasks\cf0 (tasks, 
+\f1\b \cf6 variantDataList
+\f2\b0 \cf0 ); // 
+\f3 \'b4\'b4\'bd\'a8\'b1\'a8\'b8\'e6\'cf\'e0\'b9\'d8\'b5\'c4
+\f2 task
+\f3 \'a3\'ac\'b1\'c8\'c8\'e7
+\f2 dependents(
+\f3 \'c1\'d0\'b3\'f6\'cb\'f9\'d3\'d0\'b5\'c4\'d2\'c0\'c0\'b5
+\f2 )\
+\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+\
+\
+\
+2
+\f3 \'a1\'b7
+\f0 Android Plugin
+\f3 \'b5\'c4
+\f0  extension 
+\f3 \'b6\'d4\'d3\'a6\'b5\'c4\'ca\'c7Android\'d6\'d0\'b5\'c4build.gradle\'d6\'d0\'b5\'c4android\'b5\'c4\'c0\'a9\'d5\'b9\'c5\'e4\'d6\'c3\'cf\'ee
+\f0 \
+\
+\
+3
+\f3 \'a1\'b7\'b9\'a6\'c4\'dc\'c0\'e0\'cb\'b5\'c3\'f7\
+
+\f0 VariantManager:  
+\f3 \'ca\'c7\'b6\'d4
+\f0 VariantData
+\f3 \'b5\'c4\'b9\'dc\'c0\'ed\'c0\'e0\'a3\'ac\'d2\'d1\'be\'ad\'ca\'c7\'b6\'d4
+\f0 android\{\}
+\f3 \'a3\'a8build.gradle\'d6\'d0\'c5\'e4\'d6\'c3\'d0\'c5\'cf\'a2\'a3\'a9\'bd\'e2\'ce\'f6\'b3\'c9\'b6\'d4\'d3\'a6\'b5\'c4\'b6\'d4\'cf\'f3\'ca\'fd\'be\'dd\'a3\'ac\'ce\'aa\'c1\'cb\'ba\'f3\'c3\'e6\'b5\'c4\'b4\'a6\'c0\'ed\'a3\'bb\'cd\'ac\'ca\'b1\'bb\'b9\'b0\'fc\'c0\'a8\'c3\'bf\'b8\'f6Variant\'b0\'fc\'c0\'a8\'b5\'c4task\'b6\'bc\'d4\'da\'c0\'ef\'c3\'e6\'a1\'a3  \'bb\'e1\'b4\'ab\'c8\'eb
+\f0   bulidType, signConfig, productFlavor 
+\f3 \'a3\'acdefaultConfig(\'b6\'d4\'d3\'a6variantConfiguration\'b6\'d4\'cf\'f3)\'b5\'c8\'ca\'fd\'be\'dd
+\f0 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}

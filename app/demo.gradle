@@ -63,6 +63,7 @@ hello << {
     println '<< 是 doLast的缩写形式'
 }
 
+
 // 为task自定属性
 task demo <<{
     ext.myProperty = 'hahha'
