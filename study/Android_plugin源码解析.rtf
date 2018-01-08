@@ -1,13 +1,13 @@
-{\rtf1\ansi\ansicpg936\cocoartf1504\cocoasubrtf830
+{\rtf1\ansi\ansicpg936\cocoartf1561\cocoasubrtf100
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Bold;\f2\fnil\fcharset0 Menlo-Regular;
 \f3\fnil\fcharset134 PingFangSC-Regular;\f4\fnil\fcharset0 Menlo-Italic;\f5\fnil\fcharset0 Menlo-BoldItalic;
 \f6\fmodern\fcharset0 Courier;}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue109;\red255\green0\blue0;\red0\green0\blue254;
 \red15\green112\blue3;\red82\green0\blue103;\red109\green109\blue109;\red0\green0\blue0;\red109\green111\blue5;
-\red133\green0\blue255;\red251\green0\blue255;}
+\red133\green0\blue255;\red253\green128\blue8;\red251\green2\blue7;\red251\green0\blue255;}
 {\*\expandedcolortbl;;\csgenericrgb\c0\c0\c42745;\csgenericrgb\c100000\c0\c0;\csgenericrgb\c0\c0\c99608;
 \csgenericrgb\c5882\c43922\c1176;\csgenericrgb\c32157\c0\c40392;\csgenericrgb\c42745\c42745\c42745;\csgenericrgb\c0\c0\c0;\csgenericrgb\c42745\c43529\c1961;
-\csgenericrgb\c52157\c0\c100000;\csgenericrgb\c98431\c0\c100000;}
+\csgenericrgb\c52157\c0\c100000;\cssrgb\c100000\c57637\c0;\cssrgb\c100000\c14913\c0;\csgenericrgb\c98431\c0\c100000;}
 \margl1440\margr1440\vieww18620\viewh13440\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
@@ -444,7 +444,7 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 	// 
 \f3 \'b4\'b4\'bd\'a8\'c4\'ac\'c8\'cf
 \f2 buildType
-\f3 \'a3\'ac productFlavor\'a3\'ac signingConfig
+\f3 \'a3\'ac productFlavor\'a3\'ac signingConfig  (\cf11 \'cb\'fb\'c3\'c7\'b6\'bc\'ca\'c7\'bf\'c9\'d2\'d4\'c5\'e4\'d6\'c3\'b3\'c9\'b6\'e0\'b8\'f6\'b5\'c4\'a3\'ac\'c0\'e0\'cb\'c6sourceSets\cf0 )
 \f2 \
     
 \f1\b \cf2 final 
@@ -583,7 +583,7 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f4\i\b0 \cf7 /*toolchainVersion*/
 \f2\i0 \cf0 );\
 \
-	// application : ApplicationTaskManager\
+	// \cf12 application : ApplicationTaskManager\cf0 \
     
 \f1\b \cf6 taskManager 
 \f2\b0 \cf0 =\
@@ -616,6 +616,9 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f1\b \cf6 threadRecorder
 \f2\b0 \cf0 );\
 \
+	
+\f3 // \cf12 \'b2\'bb\'cd\'acplugin\'a3\'ac\'d3\'d0\'b2\'bb\'cd\'ac\'b5\'c4\'ca\'b5\'cf\'d6\'a3\'bb \'d5\'e2\'b8\'f6\'d6\'f7\'d2\'aa\'d3\'c3\'d3\'da\'b4\'b4\'bd\'a8VariantData
+\f2 \cf0 \
     
 \f1\b \cf6 variantFactory 
 \f2\b0 \cf0 = createVariantFactory(
@@ -626,8 +629,19 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f1\b \cf6 extension
 \f2\b0 \cf0 );\
 \
+	// 
+\f3 \'d7\'dc\'b5\'c4
+\f2 Manager
+\f3 \'a3\'ac\'d5\'eb\'b6\'d4\'c3\'bf\'d6\'d6
+\f2 variant
+\f3 \'a3\'ac\'bb\'e1\'cc\'e1\'b9\'a9\'c6\'e4\'b6\'d4\'d3\'a6\'b5\'c4\'b9\'a6\'c4\'dc\'a3\'bb\'d2\'f2\'ce\'aa\'c0\'ef\'c3\'e6\'bc\'af\'ba\'cf\'c1\'cb
+\f1\b \cf6 variantFactory
+\f3 (\'d3\'c3\'d3\'da\'b4\'b4\'bd\'a8VariantData)\'a3\'ac 
+\f1 taskManager
+\f3 \'d3\'c3\'d3\'da\'b4\'b4\'bd\'a8task\'ca\'b9\'d3\'c3
+\f2\b0 \cf0 \
 	// \cf3 application : ApplicationVariantManager ; 
-\f3 \'d6\'f7\'d2\'aa\'ca\'c7\'d3\'c3\'c0\'b4\'b9\'dc\'c0\'ed
+\f3 \'bf\'c9\'d2\'d4\'b9\'dc\'c0\'ed
 \f2 sign
 \f3 \'a3\'ac
 \f2 buildType
@@ -717,7 +731,7 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
     
 \f2\i0 \cf0 signingConfigContainer.whenObjectAdded(
 \f1\b \cf6 variantManager
-\f2\b0 \cf0 ::\cf11 addSigningConfig\cf0 );\
+\f2\b0 \cf0 ::\cf13 addSigningConfig\cf0 );\
 \
     buildTypeContainer.whenObjectAdded(\
             buildType -> \{\
@@ -725,15 +739,15 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
                         \cf6 signingConfigContainer\cf0 .findByName(BuilderConstants.
 \f5\i\b \cf6 DEBUG
 \f2\i0\b0 \cf0 );\
-                buildType.\cf11 init\cf0 (signingConfig);\
+                buildType.\cf13 init\cf0 (signingConfig);\
                 
 \f1\b \cf6 variantManager
-\f2\b0 \cf0 .\cf11 addBuildType\cf0 (buildType);\
+\f2\b0 \cf0 .\cf13 addBuildType\cf0 (buildType);\
             \});\
 \
     productFlavorContainer.whenObjectAdded(
 \f1\b \cf6 variantManager
-\f2\b0 \cf0 ::\cf11 addProductFlavor\cf0 );\
+\f2\b0 \cf0 ::\cf13 addProductFlavor\cf0 );\
 \
     
 \f4\i \cf7 // map whenObjectRemoved on the containers to throw an exception.\
@@ -787,16 +801,20 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f2\b0 \cf0 ,\
             () ->\
 					//
-\f3  \'b4\'b4\'bd\'a8\'d2\'bb\'d0\'a9task\'a3\'ac \'d4\'daapply plugin\'b5\'c4\'bd\'d7\'b6\'ce(\'d2\'b2\'be\'cd\'ca\'c7before evaluate)
+\f3  \'b4\'b4\'bd\'a8\'d2\'bb\'d0\'a9task\'a3\'ac \'d4\'daapply plugin\'b5\'c4\'bd\'d7\'b6\'ce(\'d2\'b2\'be\'cd\'ca\'c7before evaluate)\'a3\'ac\'b4\'b4\'bd\'a8\'d2\'bb\'d0\'a9\'ba\'cd\'b1\'e0\'d2\'eb\'ce\'de\'b9\'d8\'b5\'c4task
 \f2 \
                     
 \f1\b \cf6 taskManager
-\f2\b0 \cf0 .\cf11 createTasksBeforeEvaluate\cf0 (\
+\f2\b0 \cf0 .\cf13 createTasksBeforeEvaluate\cf0 (\
                             
 \f1\b \cf2 new 
 \f2\b0 \cf0 TaskContainerAdaptor(
 \f1\b \cf6 project
-\f2\b0 \cf0 .getTasks())));\
+\f2\b0 \cf0 .getTasks()))); // \cf12 TaskContainerAdaptor 
+\f3 \'a3\'ba\'b7\'e2\'d7\'b0\'b5\'c4\'b5\'da\'b6\'fe\'b2\'e3\'b4\'b4\'bd\'a8
+\f2 task
+\f3 \'b5\'c4\'b9\'dc\'c0\'ed\'c0\'e0
+\f2 \cf0 \
 \
 	
 \f3 // \'d4\'da\'c6\'c0\'b9\'c0\'d6\'ae\'ba\'f3\'a3\'ac\'b4\'b4\'bd\'a8
@@ -815,7 +833,7 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
                             
 \f1\b \cf2 null
 \f2\b0 \cf0 ,\
-                            () -> \cf11 createAndroidTasks\cf0 (
+                            () -> \cf13 createAndroidTasks\cf0 (
 \f1\b \cf2 false
 \f2\b0 \cf0 ))); // 
 \f3 \'b8\'f9\'be\'dd
@@ -843,7 +861,7 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
     \cf0 checkState
 \f2\i0 (
 \f1\b \cf6 extension
-\f2\b0 \cf0 .\cf11 getBuildToolsRevision\cf0 () != 
+\f2\b0 \cf0 .\cf13 getBuildToolsRevision\cf0 () != 
 \f1\b \cf2 null
 \f2\b0 \cf0 ,\
             
@@ -853,7 +871,7 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f4\i checkState
 \f2\i0 (
 \f1\b \cf6 extension
-\f2\b0 \cf0 .\cf11 getCompileSdkVersion\cf0 () != 
+\f2\b0 \cf0 .\cf13 getCompileSdkVersion\cf0 () != 
 \f1\b \cf2 null
 \f2\b0 \cf0 , 
 \f1\b \cf5 "compileSdkVersion is not specified."
@@ -861,9 +879,9 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \
     
 \f1\b \cf6 ndkHandler
-\f2\b0 \cf0 .\cf11 setCompileSdkVersion\cf0 (
+\f2\b0 \cf0 .\cf13 setCompileSdkVersion\cf0 (
 \f1\b \cf6 extension
-\f2\b0 \cf0 .\cf11 getCompileSdkVersion\cf0 ());\
+\f2\b0 \cf0 .\cf13 getCompileSdkVersion\cf0 ());\
 \
     
 \f4\i \cf7 // get current plugins and look for the default Java plugin.\
@@ -882,7 +900,7 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f2\b0 \cf0 );\
     \}\
 \
-    \cf11 ensureTargetSetup\cf0 ();\
+    \cf13 ensureTargetSetup\cf0 ();\
 \
     
 \f4\i \cf7 // don't do anything if the project was not initialized.\
@@ -926,22 +944,22 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \
     
 \f1\b \cf6 extension
-\f2\b0 \cf0 .\cf11 disableWrite\cf0 ();\
+\f2\b0 \cf0 .\cf13 disableWrite\cf0 ();\
 \
     ProcessProfileWriter.
 \f4\i getProject
 \f2\i0 (
 \f1\b \cf6 project
 \f2\b0 \cf0 .getPath())\
-            .\cf11 setBuildToolsVersion\cf0 (
+            .\cf13 setBuildToolsVersion\cf0 (
 \f1\b \cf6 extension
-\f2\b0 \cf0 .\cf11 getBuildToolsRevision\cf0 ().\cf11 toString\cf0 ());\
+\f2\b0 \cf0 .\cf13 getBuildToolsRevision\cf0 ().\cf13 toString\cf0 ());\
 \
     
 \f4\i \cf7 // setup SDK repositories.\
     
 \f1\i0\b \cf6 sdkHandler
-\f2\b0 \cf0 .\cf11 addLocalRepositories\cf0 (
+\f2\b0 \cf0 .\cf13 addLocalRepositories\cf0 (
 \f1\b \cf6 project
 \f2\b0 \cf0 );\
 \
@@ -954,9 +972,9 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f2 \
     
 \f1\b \cf6 taskManager
-\f2\b0 \cf0 .\cf11 addDataBindingDependenciesIfNecessary\cf0 (
+\f2\b0 \cf0 .\cf13 addDataBindingDependenciesIfNecessary\cf0 (
 \f1\b \cf6 extension
-\f2\b0 \cf0 .\cf11 getDataBinding\cf0 ());\
+\f2\b0 \cf0 .\cf13 getDataBinding\cf0 ());\
     
 \f1\b \cf6 threadRecorder
 \f2\b0 \cf0 .record(\
@@ -971,11 +989,12 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f2\b0 \cf0 ,\
             () -> \{\
 				
-\f3 // \'b8\'f9\'be\'ddbulidType productFlavor\'b5\'c8\'ca\'fd\'be\'dd\'a3\'ac\'c9\'fa\'b3\'c9variantData\'a3\'ac\'c8\'bb\'ba\'f3\'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4\'c3\'bf\'b8\'f6variantData\'b5\'c4task\'a3\'a8variant\'b6\'d4\'d3\'a6buildType\'ba\'cdproductFlavor\'a3\'a9
-\f2 \
+\f3 // \cf12 \'b8\'f9\'be\'ddbulidType productFlavor\'b5\'c8\'ca\'fd\'be\'dd\'a3\'ac\'c9\'fa\'b3\'c9variantData\'a3\'ac\'c8\'bb\'ba\'f3\'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4\'c3\'bf\'b8\'f6variantData\'b5\'c4task\'a3\'a8variant\'b6\'d4\'d3\'a6buildType\'ba\'cdproductFlavor\'a3\'a9\
+				// variantData\'c3\'bf\'b8\'f6buildType\'a3\'ac\'b6\'d4\'d3\'a6\'d2\'bb\'b8\'f6\'a3\'bb\'b2\'a2\'c7\'d2\'ba\'ac\'d3\'d0\'cb\'f9\'d3\'d0\'ca\'fd\'be\'dd\'a3\'ac\'b0\'fc\'c0\'a8productFlavor\'a1\'a2dependencies\'b5\'c8\'ca\'fd\'be\'dd
+\f2 \cf0 \
                 
 \f1\b \cf6 variantManager
-\f2\b0 \cf0 .\cf11 createAndroidTasks\cf0 ();\
+\f2\b0 \cf0 .\cf13 createAndroidTasks\cf0 ();\
                 ApiObjectFactory apiObjectFactory =\
                         
 \f1\b \cf2 new 
@@ -993,8 +1012,8 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f1\b \cf2 for 
 \f2\b0 \cf0 (BaseVariantData variantData : 
 \f1\b \cf6 variantManager
-\f2\b0 \cf0 .\cf11 getVariantDataList\cf0 ()) \{\
-                    apiObjectFactory.\cf11 create\cf0 (variantData); // 
+\f2\b0 \cf0 .\cf13 getVariantDataList\cf0 ()) \{\
+                    apiObjectFactory.\cf13 create\cf0 (variantData); // 
 \f3 \cf3 \'d5\'eb\'b6\'d4\'c3\'bf\'d6\'d6
 \f2 variantData 
 \f3 \'c9\'fa\'b3\'c9\'b6\'d4\'d3\'a6\'b5\'c4
@@ -1061,9 +1080,9 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \f1\b \cf2 for 
 \f2\b0 \cf0 (BaseVariantData variantData : 
 \f1\b \cf6 variantManager
-\f2\b0 \cf0 .\cf11 getVariantDataList\cf0 ()) \{\
+\f2\b0 \cf0 .\cf13 getVariantDataList\cf0 ()) \{\
                         ExternalNativeJsonGenerator generator =\
-                                variantData.\cf11 getScope\cf0 ().getExternalNativeJsonGenerator();\
+                                variantData.\cf13 getScope\cf0 ().getExternalNativeJsonGenerator();\
                         
 \f1\b \cf2 if 
 \f2\b0 \cf0 (generator != 
@@ -1074,12 +1093,12 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
                             // When refreshExternalNativeModel() is true it will also\
                             // force update all JSONs.\
                             
-\f2\i0 \cf0 generator.\cf11 build\cf0 (\cf6 forceRegeneration\cf0 );\
+\f2\i0 \cf0 generator.\cf13 build\cf0 (\cf6 forceRegeneration\cf0 );\
 \
                             variantData\
-                                    .\cf11 getScope\cf0 ()\
+                                    .\cf13 getScope\cf0 ()\
                                     .addExternalNativeBuildConfigValues(\
-                                            generator.\cf11 readExistingNativeBuildConfigurations\cf0 ());\
+                                            generator.\cf13 readExistingNativeBuildConfigurations\cf0 ());\
                         \}\
                     \}\
                 \});\
@@ -1092,10 +1111,10 @@ A {\field{\*\fldinst{HYPERLINK "https://docs.gradle.org/current/javadoc/org/grad
 \
 \
 VariantManager :: createAndoidTasks  (
-\f3 \'d6\'f7\'d2\'aa\'ca\'c7\'b4\'b4\'bd\'a8
+\f3 \cf11 \'d6\'f7\'d2\'aa\'ca\'c7\'b4\'b4\'bd\'a8
 \f0  test
 \f3 \'cf\'e0\'b9\'d8\'b5\'c4\'c8\'ce\'ce\'f1\'a3\'ac\'d2\'d4\'bc\'b0\'c8\'ce\'ce\'f1\'d0\'e8\'d2\'aa\'d2\'c0\'c0\'b5\'b5\'c4productFlavor\'b5\'c4\'b4\'a6\'c0\'ed
-\f0 )\
+\f0 \cf0 )\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f1\b\fs24 \cf2 public void 
@@ -1138,8 +1157,8 @@ VariantManager :: createAndoidTasks  (
 \f2\i0 \cf0 ,\
                 
 \f1\b \cf2 this
-\f2\b0 \cf0 ::\cf11 populateVariantDataList\cf0 ); 
-\f3 // \'d5\'eb\'b6\'d4\'c3\'bf\'d6\'d6productFlavor\'ba\'cdbuildType \'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4VariantData
+\f2\b0 \cf0 ::\cf13 populateVariantDataList\cf0 ); 
+\f3 // \'d5\'eb\'b6\'d4\'c3\'bf\'d6\'d6buildType \'b4\'b4\'bd\'a8\'b6\'d4\'d3\'a6\'b5\'c4VariantData
 \f2 \
     \}\
 \
@@ -1160,7 +1179,7 @@ VariantManager :: createAndoidTasks  (
 \f2\i0 \cf0 ,\
             () -> 
 \f1\b \cf6 taskManager
-\f2\b0 \cf0 .\cf11 createTopLevelTestTasks\cf0 (\cf6 tasks\cf0 , !
+\f2\b0 \cf0 .\cf13 createTopLevelTestTasks\cf0 (\cf6 tasks\cf0 , !
 \f1\b \cf6 productFlavors
 \f2\b0 \cf0 .isEmpty())); // 
 \f3 \'b4\'b4\'bd\'a8\'b5\'c4\'b6\'bc\'ca\'c7
@@ -1188,21 +1207,21 @@ VariantManager :: createAndoidTasks  (
                 
 \f1\b \cf6 project
 \f2\b0 \cf0 .getPath(),\
-                variantData.\cf11 getName\cf0 (),\
-                () -> \cf11 createTasksForVariantData\cf0 (\cf6 tasks\cf0 , \cf6 variantData\cf0 )); // 
-\f3 \'b4\'b4\'bd\'a8\'ba\'cb\'d0\'c4\'b5\'c4
+                variantData.\cf13 getName\cf0 (),\
+                () -> \cf13 createTasksForVariantData\cf0 (\cf6 tasks\cf0 , \cf6 variantData\cf0 )); // 
+\f3 \cf12 \'b4\'b4\'bd\'a8\'ba\'cb\'d0\'c4\'b5\'c4
 \f2 Android
 \f3 \'cf\'e0\'b9\'d8\'b5\'c4
 \f2 task
 \f3 \'a3\'ac\'b0\'fc\'c0\'a8assemble
 \f2  
-\f3 \'d2\'d4\'bc\'b0\'b6\'d4\'d3\'a6\'b5\'c4\'c6\'e4\'cb\'fb\'b1\'e0\'d2\'eb\'b9\'fd\'b3\'cc\'d6\'d0\'d0\'e8\'d2\'aa\'ca\'b9\'d3\'c3\'b5\'c4task 
-\f2 \
+\f3 \'d2\'d4\'bc\'b0\'b6\'d4\'d3\'a6\'b5\'c4\'c6\'e4\'cb\'fb\'b1\'e0\'d2\'eb\'b9\'fd\'b3\'cc\'d6\'d0\'d0\'e8\'d2\'aa\'ca\'b9\'d3\'c3\'b5\'c4task \'a3\'ac\'d7\'a2\'d2\'e2\'a3\'ba\'c3\'bb\'d3\'d0\'b1\'e0\'d2\'eb\'d4\'b4\'b4\'fa\'c2\'eb\'b5\'c4task
+\f2 \cf0 \
     \}\
 \
     
 \f1\b \cf6 taskManager
-\f2\b0 \cf0 .\cf11 createReportTasks\cf0 (tasks, 
+\f2\b0 \cf0 .\cf13 createReportTasks\cf0 (tasks, 
 \f1\b \cf6 variantDataList
 \f2\b0 \cf0 ); // 
 \f3 \'b4\'b4\'bd\'a8\'b1\'a8\'b8\'e6\'cf\'e0\'b9\'d8\'b5\'c4
@@ -1241,6 +1260,22 @@ VariantManager :: createAndoidTasks  (
 \f0 \
 \
 \
+4
+\f3 \'a1\'b7
+\f0 VariantData 
+\f3 \'b0\'fc\'ba\'ac\'c1\'cb\'cb\'f9\'d3\'d0\'cb\'f9\'d0\'e8\'d2\'aa\'b5\'c4\'cb\'f9\'d3\'d0\'ca\'fd\'be\'dd\'a3\'ac\'c0\'ef\'c3\'e6\'ba\'ac\'d3\'d0
+\f0 extension
+\f3 \'d2\'d4\'bc\'b0
+\f0 dependencies
+\f3 \'a3\'bb
+\f0 \
+
+\f3 \'cd\'ac\'ca\'b1\'c0\'ef\'c3\'e6\'b4\'b4\'bd\'a8
+\f0 scope
+\f3 \'b6\'d4\'cf\'f3\'a3\'ac\'cb\'fc\'c0\'ef\'c3\'e6\'ba\'ac\'d3\'d0\'c1\'cb
+\f0 variantData
+\f3 \'a3\'ac\'d2\'d4\'bc\'b0
+\f0 TransformManager\
 \
 \
 \

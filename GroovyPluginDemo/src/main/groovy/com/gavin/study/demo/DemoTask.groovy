@@ -10,8 +10,6 @@ class DemoTask extends DefaultTask{
     @TaskAction
     void sayHello(IncrementalTaskInputs incrementalTaskInputs){
 
-
-
         println project.extensions.demo.hello
         def domains = project.extensions.multiDomain as NamedDomainObjectContainer<MultiDomain>
         domains.all {

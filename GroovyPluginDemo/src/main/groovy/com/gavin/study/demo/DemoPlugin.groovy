@@ -12,7 +12,7 @@ class DemoPlugin implements Plugin<Project>{
 
         project.tasks.create("showHello", DemoTask.class)
 
-        def multiDomains = project.container(MultiDomain.class)
+        def multiDomains = project.container(MultiDomain.class) // 声明一个
         multiDomains.all {
             sourceDir = project.file("src/docs/${name}") // 定义默认值
         }
