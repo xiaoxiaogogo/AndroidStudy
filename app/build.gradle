@@ -22,6 +22,10 @@ apply plugin: 'hello'
 //}
 
 
+project.afterEvaluate {
+
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -43,6 +47,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+
+        }
     }
     externalNativeBuild {
         cmake {
@@ -51,7 +58,7 @@ android {
     }
 
     dexOptions{
-        preDexLibraries true // 不知道从哪个版本开始默认为true， 2.3.0默认是true, 提前将library打包成dex，然后需要时合并即可，因为library不会改变，因此会提升增量更新的性能；
+//        preDexLibraries true // 不知道从哪个版本开始默认为true， 2.3.0默认是true, 提前将library打包成dex，然后需要时合并即可，因为library不会改变，因此会提升增量更新的性能；
         // 但是会使clean之后打包变慢，因此如果在服务器上，可以将此选项关闭
         incremental true // 2.1.0 默认是true， 支持增量更新
         jumboMode true // 2.1.0 默认是true，因为编译有最大字符串数量的限制，这个是为了扩充字符串数量
@@ -66,7 +73,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
-    compile 'org.codehaus.groovy:groovy:2.4.0:grooid'
 }
 
 def demo(){
@@ -130,6 +136,9 @@ def demo(){
 
 
 }
+
+
+
 
 /**
  * 文件操作， 不用处理流的关闭操作

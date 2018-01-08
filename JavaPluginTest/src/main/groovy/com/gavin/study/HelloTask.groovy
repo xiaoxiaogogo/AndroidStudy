@@ -15,6 +15,11 @@ class HelloTask extends DefaultTask {
     def helloAction(){
         println customProperty
     }
+
+    @TaskAction
+    def hello2(){
+        println 'I am second hello ....'
+    }
 }
 
 

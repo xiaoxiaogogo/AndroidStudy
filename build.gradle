@@ -4,23 +4,21 @@ buildscript {
     repositories {
         jcenter()
         maven {
-            url 'https://maven.google.com'
+            url uri('release/libs')
         }
         maven {
-            url uri('release/libs')
+            url 'https://maven.google.com'
         }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'org.codehaus.groovy:gradle-groovy-android-plugin:0.3.6'
-        classpath 'com.gavin.study:demoPlugin:0.0.2'
-
+//        classpath 'com.gavin.study:demoPlugin:0.0.2'
+        classpath 'com.gavin.study:groovyPlugin:0.0.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
-
 
 // 包括rootProject
 allprojects {
@@ -46,6 +44,7 @@ subprojects{
             project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
         }
     }
+
 }
 
 

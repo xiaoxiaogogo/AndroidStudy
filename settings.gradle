@@ -1,4 +1,4 @@
-include ':app', ':JavaPluginTest'
+include ':app', ':JavaPluginTest', ':GroovyPluginDemo'
 //println rootProject.name
 //println rootDir.absolutePath
 //println project(':app').name
@@ -11,4 +11,31 @@ project(':app').buildFileName = 'demo1.gradle'
 println project(':app').projectDir.absolutePath
 println project(':app').buildFileName*/
 
+/*gradle.addBuildListener(new BuildListener() {
+    @Override
+    void buildStarted(Gradle gradle) {
+        println 'setting : buildStarted'
+    }
 
+    @Override
+    void settingsEvaluated(Settings settings) {
+        println 'setting : settingsEvaluated'
+    }
+
+    @Override
+    void projectsLoaded(Gradle gradle) {
+        println 'setting : projectsLoaded'
+    }
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {
+
+    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+
+    }
+})*/
+
+project(':app').buildFileName = 'build2.gradle'

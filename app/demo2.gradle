@@ -43,6 +43,9 @@ task dist(dependsOn: [compile, demoTest]) << {
 ext {
     extName = 'lufei'
 }
+project.ext.extDes = "ext description"
+println project.extName
+println project.extDes
 
 /*sourceSets.all {  // all 是一个函数， 参数是一个闭包
     ext.purpose = null
@@ -111,15 +114,31 @@ def printPerson() {
 task configClosure << {
     println 'execute config closure'
     person {
-        // 因为上面的方法中，将委托策略改成了 DELEGATE_FIRST，也就是将作用域设置成了委托对象，也就是Person的对象
         name = 'xiaoming'
         age = 20
-        printPerson() // 这里执行的是Person对象的方法
+        printPerson()
     }
 }
 
 def x = 5
 def y =15
+
+
+class Test {
+    def x = 30
+    def y = 40
+
+    def run() {
+        def data = [ x: 10, y: 20, z: 30 ]
+        def cl = { y = x + y } // 抛出异常，因为当前闭包对象里面， x和y都没有
+        cl.delegate = data
+        cl.resolveStrategy = Closure.TO_SELF
+        cl()
+        println x
+        println y
+        println data
+    }
+}
 
 
 // 闭包文档  ：  http://docs.groovy-lang.org/2.4.10/html/api/groovy/lang/Closure.html
@@ -249,7 +268,6 @@ stopExceptionTask.doFirst {
     throw new StopExecutionException()
 }
 
-
 // task的 enabled 为 false， 也会跳过执行当前task
 testClosure.enabled = false
 
@@ -306,25 +324,25 @@ task testFiles() << {
 task fileTreeDemo << {
     FileTree tree = fileTree(dir: 'src/main')
     // 对目录中的文件进行筛选
-        tree.include '**/*.java'
-        tree.exclude '**/Abstract*'
+    tree.include '**/*.java'
+    tree.exclude '**/Abstract*'
 
     // fileTree()增加第二个参数, 使用闭包的方式添加筛选条件
-        tree = fileTree(dir: 'src/main', {
-            include '**/*.java'
-        })
+    tree = fileTree(dir: 'src/main', {
+        include '**/*.java'
+    })
 
-        tree = fileTree(dir: 'src', includes: '**/*.java')
+    tree = fileTree(dir: 'src', includes: '**/*.java')
 
     //遍历一个tree
-        tree.each {File file ->
-            println file.absolutePath
-        }
+    tree.each { File file ->
+        println file.absolutePath
+    }
 
     // filter 筛选
-        FileTree filterTree = tree.matching {
-            include '**/*.java'
-        }
+    FileTree filterTree = tree.matching {
+        include '**/*.java'
+    }
 
     // 也可以通过直接 加减 来处理FileTree
 

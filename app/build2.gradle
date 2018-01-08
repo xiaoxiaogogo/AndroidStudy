@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+apply plugin: 'demo'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.gavin.androidstudy"  // 应用的唯一标识，更改，则代表另外的一个应用
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+    dexOptions{
+//        preDexLibraries true // 不知道从哪个版本开始默认为true， 2.3.0默认是true, 提前将library打包成dex，然后需要时合并即可，因为library不会改变，因此会提升增量更新的性能；
+        // 但是会使clean之后打包变慢，因此如果在服务器上，可以将此选项关闭
+        incremental true // 2.1.0 默认是true， 支持增量更新
+        jumboMode true // 2.1.0 默认是true，因为编译有最大字符串数量的限制，这个是为了扩充字符串数量
+        javaMaxHeapSize '4g' // 2.3.0默认是1024M， dx编译过程可以申请的最大内存
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    testCompile 'junit:junit:4.12'
+}
+
+
+demo {
+    hello = 'my own hello'
+}
+
+multiDomain {
+    demo1 {
+
+    }
+    demo2 {
+        sourceDir "src/docs/my"
+    }
+}

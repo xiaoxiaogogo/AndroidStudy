@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidStudy.iml" filepath="$PROJECT_DIR$/AndroidStudy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GroovyPluginDemo/GroovyPluginDemo.iml" filepath="$PROJECT_DIR$/GroovyPluginDemo/GroovyPluginDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaPluginTest/JavaPluginTest.iml" filepath="$PROJECT_DIR$/JavaPluginTest/JavaPluginTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

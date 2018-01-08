@@ -77,7 +77,6 @@ task printTaskProperty <<{
 
 
 // 方法的抽取封装
-
 task printFiles << {
     fileList("./test").each {file ->
         println "file list : ${file.absolutePath}"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>com.gavin.study</groupId>
-  <artifactId>demoPlugin</artifactId>
+  <artifactId>groovyPlugin</artifactId>
   <versioning>
     <release>0.0.2</release>
     <versions>

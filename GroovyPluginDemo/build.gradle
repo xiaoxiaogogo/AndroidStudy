@@ -31,7 +31,7 @@ afterEvaluate { project ->
             mavenDeployer {
                 repository(url: 'file:release/libs')
                 pom.groupId = 'com.gavin.study'
-                pom.artifactId = 'demoPlugin'
+                pom.artifactId = 'groovyPlugin'
                 pom.version = '0.0.2'
 
             }
